@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnmwdcia5esyb"]
+[gd_scene load_steps=7 format=3 uid="uid://dnmwdcia5esyb"]
 
 [ext_resource type="Script" path="res://TestingFolder/For_pause_testing.gd" id="1_w0jax"]
+[ext_resource type="Script" path="res://TestingFolder/Test_manager_for_pause.gd" id="1_wq2dv"]
 [ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="2_o8q78"]
+[ext_resource type="AudioStream" uid="uid://8vwr5hlsmj45" path="res://TestingFolder/Boss.mp3" id="4_3epp2"]
+[ext_resource type="AudioStream" uid="uid://cjx8v8m3dqd1e" path="res://TestingFolder/MMT.mp3" id="5_55y28"]
+[ext_resource type="AudioStream" uid="uid://cuhjexpxi1osm" path="res://TestingFolder/IndiePr.mp3" id="6_2w2l1"]
 
 [node name="testing_pause_scenes" type="Node2D"]
+
+[node name="manager" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("1_wq2dv")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -13,3 +21,12 @@ script = ExtResource("1_w0jax")
 position = Vector2(664, 258)
 scale = Vector2(4.57031, 2.46875)
 texture = ExtResource("2_o8q78")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_3epp2")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_55y28")
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_2w2l1")
