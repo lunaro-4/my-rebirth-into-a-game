@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cg5holg485hji"]
+
+[ext_resource type="Script" path="res://CustomComponents/regeneration_component.gd" id="1_c7q22"]
+
+[node name="RegenerationComponent" type="Node"]
+script = ExtResource("1_c7q22")
+
+[node name="RegenCycleTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="RegenCycleTimer" to="." method="_on_regen_cycle_timer_timeout"]

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bselw8ieny17t"]
+
+[ext_resource type="Script" path="res://CustomComponents/PathfindingLogic.gd" id="1_ofl0d"]
+
+[node name="PathfindingLogic" type="Node2D"]
+script = ExtResource("1_ofl0d")
+
+[node name="UpdatePathTimer" type="Timer" parent="."]
+wait_time = 0.4
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[connection signal="timeout" from="UpdatePathTimer" to="." method="_on_path_update_timeout"]
