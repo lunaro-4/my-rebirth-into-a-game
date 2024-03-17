@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnmwdcia5esyb"]
+
+[ext_resource type="Script" path="res://TestingFolder/For_pause_testing.gd" id="1_w0jax"]
+[ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="2_o8q78"]
+
+[node name="testing_pause_scenes" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+script = ExtResource("1_w0jax")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(664, 258)
+scale = Vector2(4.57031, 2.46875)
+texture = ExtResource("2_o8q78")
