@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bselw8ieny17t"]
 
-[ext_resource type="Script" path="res://CustomComponents/PathfindingLogic.gd" id="1_ofl0d"]
+[ext_resource type="Script" path="res://data/CustomComponents/pathfinding_logic.gd" id="1_ofl0d"]
 
 [node name="PathfindingLogic" type="Node2D"]
 script = ExtResource("1_ofl0d")
