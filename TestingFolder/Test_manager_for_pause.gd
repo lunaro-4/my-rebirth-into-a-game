@@ -4,6 +4,7 @@ extends Node
 @onready var Musica_2 = $"../AudioStreamPlayer2"
 @onready var Fon_musica = $"../AudioStreamPlayer3"
 @onready var pause_menu = $"../Camera2D/PauseMenuScene"
+@onready var dialog = $"../Camera2D/TestingDiaolog"
 
 var game_paused: bool = false
 var music: bool = false
@@ -24,6 +25,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("Enter_Button"):
 		_on_paused()
 		_fon_music_on_off()
+		_dialog_menu_on_of()
 	pass
 	
 func _on_paused():
@@ -62,3 +64,10 @@ func _pause_menu_on_off():
 		pause_menu.show()
 	else:
 		pause_menu.hide()
+		
+func _dialog_menu_on_of():
+	menu = !menu
+	if menu == true:
+		dialog.show()
+	else:
+		dialog.hide()

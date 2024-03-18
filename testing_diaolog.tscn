@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2nq5vtjgbtjp"]
+
+[ext_resource type="Script" path="res://testing_diaolog.gd" id="1_f8oip"]
+[ext_resource type="Texture2D" uid="uid://dsfr816rs85js" path="res://TestingFolder/textbox.png" id="2_0km57"]
+
+[node name="TestingDiaolog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f8oip")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer2"]
+layout_mode = 2
+texture = ExtResource("2_0km57")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Привет. Меня зовут хуйю Я любитель паштетов
+"
+visible_characters = 10
+visible_ratio = 0.235
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

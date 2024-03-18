@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnmwdcia5esyb"]
+[gd_scene load_steps=9 format=3 uid="uid://dnmwdcia5esyb"]
 
 [ext_resource type="Script" path="res://TestingFolder/For_pause_testing.gd" id="1_w0jax"]
 [ext_resource type="Script" path="res://TestingFolder/Test_manager_for_pause.gd" id="1_wq2dv"]
 [ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="2_o8q78"]
 [ext_resource type="AudioStream" uid="uid://8vwr5hlsmj45" path="res://TestingFolder/Boss.mp3" id="4_3epp2"]
 [ext_resource type="PackedScene" uid="uid://cmoa3q4t5lquw" path="res://TestingFolder/pause_menu_scene.tscn" id="4_iefh3"]
+[ext_resource type="PackedScene" uid="uid://d2nq5vtjgbtjp" path="res://testing_diaolog.tscn" id="4_mai0c"]
 [ext_resource type="AudioStream" uid="uid://cjx8v8m3dqd1e" path="res://TestingFolder/MMT.mp3" id="5_55y28"]
 [ext_resource type="AudioStream" uid="uid://cuhjexpxi1osm" path="res://TestingFolder/IndiePr.mp3" id="6_2w2l1"]
 
@@ -27,6 +28,14 @@ offset_top = 158.0
 offset_right = 435.0
 offset_bottom = 158.0
 scale = Vector2(3.57, 3.57)
+
+[node name="TestingDiaolog" parent="Camera2D" instance=ExtResource("4_mai0c")]
+process_mode = 2
+visible = false
+offset_left = 214.0
+offset_top = 314.0
+offset_right = 214.0
+offset_bottom = 314.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(839, 388)
