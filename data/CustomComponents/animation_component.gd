@@ -72,7 +72,7 @@ func _on_attack_sprite_1_animaton_looped():
 
 
 func _on_delay_sprite_1_animaton_looped():
-	### TODO 
+	## TODO
 	pass
 
 
