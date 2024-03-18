@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnmwdcia5esyb"]
+[gd_scene load_steps=10 format=3 uid="uid://dnmwdcia5esyb"]
 
+[ext_resource type="Script" path="res://TestingFolder/testing_pause_scenes.gd" id="1_7l0bt"]
 [ext_resource type="Script" path="res://TestingFolder/For_pause_testing.gd" id="1_w0jax"]
 [ext_resource type="Script" path="res://TestingFolder/Test_manager_for_pause.gd" id="1_wq2dv"]
 [ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="2_o8q78"]
@@ -10,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://cuhjexpxi1osm" path="res://TestingFolder/IndiePr.mp3" id="6_2w2l1"]
 
 [node name="testing_pause_scenes" type="Node2D"]
+script = ExtResource("1_7l0bt")
 
 [node name="manager" type="Node" parent="."]
 process_mode = 3
