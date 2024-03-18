@@ -9,7 +9,6 @@ extends Node
 var game_paused: bool = false
 var music: bool = false
 var menu: bool = false
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_fon_2_music_on_off()
@@ -18,14 +17,14 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("Esc_Button"):
-		_on_paused()
-		_boss_music_on_off()
-		_pause_menu_on_off()
+	if Input.is_action_just_pressed("Esc_Button"):	
+			_on_paused()
+			_boss_music_on_off()
+			_pause_menu_on_off()
 	if Input.is_action_just_pressed("Enter_Button"):
-		_on_paused()
-		_fon_music_on_off()
-		_dialog_menu_on_of()
+			_on_paused()
+			_fon_music_on_off()
+			_dialog_menu_on_of()
 	pass
 	
 func _on_paused():
