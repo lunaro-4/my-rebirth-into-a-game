@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmoa3q4t5lquw"]
+
+[ext_resource type="Shader" path="res://TestingFolder/TestShader.gdshader" id="1_8l1uv"]
+[ext_resource type="Script" path="res://TestingFolder/pause_menu_scene.gd" id="1_tp3vr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ohoa"]
+shader = ExtResource("1_8l1uv")
+shader_parameter/amount = 1.5
+
+[node name="PauseMenuScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tp3vr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_3ohoa")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -582.0
+offset_top = -377.0
+offset_right = 339.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Exit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

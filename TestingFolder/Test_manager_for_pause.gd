@@ -3,9 +3,11 @@ extends Node
 @onready var Musica = $"../AudioStreamPlayer"
 @onready var Musica_2 = $"../AudioStreamPlayer2"
 @onready var Fon_musica = $"../AudioStreamPlayer3"
+@onready var pause_menu = $"../Camera2D/PauseMenuScene"
 
 var game_paused: bool = false
 var music: bool = false
+var menu: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,6 +20,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("Esc_Button"):
 		_on_paused()
 		_boss_music_on_off()
+		_pause_menu_on_off()
 	if Input.is_action_just_pressed("Enter_Button"):
 		_on_paused()
 		_fon_music_on_off()
@@ -52,3 +55,10 @@ func _fon_2_music_on_off():
 	else:
 		Fon_musica.stop()
 	pass
+	
+func _pause_menu_on_off():
+	menu = !menu
+	if menu == true:
+		pause_menu.show()
+	else:
+		pause_menu.hide()
