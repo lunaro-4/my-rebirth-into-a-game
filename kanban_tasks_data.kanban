@@ -2,38 +2,144 @@
 	"categories": [
 		{
 			"uuid": "2769a3da-6560-4b53-9795-ef3b1823a104",
-			"title": "Task",
+			"title": "Глобальная задача",
 			"color": "70bafa"
+		},
+		{
+			"uuid": "3a73fde9-d32c-4db0-8018-cdd249cfc86a",
+			"title": "Задача",
+			"color": "16bf8f"
+		},
+		{
+			"uuid": "afef53fe-1a0b-458a-82b9-eb0bca97f2da",
+			"title": "Подзадача: Эдик",
+			"color": "f92d2d"
+		},
+		{
+			"uuid": "9382f4da-2ae7-45d3-b31e-113ffbcf50b0",
+			"title": "Подзадача: Тима",
+			"color": "ff0000"
+		},
+		{
+			"uuid": "678adcdb-a8e4-4d69-bc60-96eba69fe4f3",
+			"title": "Подзадача: Паша",
+			"color": "ff0000"
 		}
 	],
 	"stages": [
 		{
 			"uuid": "811e9a4f-f238-46d5-96f6-0e597649b7c6",
-			"title": "Todo",
-			"tasks": []
-		},
-		{
-			"uuid": "e95492b0-dd56-4988-896c-b17fd448b695",
-			"title": "Doing",
-			"tasks": []
+			"title": "Мегазадачи",
+			"tasks": [
+				"201e20a2-9cd4-42d5-9afc-ba441d3609df",
+				"fafdbc63-d8e9-426b-8ebe-f88368dbe3b8",
+				"eeb767c0-ff7f-4889-afc8-7490ad72f7e5",
+				"69db6e87-60a6-46bc-86e2-695c33f696ab",
+				"1aeed671-7412-4701-a324-b532c751c13f",
+				"e55bb3c6-6016-4067-8525-854ae4e3d89f"
+			]
 		},
 		{
 			"uuid": "00d4f9f5-526b-4375-9d93-3f51404d239d",
-			"title": "Done",
+			"title": "В процессе ⏳",
+			"tasks": []
+		},
+		{
+			"uuid": "bf51c205-b9d6-4c23-b785-9542daf6edb6",
+			"title": "Подзадачи",
+			"tasks": []
+		},
+		{
+			"uuid": "c3132273-9a71-4681-8bbe-aed0347913aa",
+			"title": "Сделано ✅",
 			"tasks": []
 		}
 	],
-	"tasks": [],
+	"tasks": [
+		{
+			"uuid": "69db6e87-60a6-46bc-86e2-695c33f696ab",
+			"title": "Сюжет",
+			"description": "",
+			"category": "2769a3da-6560-4b53-9795-ef3b1823a104",
+			"steps": []
+		},
+		{
+			"uuid": "201e20a2-9cd4-42d5-9afc-ba441d3609df",
+			"title": "Геймплей",
+			"description": "Дизайн игровово процесса",
+			"category": "2769a3da-6560-4b53-9795-ef3b1823a104",
+			"steps": [
+				{
+					"details": "Формулировма геймплейного цикла",
+					"done": false
+				},
+				{
+					"details": "Прогрессия",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "fafdbc63-d8e9-426b-8ebe-f88368dbe3b8",
+			"title": "Уровни",
+			"description": "Сцены с уровнями",
+			"category": "2769a3da-6560-4b53-9795-ef3b1823a104",
+			"steps": []
+		},
+		{
+			"uuid": "eeb767c0-ff7f-4889-afc8-7490ad72f7e5",
+			"title": "Механики",
+			"description": "Ключевые механики, на которых все держится",
+			"category": "2769a3da-6560-4b53-9795-ef3b1823a104",
+			"steps": [
+				{
+					"details": "ИИ",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "1aeed671-7412-4701-a324-b532c751c13f",
+			"title": "Графика",
+			"description": "",
+			"category": "2769a3da-6560-4b53-9795-ef3b1823a104",
+			"steps": [
+				{
+					"details": "Спрайты",
+					"done": false
+				},
+				{
+					"details": "Анимации (?)",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "e55bb3c6-6016-4067-8525-854ae4e3d89f",
+			"title": "Аудио",
+			"description": "",
+			"category": "2769a3da-6560-4b53-9795-ef3b1823a104",
+			"steps": [
+				{
+					"details": "Музыка",
+					"done": false
+				},
+				{
+					"details": "Звуковые эффекты",
+					"done": false
+				}
+			]
+		}
+	],
 	"layout": {
 		"columns": [
 			[
-				"811e9a4f-f238-46d5-96f6-0e597649b7c6"
+				"811e9a4f-f238-46d5-96f6-0e597649b7c6",
+				"bf51c205-b9d6-4c23-b785-9542daf6edb6"
 			],
 			[
-				"e95492b0-dd56-4988-896c-b17fd448b695"
-			],
-			[
-				"00d4f9f5-526b-4375-9d93-3f51404d239d"
+				"00d4f9f5-526b-4375-9d93-3f51404d239d",
+				"c3132273-9a71-4681-8bbe-aed0347913aa"
 			]
 		]
 	}
