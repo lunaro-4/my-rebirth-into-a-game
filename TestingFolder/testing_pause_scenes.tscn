@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="2_o8q78"]
 [ext_resource type="AudioStream" uid="uid://8vwr5hlsmj45" path="res://TestingFolder/Boss.mp3" id="4_3epp2"]
 [ext_resource type="PackedScene" uid="uid://cmoa3q4t5lquw" path="res://TestingFolder/pause_menu_scene.tscn" id="4_iefh3"]
-[ext_resource type="PackedScene" uid="uid://d2nq5vtjgbtjp" path="res://testing_diaolog.tscn" id="4_mai0c"]
+[ext_resource type="PackedScene" uid="uid://d2nq5vtjgbtjp" path="res://TestingFolder/testing_diaolog.tscn" id="4_mai0c"]
 [ext_resource type="AudioStream" uid="uid://cjx8v8m3dqd1e" path="res://TestingFolder/MMT.mp3" id="5_55y28"]
 [ext_resource type="AudioStream" uid="uid://cuhjexpxi1osm" path="res://TestingFolder/IndiePr.mp3" id="6_2w2l1"]
 

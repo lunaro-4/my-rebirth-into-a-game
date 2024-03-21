@@ -21,10 +21,16 @@ func _process(delta):
 			_on_paused()
 			_boss_music_on_off()
 			_pause_menu_on_off()
+			dialog.hide()
 	if Input.is_action_just_pressed("Enter_Button"):
 			_on_paused()
 			_fon_music_on_off()
 			_dialog_menu_on_of()
+	elif dialog.show() == true && Input.is_action_just_pressed("Esc_Button"):
+		_boss_music_on_off()
+		_pause_menu_on_off()
+	
+	
 	pass
 	
 func _on_paused():
@@ -70,3 +76,4 @@ func _dialog_menu_on_of():
 		dialog.show()
 	else:
 		dialog.hide()
+		

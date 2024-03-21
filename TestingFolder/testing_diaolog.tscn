@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2nq5vtjgbtjp"]
 
-[ext_resource type="Script" path="res://testing_diaolog.gd" id="1_f8oip"]
-[ext_resource type="Texture2D" uid="uid://dsfr816rs85js" path="res://TestingFolder/textbox.png" id="2_0km57"]
+[ext_resource type="Script" path="res://TestingFolder/testing_diaolog.gd" id="1_7q3yq"]
+[ext_resource type="Texture2D" uid="uid://dsfr816rs85js" path="res://TestingFolder/textbox.png" id="2_ebn7r"]
 
 [node name="TestingDiaolog" type="Control"]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_f8oip")
+script = ExtResource("1_7q3yq")
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -21,7 +21,7 @@ offset_bottom = 40.0
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer2"]
 layout_mode = 2
-texture = ExtResource("2_0km57")
+texture = ExtResource("2_ebn7r")
 patch_margin_left = 16
 patch_margin_top = 16
 patch_margin_right = 16
