@@ -9,5 +9,8 @@ script = ExtResource("1_ofl0d")
 wait_time = 0.4
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+debug_enabled = true
 
 [connection signal="timeout" from="UpdatePathTimer" to="." method="_on_path_update_timeout"]
+[connection signal="waypoint_reached" from="NavigationAgent2D" to="." method="waypoint_reached"]

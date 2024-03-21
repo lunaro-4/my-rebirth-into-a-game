@@ -36,7 +36,10 @@ func _physics_process(_delta : float):
 @onready var nav_agent = $NavigationAgent2D as NavigationAgent2D
 @onready var pathfinding_timer = $UpdatePathTimer as Timer
 
+signal nav_waypoint_reached(data)
 
+func _ready():
+	nav_agent.waypoint_reached.connect(waypoint_reached)
 
 	
 func makepath():
@@ -64,3 +67,6 @@ func start_pathfinding():
 func pathfinding_init():
 	start_pathfinding()
 	makepath()
+	
+func waypoint_reached(data):
+	nav_waypoint_reached.emit(data)
