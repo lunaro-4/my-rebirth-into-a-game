@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://pinfmowtm0bj"]
+
+[ext_resource type="PackedScene" uid="uid://cn72ke0k838lf" path="res://data/heroes/base_hero.tscn" id="1_2hp83"]
+[ext_resource type="Script" path="res://TestingFolder/test_hero.gd" id="2_3fu0v"]
+[ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="3_intov"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_raauo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_intov")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="TestHero" instance=ExtResource("1_2hp83")]
+script = ExtResource("2_3fu0v")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_raauo")
+
+[connection signal="nav_waypoint_reached" from="PathfindingLogic" to="." method="_reached"]
