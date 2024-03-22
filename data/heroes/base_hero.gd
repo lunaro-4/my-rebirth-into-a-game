@@ -6,7 +6,7 @@ class_name BaseHero extends CharacterBody2D
 
 #@onready var direction = pathfinder.target_path_vector
 
-var speed = 100
+@export var speed = 100
 
 func _ready():
 	#pathfinder.target = target
@@ -14,14 +14,6 @@ func _ready():
 	#pathfinder.nav_waypoint_reached.connect(reached)
 	##await get_tree().create_timer(3).timeout
 	pass # Replace with fun	passction body.
-
-
-
-
-
-func _process(delta):
-	pass
-
 
 func reached():
 	print("reached!")

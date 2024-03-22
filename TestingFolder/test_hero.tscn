@@ -22,3 +22,4 @@ script = ExtResource("2_3fu0v")
 sprite_frames = SubResource("SpriteFrames_raauo")
 
 [connection signal="nav_waypoint_reached" from="PathfindingLogic" to="." method="_reached"]
+[connection signal="target_reached" from="PathfindingLogic" to="." method="_on_pathfinding_logic_target_reached"]
