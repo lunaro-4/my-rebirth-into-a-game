@@ -41,5 +41,5 @@ func _on_pathfinding_logic_target_reached():
 	print("Я достиг конца пути!")
 	target_reached = true
 	# FIXME 
-	get_tree().quit()
+	#get_tree().quit()
 	pass
