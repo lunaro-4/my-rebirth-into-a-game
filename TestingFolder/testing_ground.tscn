@@ -40,10 +40,11 @@ separation = Vector2i(1, 1)
 sources/0 = SubResource("TileSetAtlasSource_30jdl")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_a64lb"]
-vertices = PackedVector2Array(-37, -21, -26, -25, -26, 682, -32, 730, 1167, 682, 1151, 750, 406, 106, 422, 106, 422, 246, 378, 246, 378, 230, 266, 230, 266, 38, 406, 10, 10, 10, 214, 38, 214, 170, 230, 170, 230, 230, 10, 230, 10, 138, 170, 138, 170, 38, 10, 38, 1142, 10, 1142, 646, 10, 646, 458, 282, 10, 266, 198, 266, 198, 282, 250, 282, 250, 266, 358, 266, 358, 282, 458, 86, 442, 86, 442, 10, 1281, 174, 1178, 634, 1178, -26, 1143, -97, -24, -26, 111, -77, 134, 102, 10, 102, 10, 74, 134, 74)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 4, 5, 3), PackedInt32Array(6, 7, 8, 9, 10), PackedInt32Array(6, 10, 11, 12, 13), PackedInt32Array(14, 13, 12, 15), PackedInt32Array(16, 17, 18, 19), PackedInt32Array(16, 19, 20, 21), PackedInt32Array(15, 16, 21, 22), PackedInt32Array(14, 15, 22), PackedInt32Array(14, 22, 23), PackedInt32Array(24, 25, 26, 27), PackedInt32Array(26, 28, 29, 30), PackedInt32Array(31, 32, 33, 34), PackedInt32Array(35, 36, 37, 24), PackedInt32Array(27, 35, 24), PackedInt32Array(34, 27, 26), PackedInt32Array(31, 34, 26), PackedInt32Array(31, 26, 30), PackedInt32Array(38, 39, 40), PackedInt32Array(41, 38, 40), PackedInt32Array(40, 42, 43, 41), PackedInt32Array(44, 45, 46, 47)])
+vertices = PackedVector2Array(113, -81, 112, -81, 1146, -101, 1285, 173, 1174, 670, 1174, -22, -22, -22, -41, -23, -22, 678, 1172, 678, 1155, 754, -36, 734, 410, 102, 426, 102, 426, 250, 374, 250, 374, 234, 262, 234, 262, 42, 410, 6, 6, 6, 218, 42, 218, 166, 234, 166, 234, 234, 6, 234, 6, 134, 166, 134, 166, 42, 6, 42, 1146, 6, 1146, 650, 6, 650, 454, 278, 6, 262, 202, 262, 202, 278, 246, 278, 246, 262, 362, 262, 362, 278, 454, 90, 438, 90, 438, 6, 138, 106, 6, 106, 6, 70, 138, 70)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5), PackedInt32Array(2, 3, 5), PackedInt32Array(0, 2, 5, 6, 7), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(8, 11, 7, 6), PackedInt32Array(12, 13, 14, 15, 16), PackedInt32Array(12, 16, 17, 18, 19), PackedInt32Array(20, 19, 18, 21), PackedInt32Array(22, 23, 24, 25), PackedInt32Array(22, 25, 26, 27), PackedInt32Array(21, 22, 27, 28), PackedInt32Array(20, 21, 28), PackedInt32Array(20, 28, 29), PackedInt32Array(30, 31, 32, 33), PackedInt32Array(32, 34, 35, 36), PackedInt32Array(37, 38, 39, 40), PackedInt32Array(41, 42, 43, 30), PackedInt32Array(33, 41, 30), PackedInt32Array(40, 33, 32), PackedInt32Array(37, 40, 32), PackedInt32Array(37, 32, 36), PackedInt32Array(44, 45, 46, 47)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-48, -28, -42, 740, 1160, 761, 1292, 173, 1150, -108, 111, -87)])
 source_geometry_group_name = &"navigation_polygon_source_group"
+agent_radius = 6.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sknc4"]
 texture = ExtResource("2_xbgmc")
@@ -986,10 +987,9 @@ target = NodePath("2Marker2D2")
 [node name="2Marker2D2" type="Marker2D" parent="PointsOfInterest/PathfindingLogic2"]
 position = Vector2(307, 162)
 
-[node name="TestHero" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_1lx6w")]
+[node name="TestHero" parent="." instance=ExtResource("5_1lx6w")]
 position = Vector2(29, 24)
 scale = Vector2(0.185, 0.185)
-target = NodePath("../PointsOfInterest/PathfindingLogic/1Marker2D2")
 
 [node name="mark" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_d5c5j")

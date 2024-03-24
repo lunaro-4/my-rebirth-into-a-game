@@ -6,6 +6,8 @@ extends Node2D
 @onready var ground = $Ground as TileMap
 @onready var walls = $NavigationRegion2D/Walls as TileMap
 @onready var mark = $mark as TileMap
+@onready var hero = $TestHero as TestHero
+
 
 var astar_grid : AStarGrid2D
 
@@ -13,25 +15,36 @@ var pathfinding_array : Array[Node]
 
 var points_of_interest: Array[Vector2i] = []
 
+const STARTING_POINT = Vector2i(0,0)
 
+signal points_established
 
 func _ready():
 	pathfinding_array =  $PointsOfInterest.get_children().filter(func(node): return node is PathfinderLogic )
 	for node in pathfinding_array:
 		pass
 		#node.pathfinding_init()
-	 
+	
+	
+	
 	_init_grid()
 	_update_grid_from_tilemap()
-	_backtrack_recursive(Vector2i(0,0), [])
+	_backtrack_recursive(STARTING_POINT, [])
+	hero.target =_generate_path()
+	points_established.emit()
 	
+	
+	
+
+###########################
+# Настройка A* сетки для навигации
+###########################
 
 func _init_grid():
 	astar_grid = AStarGrid2D.new()
-	astar_grid.size = ground.get_used_rect().size
+	astar_grid.region = ground.get_used_rect()
 	astar_grid.cell_size = ground.tile_set.tile_size
 	astar_grid.update()
-
 
 
 
@@ -47,7 +60,7 @@ func _update_grid_from_tilemap() -> void:
 				astar_grid.set_point_solid(id, tile_type)
 				mark.set_cell(0, id, 0, Vector2(0, 0))
 			# если нет земли, ставим непроходимость
-			elif ground.get_cell_source_id(0,id) < 0:
+			elif ground.get_cell_source_id(0,id) < 0 and astar_grid.region.has_point(id):
 				astar_grid.set_point_solid(Vector2i(i, j), true)
 
 func _check_wall(cell_pos: Vector2i) -> bool:
@@ -87,6 +100,13 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 
 
 
+func _generate_path():
+	var point_pos := astar_grid.get_point_path(STARTING_POINT, points_of_interest[0])[-2]
+	var point_of_interest = Marker2D.new()
+	point_of_interest.position = point_pos
+	add_child(point_of_interest)
+	hero.target=point_of_interest
+	return point_of_interest
 
 
 

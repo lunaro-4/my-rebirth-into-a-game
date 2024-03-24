@@ -1,21 +1,22 @@
-extends BaseHero
+class_name TestHero extends BaseHero
 
 
 @onready var pathfinder = $PathfindingLogic as PathfinderLogic
 
 @onready var direction = pathfinder.target_path_vector
 
+@export var target : Node2D
+
+@export var speed = 100
+
 var target_reached := false
 
 var wp_first := true
 
+signal target_appeared
+
 func _ready():
-	pathfinder.target = target
-	#await get_tree().create_timer(0.5).timeout
-	
-	#pathfinder.pathfinding_init()
-	#pathfinder.nav_waypoint_reached.connect(reached)
-	pass # Replace with function body.
+	_initialise_pathfinding()
 
 func _physics_process(_delta : float):
 	if not target_reached:
@@ -25,12 +26,18 @@ func _physics_process(_delta : float):
 		velocity = Vector2(0,0)
 	move_and_slide()
 
-	
+func _initialise_pathfinding():
+	if get_parent().has_signal("points_established"):
+		get_parent().points_established.connect(target_ready)
+	if !target:
+		await target_appeared
+	pathfinder.target = target
+	pathfinder.pathfinding_init()
 
-
+func target_ready():
+	target_appeared.emit()
 
 func _reached(_data, waypoint_index): 
-	
 	if waypoint_index > 0:
 		print("вставить мой метод")
 		pathfinder.makepath()
