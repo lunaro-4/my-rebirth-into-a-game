@@ -11,9 +11,9 @@ var wp_first := true
 
 func _ready():
 	pathfinder.target = target
-	await get_tree().create_timer(0.5).timeout
+	#await get_tree().create_timer(0.5).timeout
 	
-	pathfinder.pathfinding_init()
+	#pathfinder.pathfinding_init()
 	#pathfinder.nav_waypoint_reached.connect(reached)
 	pass # Replace with function body.
 
