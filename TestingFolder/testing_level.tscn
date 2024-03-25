@@ -1,8 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://kcinv45mimmt"]
+[gd_scene load_steps=4 format=3 uid="uid://kcinv45mimmt"]
 
 [ext_resource type="PackedScene" uid="uid://duvn36jrnr5ga" path="res://TestingFolder/character_body_2d.tscn" id="1_gk1dg"]
+[ext_resource type="Script" path="res://TestingFolder/testing_level_2dd.gd" id="1_uahjj"]
+[ext_resource type="PackedScene" uid="uid://c3dt5adexhux0" path="res://TestingFolder/trup.tscn" id="3_u2op4"]
 
 [node name="Testing level" type="Node2D"]
+script = ExtResource("1_uahjj")
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_gk1dg")]
 position = Vector2(95, 132)
+
+[node name="Trup" parent="." instance=ExtResource("3_u2op4")]
+position = Vector2(416, 157)
+scale = Vector2(0.385, 0.385)
+
+[connection signal="mouse_entered" from="Trup" to="." method="_on_trup_mouse_entered"]
+
+[editable path="Trup"]
