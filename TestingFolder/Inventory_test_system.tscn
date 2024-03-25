@@ -1,0 +1,100 @@
+[gd_scene load_steps=7 format=3 uid="uid://jsguafbwww4q"]
+
+[ext_resource type="FontFile" uid="uid://bec8b5vxhpurx" path="res://assets/Inventory Assets/TLHeader-Regular-RUS.otf" id="1_8spl2"]
+[ext_resource type="Script" path="res://TestingFolder/Inventory_test_system.gd" id="1_k1jkr"]
+[ext_resource type="PackedScene" uid="uid://b6hgiqbpslicr" path="res://TestingFolder/Slot.tscn" id="2_0e251"]
+[ext_resource type="Texture2D" uid="uid://bfp0qn55potv1" path="res://assets/Inventory Assets/But2.png" id="3_xqkf3"]
+[ext_resource type="Texture2D" uid="uid://dc1b7htdj0ddd" path="res://assets/Inventory Assets/ButPressed.png" id="4_lii7s"]
+[ext_resource type="Texture2D" uid="uid://de03pmybxbvaf" path="res://assets/Inventory Assets/ButMouseEnter.png" id="5_7v0uf"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k1jkr")
+
+[node name="CaptionLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -211.5
+offset_right = 211.5
+offset_bottom = 101.0
+grow_horizontal = 2
+scale = Vector2(1.24612, 1.36997)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_8spl2")
+theme_override_font_sizes/font_size = 96
+text = "Inventory"
+
+[node name="GridContainer" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -210.0
+offset_right = 310.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 4
+
+[node name="Slot" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot2" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot3" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot4" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot5" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot6" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot7" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot8" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot9" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot10" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot11" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="Slot12" parent="GridContainer" instance=ExtResource("2_0e251")]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 50.0
+offset_right = 1050.0
+offset_bottom = 100.0
+texture_normal = ExtResource("3_xqkf3")
+texture_pressed = ExtResource("4_lii7s")
+texture_hover = ExtResource("5_7v0uf")
+stretch_mode = 0
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

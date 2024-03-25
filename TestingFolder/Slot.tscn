@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6hgiqbpslicr"]
+
+[ext_resource type="Texture2D" uid="uid://cjpgg7wlict3m" path="res://assets/Inventory Assets/InventoryBackGround.png" id="1_tl3jm"]
+[ext_resource type="Shader" uid="uid://dq7dtw2tlj0ie" path="res://TestingFolder/Inventory_test_system.tres" id="2_ry0kl"]
+[ext_resource type="Texture2D" uid="uid://djn6tt7cb5epb" path="res://assets/Inventory Assets/InventoryBackGroundFon.png" id="3_461qn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_myxxy"]
+texture = ExtResource("1_tl3jm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_45xi4"]
+shader = ExtResource("2_ry0kl")
+
+[node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(128, 128)
+theme_override_styles/panel = SubResource("StyleBoxTexture_myxxy")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+material = SubResource("ShaderMaterial_45xi4")
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("3_461qn")

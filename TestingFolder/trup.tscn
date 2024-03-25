@@ -6,9 +6,9 @@
 size = Vector2(130, 132)
 
 [node name="Trup" type="CharacterBody2D"]
+input_pickable = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0, 0, 1)
 texture = ExtResource("1_j0xub")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
