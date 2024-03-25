@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://vc7vptwg3rr"]
+
+[ext_resource type="Script" path="res://TestingFolder/items.gd" id="1_w3kaf"]
+[ext_resource type="Texture2D" uid="uid://bbtw4f8sleig8" path="res://assets/icons/Axe.png" id="2_nc6nj"]
+
+[node name="items" type="Node2D"]
+script = ExtResource("1_w3kaf")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(110, 120)
+offset_right = 120.0
+offset_bottom = 120.0
+texture_normal = ExtResource("2_nc6nj")
+stretch_mode = 0
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3dt5adexhux0"]
+[gd_scene load_steps=4 format=3 uid="uid://c3dt5adexhux0"]
 
+[ext_resource type="Script" path="res://TestingFolder/trup.gd" id="1_bapq0"]
 [ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="1_j0xub"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xogpn"]
@@ -7,6 +8,7 @@ size = Vector2(130, 132)
 
 [node name="Trup" type="CharacterBody2D"]
 input_pickable = true
+script = ExtResource("1_bapq0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_j0xub")
@@ -14,3 +16,6 @@ texture = ExtResource("1_j0xub")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, -3)
 shape = SubResource("RectangleShape2D_xogpn")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

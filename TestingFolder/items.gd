@@ -1,10 +1,18 @@
-extends Control
+extends Node2D
 
-@onready var Inventory_level = $"../../MNG"
+var item = ""
 
-@onready var container_1 = $VBoxContainer/GridContainer
+signal on_pick()
+
+
+func set_item(item_name):
+	$TextureButton.texture_normal = load("res://assets/icons/%s.png" % item_name)
+	item = item_name
+	
+		
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	pass # Replace with function body.
 
 
@@ -12,9 +20,8 @@ func _ready():
 func _process(delta):
 	pass
 
-	
-
 
 func _on_texture_button_pressed():
-	queue_free()
+	on_pick.emit()
+	get_parent().remove_child(self)
 	pass # Replace with function body.
