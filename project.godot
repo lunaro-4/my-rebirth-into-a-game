@@ -14,6 +14,10 @@ config/name="my-rebirth-into-a-game"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Panku="*res://addons/panku_console/console.tscn"
+
 [debug]
 
 settings/gdscript/max_call_stack=2047
@@ -34,7 +38,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/kanban_tasks/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/kanban_tasks/plugin.cfg", "res://addons/panku_console/plugin.cfg")
 
 [input]
 
