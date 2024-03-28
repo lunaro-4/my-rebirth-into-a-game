@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbsmii62b4idp"]
+[gd_scene load_steps=9 format=3 uid="uid://bbsmii62b4idp"]
 
 [ext_resource type="Script" path="res://BackGroundMainMenu/background.gd" id="1_0tr6d"]
 [ext_resource type="Texture2D" uid="uid://rjl254efgbb3" path="res://BackGroundMainMenu/1.png" id="2_0jms3"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bhoipb30188v1" path="res://BackGroundMainMenu/CloudIsland.png" id="5_obfxp"]
 [ext_resource type="Texture2D" uid="uid://bib7fm8e6rw02" path="res://BackGroundMainMenu/Clouds3.png" id="5_rx80l"]
 [ext_resource type="Texture2D" uid="uid://lju3rqbx2ee6" path="res://BackGroundMainMenu/Clouds4.png" id="6_gxpxo"]
+[ext_resource type="FontFile" uid="uid://beqfhojjprfm4" path="res://Fonts/manito-lp.otf" id="8_amus8"]
 
 [node name="BackGround" type="Node"]
 script = ExtResource("1_0tr6d")
@@ -34,6 +35,7 @@ texture = ExtResource("3_oyan0")
 [node name="ParallaxBackground6" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground6"]
+motion_mirroring = Vector2(1500, 0)
 
 [node name="CloudIsland" type="Sprite2D" parent="ParallaxBackground6/ParallaxLayer"]
 position = Vector2(1112, 368)
@@ -68,3 +70,24 @@ motion_mirroring = Vector2(1228, 0)
 position = Vector2(648, 360)
 scale = Vector2(0.864, 0.8)
 texture = ExtResource("6_gxpxo")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -512.0
+offset_right = 513.0
+offset_bottom = 192.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.313726, 0.784314, 0.470588, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.243137, 0.705882, 0.537255, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 30
+theme_override_fonts/font = ExtResource("8_amus8")
+theme_override_font_sizes/font_size = 61
+text = "My rebirth into a game"
+horizontal_alignment = 1
+vertical_alignment = 1
