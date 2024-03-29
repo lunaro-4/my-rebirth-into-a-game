@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dipaxsv0g2h4m"]
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="MainMenuContro;" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureButton" type="TextureButton" parent="MainMenuContro;"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
