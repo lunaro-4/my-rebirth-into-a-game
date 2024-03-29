@@ -1,0 +1,146 @@
+[gd_scene load_steps=19 format=3 uid="uid://b5e74aepxptec"]
+
+[ext_resource type="Script" path="res://TestMouse2d.gd" id="1_pivol"]
+[ext_resource type="Texture2D" uid="uid://58w1cyy8m84n" path="res://BackGroundMainMenu/Skroll-shhet.png" id="2_bu0ew"]
+[ext_resource type="Texture2D" uid="uid://bsq7yrgyjfocl" path="res://BackGroundMainMenu/ScrollObv.png" id="3_3ssx2"]
+[ext_resource type="Texture2D" uid="uid://klchq3r0qk6m" path="res://BackGroundMainMenu/Scroll12.png" id="4_xhxi0"]
+[ext_resource type="FontFile" uid="uid://beqfhojjprfm4" path="res://Fonts/manito-lp.otf" id="6_prv3e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_on5r3"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(281, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdpg2"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(562, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cvn8i"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(843, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkblk"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(1124, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73w3b"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(1405, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5485"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(1686, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwkbr"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(1967, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67l8c"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(2248, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qhyb"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(2529, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkiea"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(2810, 0, 280, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sy55o"]
+atlas = ExtResource("2_bu0ew")
+region = Rect2(3091, 0, 280, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1jx27"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_on5r3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdpg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvn8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkblk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73w3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b5485")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwkbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67l8c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qhyb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkiea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sy55o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3ssx2")
+}],
+"loop": false,
+"name": &"Run",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_xhxi0")
+}],
+"loop": true,
+"name": &"Run_exit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3ssx2")
+}],
+"loop": false,
+"name": &"Run_stop",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ixf6"]
+size = Vector2(288, 224)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(240, 96)
+input_pickable = true
+script = ExtResource("1_pivol")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(416, 280)
+sprite_frames = SubResource("SpriteFrames_1jx27")
+animation = &"Run"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(416, 232)
+shape = SubResource("RectangleShape2D_1ixf6")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 232.0
+offset_top = 224.0
+offset_right = 600.0
+offset_bottom = 344.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_prv3e")
+theme_override_font_sizes/font_size = 30
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
