@@ -4,12 +4,14 @@ extends CharacterBody2D
 @onready var label = $Label
 @onready var timer = $Timer
 
-var mouse: bool = true
 var count = 0 
 var time = 0.1
+
 func _ready():
 	label.modulate.a = 0
 	label.position.y = 160
+	label.size.x = 355
+	label.position.x = 240
 	
 func _process(delta):
 	if label.position.y >= 220:
@@ -36,6 +38,6 @@ func _label_timer():
 	pass
 
 func _on_timer_timeout():
-	label.modulate.a += 0.3
-	label.position.y += 15
+	label.modulate.a += 0.25
+	label.position.y += 17
 	pass # Replace with function body.
