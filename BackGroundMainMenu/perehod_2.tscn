@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://e320gdtc1spx"]
+
+[ext_resource type="Script" path="res://BackGroundMainMenu/perehod_2.gd" id="1_mlumm"]
+
+[node name="Perehod_2" type="Node2D"]
+script = ExtResource("1_mlumm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -1352.0
+offset_top = -736.0
+offset_right = 3760.0
+offset_bottom = 2008.0
+color = Color(0, 0, 0, 1)
+
+[node name="Timer1" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer1" to="." method="_on_timer_timeout"]

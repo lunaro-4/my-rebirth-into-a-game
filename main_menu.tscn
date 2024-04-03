@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dipaxsv0g2h4m"]
+[gd_scene load_steps=4 format=3 uid="uid://dipaxsv0g2h4m"]
 
 [ext_resource type="PackedScene" uid="uid://bbsmii62b4idp" path="res://BackGroundMainMenu/back_ground.tscn" id="2_forgj"]
+[ext_resource type="PackedScene" uid="uid://bng8nm6wdkhaf" path="res://character_body_2d2.tscn" id="3_s05u6"]
 [ext_resource type="PackedScene" uid="uid://b5e74aepxptec" path="res://character_body_2d.tscn" id="15_2pweo"]
 
 [node name="MainMenu" type="Node2D"]
@@ -8,4 +9,7 @@
 [node name="BackGround" parent="." instance=ExtResource("2_forgj")]
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("15_2pweo")]
-position = Vector2(144, 104)
+position = Vector2(192, 192)
+
+[node name="MenuButton1" parent="." instance=ExtResource("3_s05u6")]
+position = Vector2(192, 336)

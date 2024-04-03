@@ -1,53 +1,53 @@
-[gd_scene load_steps=19 format=3 uid="uid://b5e74aepxptec"]
+[gd_scene load_steps=19 format=3 uid="uid://bng8nm6wdkhaf"]
 
-[ext_resource type="Script" path="res://TestMouse2d.gd" id="1_pivol"]
-[ext_resource type="Texture2D" uid="uid://58w1cyy8m84n" path="res://BackGroundMainMenu/Skroll-shhet.png" id="2_bu0ew"]
-[ext_resource type="Texture2D" uid="uid://bsq7yrgyjfocl" path="res://BackGroundMainMenu/ScrollObv.png" id="3_3ssx2"]
-[ext_resource type="Texture2D" uid="uid://klchq3r0qk6m" path="res://BackGroundMainMenu/Scroll12.png" id="4_xhxi0"]
-[ext_resource type="FontFile" uid="uid://beqfhojjprfm4" path="res://Fonts/manito-lp.otf" id="6_prv3e"]
+[ext_resource type="Script" path="res://character_body_2d2.gd" id="1_boaew"]
+[ext_resource type="Texture2D" uid="uid://58w1cyy8m84n" path="res://BackGroundMainMenu/Skroll-shhet.png" id="2_5oxv8"]
+[ext_resource type="Texture2D" uid="uid://bsq7yrgyjfocl" path="res://BackGroundMainMenu/ScrollObv.png" id="3_cknmv"]
+[ext_resource type="Texture2D" uid="uid://klchq3r0qk6m" path="res://BackGroundMainMenu/Scroll12.png" id="4_3nup8"]
+[ext_resource type="FontFile" uid="uid://beqfhojjprfm4" path="res://Fonts/manito-lp.otf" id="5_g0a33"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_on5r3"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(281, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pdpg2"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(562, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvn8i"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(843, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkblk"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(1124, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_73w3b"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(1405, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b5485"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(1686, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bwkbr"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(1967, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_67l8c"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(2248, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4qhyb"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(2529, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lkiea"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(2810, 0, 280, 300)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sy55o"]
-atlas = ExtResource("2_bu0ew")
+atlas = ExtResource("2_5oxv8")
 region = Rect2(3091, 0, 280, 300)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1jx27"]
@@ -87,7 +87,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_sy55o")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_3ssx2")
+"texture": ExtResource("3_cknmv")
 }],
 "loop": false,
 "name": &"Run",
@@ -95,7 +95,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_xhxi0")
+"texture": ExtResource("4_3nup8")
 }],
 "loop": true,
 "name": &"Run_exit",
@@ -103,7 +103,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_3ssx2")
+"texture": ExtResource("3_cknmv")
 }],
 "loop": false,
 "name": &"Run_stop",
@@ -115,7 +115,7 @@ size = Vector2(256, 128)
 
 [node name="MenuButton1" type="CharacterBody2D"]
 input_pickable = true
-script = ExtResource("1_pivol")
+script = ExtResource("1_boaew")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(128, 64)
@@ -131,14 +131,19 @@ shape = SubResource("RectangleShape2D_1ixf6")
 offset_right = 256.0
 offset_bottom = 48.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("6_prv3e")
+theme_override_fonts/font = ExtResource("5_g0a33")
 theme_override_font_sizes/font_size = 30
-text = "Start"
+text = "Quit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="Quit_timer" type="Timer" parent="."]
+wait_time = 0.99
+one_shot = true
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Quit_timer" to="." method="_on_quit_timer_timeout"]

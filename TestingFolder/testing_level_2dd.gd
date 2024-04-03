@@ -8,11 +8,14 @@ extends Node2D
 #@onready var Inventory = $CanvasLayer/Control
 @onready var Item = preload("res://TestingFolder/items.tscn")
 @onready var Inventory_inst = preload("res://TestingFolder/Inventory_test_system.tscn")
+@onready var perehod = preload("res://BackGroundMainMenu/perehod_2.tscn")
 
 var item_count = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var perehod_2 = perehod.instantiate()
+	get_children()[-1].add_sibling(perehod_2)
 	pass # Replace with function body.
 
 
@@ -49,4 +52,3 @@ func trupi():
 func pick():
 	item_count += 1
 	print(item_count)
-

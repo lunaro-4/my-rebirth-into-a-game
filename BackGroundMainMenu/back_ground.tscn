@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://lju3rqbx2ee6" path="res://BackGroundMainMenu/Clouds4.png" id="6_gxpxo"]
 [ext_resource type="FontFile" uid="uid://beqfhojjprfm4" path="res://Fonts/manito-lp.otf" id="8_amus8"]
 
-[node name="BackGround" type="Node"]
+[node name="BackGround" type="Node2D"]
 script = ExtResource("1_0tr6d")
 
 [node name="ParallaxBackground5" type="ParallaxBackground" parent="."]
@@ -75,8 +75,7 @@ texture = ExtResource("6_gxpxo")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -512.0
-offset_right = 513.0
+offset_right = 1280.0
 offset_bottom = 192.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.313726, 0.784314, 0.470588, 1)

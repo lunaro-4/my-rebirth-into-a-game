@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://kcinv45mimmt"]
 
-[ext_resource type="PackedScene" uid="uid://duvn36jrnr5ga" path="res://TestingFolder/character_body_2d.tscn" id="1_gk1dg"]
+[ext_resource type="PackedScene" path="res://TestingFolder/MenuButton1.tscn" id="1_gk1dg"]
 [ext_resource type="Script" path="res://TestingFolder/testing_level_2dd.gd" id="1_uahjj"]
 [ext_resource type="Script" path="res://TestingFolder/MNG.gd" id="2_y6skl"]
 [ext_resource type="PackedScene" uid="uid://c3dt5adexhux0" path="res://TestingFolder/trup.tscn" id="3_u2op4"]
@@ -14,7 +14,7 @@ script = ExtResource("2_y6skl")
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_gk1dg")]
 position = Vector2(95, 132)
 
-[node name="Trupi" type="Node" parent="."]
+[node name="Trupi" type="Node2D" parent="."]
 
 [node name="Trup" parent="Trupi" instance=ExtResource("3_u2op4")]
 position = Vector2(416, 157)
