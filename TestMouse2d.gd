@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var label = $Label
 @onready var timer = $Timer
 @onready var perehod = preload("res://BackGroundMainMenu/perehod.tscn")
+@onready var TimerChange = $TimerChange
 
 var mouse: bool = false
 var count = 0 
@@ -17,6 +18,7 @@ func _process(delta):
 		timer.stop()
 	if mouse == true:
 		if Input.is_action_just_pressed("Left_Mouse_Button"):
+			TimerChange.start()
 			var perehod_2 = perehod.instantiate()
 			get_parent().get_children()[-1].add_sibling(perehod_2)
 			#add_child(perehod_2)
@@ -39,4 +41,9 @@ func _on_mouse_exited():
 func _on_timer_timeout():
 	label.modulate.a += 0.25
 	label.position.y += 10
+	pass # Replace with function body.
+
+
+func _on_timer_change_timeout():
+	get_tree().change_scene_to_file("res://TestingFolder/testing_level.tscn")
 	pass # Replace with function body.

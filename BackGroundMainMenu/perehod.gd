@@ -19,9 +19,7 @@ func _process(delta):
 
 func _on_timer_timeout():
 	color.modulate.a += 0.05
-
 	if color.modulate.a >= 1:
 		timer.stop()
-		get_tree().change_scene_to_file("res://TestingFolder/testing_level.tscn")
 	pass # Replace with function body.
 
