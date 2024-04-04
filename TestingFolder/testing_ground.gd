@@ -32,7 +32,7 @@ func _ready():
 	_backtrack_recursive(STARTING_POINT, [])
 	hero.target =_generate_path()
 	points_established.emit()
-	
+	_generate_path_map(STARTING_POINT)
 	
 	
 
@@ -108,12 +108,42 @@ func _generate_path():
 	hero.target=point_of_interest
 	return point_of_interest
 
+static func get_uniqe_tail_array_vector(arr_of_arrs):
+	var arr_tails = {}
+	for i in arr_of_arrs:
+		arr_tails[i] = arr_of_arrs[i]
+	var rogue_paths = []
+	for point in range(arr_of_arrs.size()):
+		for path in range(arr_of_arrs.size()):
+			for other_path in range(point, arr_of_arrs.size()):
+				if CustomMath.compare_vectors(arr_tails[path][point], arr_tails[other_path][point]):
+					pass
+				else:
+					rogue_paths.append(arr_tails[other_path])
+			if rogue_paths != []:
+				get_uniqe_tail_array_vector(rogue_paths)
+	return []
+
+func _generate_path_map(start_point):
+	var path_array = []
+	var path_map = {}
+	var path_map_inverted = {}
+	var map_is_finished := false
+	for point in points_of_interest:
+		path_array.append(astar_grid.get_point_path(start_point, point))
+	while !map_is_finished:
+		for path in range(path_array.size()-1):
+			for point in range(len(path_array[path])):
+				for other_path in range(path,path_array.size()-1):
+					pass
+					#if !CustomMath.compare_vectors(path_array[path][point], path_array[other_path][point]):
+					#	break
 
 
 
-
-
-
+# var first = {1 : [Vector2i(0,1), Vector2i(0,2)], # Ссылка на возможные пути
+# 			2 : Vector2i(1,2)}
+# var first_inverted = [Vector(0,2) : 2] # Ссылка 
 
 
 

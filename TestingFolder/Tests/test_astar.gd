@@ -40,3 +40,13 @@ func test_array_find_vector_3():
 	
 	pass
 
+
+
+func test_vector_array_tail():
+	var arr1: Array[Vector2i] = [vec1,vec2,vec3,vec4,vec5]
+	var arr2: Array[Vector2i] = [vec1,vec2,vec3,vec1,vec5]
+	var arr3: Array[Vector2i] = [vec1,vec2,vec3,vec4,vec5]
+	assert_eq(CustomMath.get_uniqe_tail_array_vector(arr1, arr2), [arr1.slice(3), arr2.slice(3)])
+	assert_eq(CustomMath.get_uniqe_tail_array_vector(arr1, arr3), [[],[]])
+
+
