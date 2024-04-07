@@ -14,4 +14,16 @@ static func check_null(component : Node, component_name, sender:Node, alert: boo
 		print(message)
 		if alert:
 			assert(false, message)
-	
+
+static func beautiful_dict_print(dict, depth : int):
+	if not dict is Dictionary:
+		print(dict)
+		return
+	for i in dict.keys():
+		if depth >0:
+			print('{')
+			beautiful_dict_print(dict[i], depth-1)
+			print('}')
+		else:
+			print(dict)
+	pass
