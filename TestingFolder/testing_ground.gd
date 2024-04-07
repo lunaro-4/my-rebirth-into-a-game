@@ -26,7 +26,6 @@ func _ready():
 		#node.pathfinding_init()
 	
 	
-	
 	_init_grid()
 	_update_grid_from_tilemap()
 	_backtrack_recursive(STARTING_POINT, [])
@@ -108,49 +107,62 @@ func _generate_path():
 	hero.target=point_of_interest
 	return point_of_interest
 
-static func get_uniqe_tail_array_vector(arr_of_arrs):
-	var arr_tails = {}
-	for i in arr_of_arrs:
-		arr_tails[i] = arr_of_arrs[i]
-	var rogue_paths = []
-	for point in range(arr_of_arrs.size()):
-		for path in range(arr_of_arrs.size()):
-			for other_path in range(point, arr_of_arrs.size()):
-				if CustomMath.compare_vectors(arr_tails[path][point], arr_tails[other_path][point]):
-					pass
-				else:
-					rogue_paths.append(arr_tails[other_path])
-			if rogue_paths != []:
-				get_uniqe_tail_array_vector(rogue_paths)
-	return []
+func get_uniqe_tail_array_vector(arr_of_arrs, start_point, arr_tails):
+	if arr_of_arrs.size() <= 1 or arr_of_arrs[0] is Vector2i or arr_of_arrs[0] is Vector2:
+		return arr_tails
+	if arr_tails == {}:
+		arr_tails['arrs']= {}
+		for i in range(arr_of_arrs.size()):
+			arr_tails['arrs'][i] = []
+		arr_tails['arr_pointers'] = {}
+	var rogue_paths = {}
+	var longest_id = 0
+	var longest_size = 0
+	for path in range(arr_of_arrs.size()):
+		if arr_of_arrs[path].size() > longest_size:
+			longest_id = path
+			longest_size = arr_of_arrs[path].size()
+	if start_point >= arr_of_arrs[longest_id].size():
+		return arr_tails
+	var point = start_point+1
+	for other_path in range(arr_of_arrs.size()):
+		if point < arr_of_arrs[other_path].size():
+			var secondary_point = arr_of_arrs[other_path][point] as Vector2i
+			if (rogue_paths.keys().filter(func(vec : Vector2i):	
+					return CustomMath.compare_vectors(vec, secondary_point)) == []):
+				rogue_paths[secondary_point] = [arr_of_arrs[other_path]]
+			else:
+				for i in rogue_paths.keys():
+					if CustomMath.compare_vectors(i, secondary_point):
+						rogue_paths[i].append(arr_of_arrs[other_path])
+	
+	var path_count = {}
+	for path in rogue_paths.keys():
+		path_count[path] = rogue_paths[path].size()
+	# print(path_count)
+	var go_points_arr = {}
+	for key in rogue_paths.keys():
+		go_points_arr[key] = rogue_paths[key]
+	for path_point in path_count.keys():
+			# print("start point", path_point, "path count", path_count[path_point])
+			arr_tails =  get_uniqe_tail_array_vector(rogue_paths[path_point], point, arr_tails)
+	if go_points_arr.size()>1:
+		arr_tails['arr_pointers'][arr_of_arrs[longest_id][point-1]] = go_points_arr
+	rogue_paths = {}
+	return arr_tails
 
 func _generate_path_map(start_point):
 	var path_array = []
-	var path_map = {}
-	var path_map_inverted = {}
-	var map_is_finished := false
 	for point in points_of_interest:
 		path_array.append(astar_grid.get_point_path(start_point, point))
-	while !map_is_finished:
-		for path in range(path_array.size()-1):
-			for point in range(len(path_array[path])):
-				for other_path in range(path,path_array.size()-1):
-					pass
-					#if !CustomMath.compare_vectors(path_array[path][point], path_array[other_path][point]):
-					#	break
-
-
-
-# var first = {1 : [Vector2i(0,1), Vector2i(0,2)], # Ссылка на возможные пути
-# 			2 : Vector2i(1,2)}
-# var first_inverted = [Vector(0,2) : 2] # Ссылка 
-
-
-
-
-
-
-
+		# print(astar_grid.get_point_path(start_point, point))
+	var road_dict =get_uniqe_tail_array_vector(path_array, 0, {})
+	var path_keys = road_dict['arr_pointers'].keys()
+	for key in path_keys:
+		if road_dict['arr_pointers'][key].size() <=1:
+			road_dict['arr_pointers'].erase(key)
+	print(road_dict)
+	print(DebugTools.beautiful_dict_print(road_dict, 3))
 
 
 
