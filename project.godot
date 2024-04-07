@@ -20,6 +20,7 @@ Panku="*res://addons/panku_console/console.tscn"
 
 [debug]
 
+file_logging/enable_file_logging=true
 settings/gdscript/max_call_stack=2047
 
 [display]
