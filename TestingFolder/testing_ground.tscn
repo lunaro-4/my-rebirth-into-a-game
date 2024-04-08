@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d3i3lt04qqlqa"]
+[gd_scene load_steps=15 format=3 uid="uid://d3i3lt04qqlqa"]
 
 [ext_resource type="Texture2D" uid="uid://d07sk3rgrldee" path="res://TestingFolder/Texture/eart.png" id="1_7pk7p"]
 [ext_resource type="Script" path="res://TestingFolder/testing_ground.gd" id="1_io62u"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bselw8ieny17t" path="res://data/CustomComponents/pathfinding_logic.tscn" id="3_66uoj"]
 [ext_resource type="PackedScene" uid="uid://pinfmowtm0bj" path="res://TestingFolder/test_hero.tscn" id="5_1lx6w"]
 [ext_resource type="Texture2D" uid="uid://ctphrdqyuwcc2" path="res://TestingFolder/colour atlas.png" id="6_1arad"]
+[ext_resource type="Script" path="res://data/CustomComponents/points_of_interest_component.gd" id="7_8j77i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_30jdl"]
 texture = ExtResource("1_7pk7p")
@@ -994,3 +995,7 @@ scale = Vector2(0.185, 0.185)
 [node name="mark" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_d5c5j")
 format = 2
+
+[node name="PointsOfInterestComponent" type="Node2D" parent="."]
+script = ExtResource("7_8j77i")
+STARTING_POINT = null

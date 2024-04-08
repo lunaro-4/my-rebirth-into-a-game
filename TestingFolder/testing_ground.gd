@@ -7,6 +7,7 @@ extends Node2D
 @onready var walls = $NavigationRegion2D/Walls as TileMap
 @onready var mark = $mark as TileMap
 @onready var hero = $TestHero as TestHero
+@onready var poic = $PointsOfInterestComponent as PointsOfInterestComponent
 
 
 var astar_grid : AStarGrid2D
@@ -17,6 +18,16 @@ var points_of_interest: Array[Vector2i] = []
 
 const STARTING_POINT = Vector2i(0,0)
 
+var crossroads_path_map : Dictionary
+
+"""
+path_map:
+			crossroad (Vector2i) :	path_point1(Vector2i) :	path 1.1 (Array[Vector2i]) 
+															path 1.2 (Array[Vector2i]) 	
+								:	path_point2(Vector2i) :	path 2.1 (Array[Vector2i]) 
+															path 2.2 (Array[Vector2i]) 	
+"""
+
 signal points_established
 
 func _ready():
@@ -25,13 +36,18 @@ func _ready():
 		pass
 		#node.pathfinding_init()
 	
+	hero.on_point_reached.connect(on_point_reached)
 	
 	_init_grid()
 	_update_grid_from_tilemap()
 	_backtrack_recursive(STARTING_POINT, [])
-	hero.target =_generate_path()
+	poic.points_of_interest = points_of_interest
+	poic.astar_grid = astar_grid
+	# hero.target = poic.generate_path()
+	crossroads_path_map = poic.generate_path_map(STARTING_POINT)
+	_init_hero_movement(STARTING_POINT, hero)
 	points_established.emit()
-	_generate_path_map(STARTING_POINT)
+
 	
 	
 
@@ -99,79 +115,52 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 
 
 
-func _generate_path():
-	var point_pos := astar_grid.get_point_path(STARTING_POINT, points_of_interest[0])[-2]
-	var point_of_interest = Marker2D.new()
-	point_of_interest.position = point_pos
-	add_child(point_of_interest)
-	hero.target=point_of_interest
-	return point_of_interest
 
-func get_uniqe_tail_array_vector(arr_of_arrs, start_point, arr_tails):
-	if arr_of_arrs.size() <= 1 or arr_of_arrs[0] is Vector2i or arr_of_arrs[0] is Vector2:
-		return arr_tails
-	if arr_tails == {}:
-		arr_tails['arrs']= {}
-		for i in range(arr_of_arrs.size()):
-			arr_tails['arrs'][i] = []
-		arr_tails['arr_pointers'] = {}
-	var rogue_paths = {}
-	var longest_id = 0
-	var longest_size = 0
-	for path in range(arr_of_arrs.size()):
-		if arr_of_arrs[path].size() > longest_size:
-			longest_id = path
-			longest_size = arr_of_arrs[path].size()
-	if start_point >= arr_of_arrs[longest_id].size():
-		return arr_tails
-	var point = start_point+1
-	for other_path in range(arr_of_arrs.size()):
-		if point < arr_of_arrs[other_path].size():
-			var secondary_point = arr_of_arrs[other_path][point] as Vector2i
-			if (rogue_paths.keys().filter(func(vec : Vector2i):	
-					return CustomMath.compare_vectors(vec, secondary_point)) == []):
-				rogue_paths[secondary_point] = [arr_of_arrs[other_path]]
-			else:
-				for i in rogue_paths.keys():
-					if CustomMath.compare_vectors(i, secondary_point):
-						rogue_paths[i].append(arr_of_arrs[other_path])
-	
-	var path_count = {}
-	for path in rogue_paths.keys():
-		path_count[path] = rogue_paths[path].size()
-	# print(path_count)
-	var go_points_arr = {}
-	for key in rogue_paths.keys():
-		go_points_arr[key] = rogue_paths[key]
-	for path_point in path_count.keys():
-			# print("start point", path_point, "path count", path_count[path_point])
-			arr_tails =  get_uniqe_tail_array_vector(rogue_paths[path_point], point, arr_tails)
-	if go_points_arr.size()>1:
-		arr_tails['arr_pointers'][arr_of_arrs[longest_id][point-1]] = go_points_arr
-	rogue_paths = {}
-	return arr_tails
-
-func _generate_path_map(start_point):
-	var path_array = []
-	for point in points_of_interest:
-		path_array.append(astar_grid.get_point_path(start_point, point))
-		# print(astar_grid.get_point_path(start_point, point))
-	var road_dict =get_uniqe_tail_array_vector(path_array, 0, {})
-	var path_keys = road_dict['arr_pointers'].keys()
-	for key in path_keys:
-		if road_dict['arr_pointers'][key].size() <=1:
-			road_dict['arr_pointers'].erase(key)
-	print(road_dict)
-	DebugTools.beautiful_dict_print(road_dict)
+func set_new_point_for_hero(point_coords : Vector2i, input_hero):
+	var new_point = Marker2D.new()
+	# var point_of_interest = Marker2D.new()
+	# point_of_interest.position = point_pos
+	# add_child(point_of_interest)
+	new_point.position = point_coords
+	add_child(new_point)
+	# print(point_coords)
+	input_hero.target = new_point
+	pass
 
 
 
+# TODO Переписать алгоритмы и сделать переводчик словоря в реальныую карту формата:
+#
+# dict:	cross 1 : cross 1.1 : tar 1
+#							: tar 2
+#				: tar 3
+#
+#
+#
 
 
+func on_point_reached(reached_point, emmitent_hero) -> bool:
+	# if !point_for_erase:
+	# 	assert(false, "Point not found in map")
+	var paths_array = []
+	for point in crossroads_path_map.keys():
+		if CustomMath.compare_vectors(point, reached_point):
+			paths_array = crossroads_path_map[point].values()
+			crossroads_path_map.erase(point)
+			break
+	print(crossroads_path_map.keys())
+	if !crossroads_path_map.keys().size()>0:
+		return false
+	set_new_point_for_hero(poic.set_next_point(paths_array[randi()%paths_array.size()], crossroads_path_map.keys()), emmitent_hero)
+	return true
 
 
-
-
+func _init_hero_movement(starting_point: Vector2i, input_hero):
+	var available_crossroads = crossroads_path_map.keys() as Array[Vector2i]
+	if CustomMath.find_in_array(starting_point, available_crossroads):
+		on_point_reached(starting_point, input_hero)
+	else:
+		input_hero.target = crossroads_path_map.keys()[randi()%crossroads_path_map.size()]
 
 
 

@@ -14,6 +14,7 @@ var target_reached := false
 var wp_first := true
 
 signal target_appeared
+signal on_point_reached(point, emmitent)
 
 func _ready():
 	_initialise_pathfinding()
@@ -37,16 +38,16 @@ func _initialise_pathfinding():
 func target_ready():
 	target_appeared.emit()
 
-func _reached(_data, waypoint_index): 
-	if waypoint_index > 0:
-		print("вставить мой метод")
-		pathfinder.makepath()
+func _reached(_data, _waypoint_index): 
+	# if _waypoint_index > 0:
+	# 	print("вставить мой метод")
+	# 	pathfinder.makepath()
 	pass
 
 
 func _on_pathfinding_logic_target_reached():
 	print("Я достиг конца пути!")
-	target_reached = true
+	# target_reached = true
 	# FIXME 
 	#get_tree().quit()
-	pass
+	on_point_reached.emit(Vector2i(target.global_position), self)
