@@ -115,6 +115,13 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 
 
 
+func _generate_path():
+	var point_pos := astar_grid.get_point_path(STARTING_POINT, points_of_interest[0])[-2]
+	var point_of_interest = Marker2D.new()
+	point_of_interest.position = point_pos
+	add_child(point_of_interest)
+	hero.target=point_of_interest
+	return point_of_interest
 
 func set_new_point_for_hero(point_coords : Vector2i, input_hero):
 	var new_point = Marker2D.new()
