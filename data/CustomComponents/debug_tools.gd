@@ -15,15 +15,28 @@ static func check_null(component : Node, component_name, sender:Node, alert: boo
 		if alert:
 			assert(false, message)
 
-static func beautiful_dict_print(dict, depth : int):
-	if not dict is Dictionary:
-		print(dict)
-		return
-	for i in dict.keys():
-		if depth >0:
-			print('{')
-			beautiful_dict_print(dict[i], depth-1)
-			print('}')
-		else:
-			print(dict)
-	pass
+static func beautiful_dict_print(dict):
+	var int_level = 0
+	var tab ='    '
+	var text = ''
+	dict = str(dict)
+	for c in dict:
+		match c:
+			'{':
+				print('\n',tab.repeat(int_level),c)
+				int_level+=1
+			'}':
+				int_level-=1
+				print(text)
+				text = ''
+				print('\n',tab.repeat(int_level),c)
+			']':
+				text += c
+				print(text)
+				text = ''
+			':':
+				text += c
+				print(text)
+				text = ''
+			_:
+				text += c
