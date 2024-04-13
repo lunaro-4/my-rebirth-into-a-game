@@ -7,7 +7,19 @@ static func compare_vectors(first : Vector2i, second : Vector2i) -> bool:
 	else:
 		return false
 
-static func find_in_array(vec: Vector2i, arr :Array[Vector2i]) -> bool:
+static func find_in_array(vec: Vector2, arr :Array) -> Vector2:
+	for i in arr:
+		if compare_vectors(i,vec):
+			return i
+	return Vector2()
+
+static func find_in_array_i(vec: Vector2i, arr :Array[Vector2i]) -> Vector2i:
+	for i in arr:
+		if compare_vectors(i,vec):
+			return i
+	return Vector2i()
+
+static func is_vector_in_array(vec: Vector2, arr :Array) -> bool:
 	for i in arr:
 		if compare_vectors(i,vec):
 			return true

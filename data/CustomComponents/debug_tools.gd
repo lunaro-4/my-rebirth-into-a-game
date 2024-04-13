@@ -30,10 +30,18 @@ static func beautiful_dict_print(dict):
 				print(text)
 				text = ''
 				print('\n',tab.repeat(int_level),c)
+			'[':
+				print('\n',tab.repeat(int_level),c)
+				int_level+=1
 			']':
-				text += c
+				int_level-=1
 				print(text)
 				text = ''
+				print('\n',tab.repeat(int_level),c)
+			# ']':
+			# 	text += c
+			# 	print(text)
+			# 	text = ''
 			':':
 				text += c
 				print(text)
