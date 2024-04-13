@@ -16,56 +16,58 @@ func generate_path():
 	add_child(point_of_interest)
 	return point_of_interest
 
-func _get_uniqe_tail_array_vector(arr_of_arrs, start_point, arr_tails):
-	if arr_of_arrs.size() <= 1 or arr_of_arrs[0] is Vector2i or arr_of_arrs[0] is Vector2:
-		return arr_tails
+func _get_uniqe_tail_array_vector(arr_of_arrs, start_point):
+	var base_point = arr_of_arrs.keys()[0]
+	var array_to_inspect = []
+	array_to_inspect = arr_of_arrs[base_point]
+	if arr_of_arrs[base_point].size() <= 1 or arr_of_arrs[base_point][0] is Vector2i or arr_of_arrs[base_point][0] is Vector2:
+		
+		var go_path_array = array_to_inspect[0][-1]
+		return go_path_array
 	var rogue_paths = {}
 	var longest_id = 0
 	var longest_size = 0
-	for path in range(arr_of_arrs.size()):
-		if arr_of_arrs[path].size() > longest_size:
+	for path in range(array_to_inspect.size()):
+		if array_to_inspect[path].size() > longest_size:
 			longest_id = path
-			longest_size = arr_of_arrs[path].size()
-	if start_point >= arr_of_arrs[longest_id].size():
-		return arr_tails
+			longest_size = array_to_inspect[path].size()
 	var point = start_point+1
-	for other_path in range(arr_of_arrs.size()):
-		if point < arr_of_arrs[other_path].size():
-			var secondary_point = arr_of_arrs[other_path][point] as Vector2i
-			if (rogue_paths.keys().filter(func(vec : Vector2i):	
+	for other_path in range(array_to_inspect.size()):
+		if point < array_to_inspect[other_path].size():
+			var secondary_point = array_to_inspect[other_path][point] as Vector2
+			if (rogue_paths.keys().filter(func(vec : Vector2):	
 					return CustomMath.compare_vectors(vec, secondary_point)) == []):
-				rogue_paths[secondary_point] = [arr_of_arrs[other_path]]
+				rogue_paths[secondary_point] = [array_to_inspect[other_path]]
 			else:
 				for i in rogue_paths.keys():
 					if CustomMath.compare_vectors(i, secondary_point):
-						rogue_paths[i].append(arr_of_arrs[other_path])
+						rogue_paths[i].append(array_to_inspect[other_path])
 	
 	var path_count = {}
 	for path in rogue_paths.keys():
 		path_count[path] = rogue_paths[path].size()
-	# print(path_count)
+	var prev_point = array_to_inspect[longest_id][point-1]
 	var go_points_arr = {}
-	for key in rogue_paths.keys():
-		go_points_arr[key] = rogue_paths[key]
-	for path_point in path_count.keys():
-			# print("start point", path_point, "path count", path_count[path_point])
-			arr_tails =  _get_uniqe_tail_array_vector(rogue_paths[path_point], point, arr_tails)
-	if go_points_arr.size()>1:
-		arr_tails[arr_of_arrs[longest_id][point-1]] = go_points_arr
+	if rogue_paths.size() >1:
+		go_points_arr = {prev_point: []}
+		for path in rogue_paths.keys():
+			go_points_arr[prev_point].append(_get_uniqe_tail_array_vector({prev_point: rogue_paths.get(path)}, point))
+	else:
+		if path_count.values().max() >1:
+			go_points_arr = _get_uniqe_tail_array_vector({base_point: rogue_paths[rogue_paths.keys()[0]]}, point)
 	rogue_paths = {}
-	return arr_tails
+	return go_points_arr
 
 func generate_path_map(start_point):
-	var path_array = []
+	var path_array = {start_point: []}
 	for point in points_of_interest:
-		path_array.append(astar_grid.get_point_path(start_point, point))
-		# print(astar_grid.get_point_path(start_point, point))
-	var road_dict =_get_uniqe_tail_array_vector(path_array, 0, {})
-	var path_keys = road_dict.keys()
-	for key in path_keys:
-		if road_dict[key].size() <=1:
-			road_dict.erase(key)
-	# DebugTools.beautiful_dict_print(road_dict)
+		path_array[start_point].append(astar_grid.get_point_path(start_point, point))
+		print("---------")
+		for place in astar_grid.get_point_path(start_point, point):
+			print("Vector2",place,",")
+	var road_dict =_get_uniqe_tail_array_vector(path_array, 0)
+	print("#############################")
+	# print(road_dict)
 	return road_dict
 
 func _find_next_point(paths, crossroad_points) -> Vector2i:

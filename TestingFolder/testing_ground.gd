@@ -45,8 +45,9 @@ func _ready():
 	poic.astar_grid = astar_grid
 	# hero.target = poic.generate_path()
 	crossroads_path_map = poic.generate_path_map(STARTING_POINT)
-	_init_hero_movement(STARTING_POINT, hero)
-	points_established.emit()
+	# print(crossroads_path_map)
+	# _init_hero_movement(STARTING_POINT, hero)
+	# points_established.emit()
 
 	
 	
@@ -102,7 +103,7 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 	var valid_counter = 0 # Считаем валидные пути, чтобы отметить тупик
 	for cell in cell_neighbors:
 		if !_check_wall(cell):
-			if !CustomMath.find_in_array(cell,visited) :
+			if !CustomMath.is_vector_in_array(cell,visited) :
 				valid_counter +=1
 				_backtrack_recursive(cell, visited)
 	if valid_counter == 0:
@@ -164,7 +165,7 @@ func on_point_reached(reached_point, emmitent_hero) -> bool:
 
 func _init_hero_movement(starting_point: Vector2i, input_hero):
 	var available_crossroads = crossroads_path_map.keys() as Array[Vector2i]
-	if CustomMath.find_in_array(starting_point, available_crossroads):
+	if CustomMath.is_vector_in_array(starting_point, available_crossroads):
 		on_point_reached(starting_point, input_hero)
 	else:
 		input_hero.target = crossroads_path_map.keys()[randi()%crossroads_path_map.size()]

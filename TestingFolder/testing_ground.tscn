@@ -998,4 +998,3 @@ format = 2
 
 [node name="PointsOfInterestComponent" type="Node2D" parent="."]
 script = ExtResource("7_8j77i")
-STARTING_POINT = null
