@@ -2,21 +2,14 @@ class_name PointsOfInterestComponent extends Node2D
 
 
 
-@export var STARTING_POINT : Vector2i
+# @export var STARTING_POINT : Vector2i
 
 var astar_grid : AStarGrid2D
 
-var points_of_interest : Array[Vector2i] 
 signal map_ready 
 
-func generate_path():
-	var point_pos := astar_grid.get_point_path(STARTING_POINT, points_of_interest[0])[-2]
-	var point_of_interest = Marker2D.new()
-	point_of_interest.position = point_pos
-	add_child(point_of_interest)
-	return point_of_interest
 
-func _generate_rogue_path(point: int,array_to_inspect) -> Array:
+func _generate_rogue_path(point: int,array_to_inspect) -> Dictionary:
 	var rogue_paths = {}
 	for other_path in range(array_to_inspect.size()):
 		if point < array_to_inspect[other_path].size():
@@ -65,31 +58,12 @@ func _get_uniqe_tail_array_vector(arr_of_arrs, start_point):
 	rogue_paths = {}
 	return go_points_arr
 
-func generate_path_map(start_point):
+func generate_path_map(start_point, points_of_interest):
 	var path_array = {start_point: []}
 	for point in points_of_interest:
 		path_array[start_point].append(astar_grid.get_point_path(start_point, point))
-		# print("---------")
-		# for place in astar_grid.get_point_path(start_point, point):
-		# 	print("Vector2",place,",")
 	var road_dict =_get_uniqe_tail_array_vector(path_array, 0)
-	# print("#############################")
-	# print(road_dict)
 	return road_dict
-
-func _find_next_point(paths, crossroad_points) -> Vector2i:
-	if !paths[0] is Vector2i:
-		paths = paths[0]	
-	for point in paths:
-		for crossroad in  crossroad_points:
-			if CustomMath.compare_vectors(crossroad, point):
-				return crossroad as Vector2i
-	return paths[-1]
-
-
-func set_next_point(paths_array, left_crossroad_points) -> Vector2i:
-	return _find_next_point(paths_array, left_crossroad_points)
-
 
 
 
