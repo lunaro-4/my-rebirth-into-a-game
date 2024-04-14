@@ -149,6 +149,7 @@ func set_path_vector(waypoint_index: int):
 
 
 func map_ready(_data):
+	await get_tree().create_timer(0.1).timeout
 	map_ready_sig.emit()
 
 

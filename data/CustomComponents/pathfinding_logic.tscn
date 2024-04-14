@@ -9,6 +9,7 @@ script = ExtResource("1_ofl0d")
 wait_time = 0.1
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 31.45
 path_postprocessing = 1
 debug_enabled = true
 

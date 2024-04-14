@@ -20,15 +20,12 @@ const STARTING_POINT = Vector2i(0,0)
 
 var crossroads_path_map : Dictionary
 
-"""
-path_map:
-			crossroad (Vector2i) :	path_point1(Vector2i) :	path 1.1 (Array[Vector2i]) 
-															path 1.2 (Array[Vector2i]) 	
-								:	path_point2(Vector2i) :	path 2.1 (Array[Vector2i]) 
-															path 2.2 (Array[Vector2i]) 	
-"""
 
 signal points_established
+
+signal target_update
+
+
 
 func _ready():
 	pathfinding_array =  $PointsOfInterest.get_children().filter(func(node): return node is PathfinderLogic )
@@ -41,12 +38,15 @@ func _ready():
 	_init_grid()
 	_update_grid_from_tilemap()
 	_backtrack_recursive(STARTING_POINT, [])
-	poic.points_of_interest = points_of_interest
 	poic.astar_grid = astar_grid
-	# hero.target = poic.generate_path()
-	crossroads_path_map = poic.generate_path_map(STARTING_POINT)
-	# print(crossroads_path_map)
-	# _init_hero_movement(STARTING_POINT, hero)
+	crossroads_path_map = poic.generate_path_map(STARTING_POINT, points_of_interest)
+	hero.path_map = crossroads_path_map
+	##--##--## ДЕБАГ
+	hero.debug_mode = true
+	hero.debug_path  = [0,0] as  Array[int]
+	##--##--##
+	hero._init_hero_movement(STARTING_POINT)
+
 	# points_established.emit()
 
 	
@@ -116,59 +116,21 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 
 
 
-func _generate_path():
-	var point_pos := astar_grid.get_point_path(STARTING_POINT, points_of_interest[0])[-2]
-	var point_of_interest = Marker2D.new()
-	point_of_interest.position = point_pos
-	add_child(point_of_interest)
-	hero.target=point_of_interest
-	return point_of_interest
 
 func set_new_point_for_hero(point_coords : Vector2i, input_hero):
 	var new_point = Marker2D.new()
-	# var point_of_interest = Marker2D.new()
-	# point_of_interest.position = point_pos
-	# add_child(point_of_interest)
 	new_point.position = point_coords
 	add_child(new_point)
-	# print(point_coords)
 	input_hero.target = new_point
 	pass
 
 
 
-# TODO Переписать алгоритмы и сделать переводчик словоря в реальныую карту формата:
-#
-# dict:	cross 1 : cross 1.1 : tar 1
-#							: tar 2
-#				: tar 3
-#
-#
-#
 
-
-func on_point_reached(reached_point, emmitent_hero) -> bool:
-	# if !point_for_erase:
-	# 	assert(false, "Point not found in map")
-	var paths_array = []
-	for point in crossroads_path_map.keys():
-		if CustomMath.compare_vectors(point, reached_point):
-			paths_array = crossroads_path_map[point].values()
-			crossroads_path_map.erase(point)
-			break
-	print(crossroads_path_map.keys())
-	if !crossroads_path_map.keys().size()>0:
-		return false
-	set_new_point_for_hero(poic.set_next_point(paths_array[randi()%paths_array.size()], crossroads_path_map.keys()), emmitent_hero)
+func on_point_reached() -> bool:
 	return true
 
 
-func _init_hero_movement(starting_point: Vector2i, input_hero):
-	var available_crossroads = crossroads_path_map.keys() as Array[Vector2i]
-	if CustomMath.is_vector_in_array(starting_point, available_crossroads):
-		on_point_reached(starting_point, input_hero)
-	else:
-		input_hero.target = crossroads_path_map.keys()[randi()%crossroads_path_map.size()]
 
 
 
