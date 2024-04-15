@@ -16,7 +16,7 @@ static func check_null(component : Node, component_name, sender:Node, alert: boo
 			assert(false, message)
 
 static func check_null_value(value, value_name, sender:Node, alert: bool = false):
-	if value == TYPE_NIL:
+	if type_string(typeof(value)) == "Nil":
 		var message =str(value_name,  " is not set at ", sender, ", ",sender.get_parent(),", ",sender.get_parent().get_parent(), " !")
 		print(message)
 		if alert:
