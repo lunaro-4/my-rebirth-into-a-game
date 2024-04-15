@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://cn72ke0k838lf"]
 
 [ext_resource type="Script" path="res://data/heroes/base_hero.gd" id="1_2ek3k"]
-[ext_resource type="PackedScene" uid="uid://bselw8ieny17t" path="res://data/CustomComponents/pathfinding_logic.tscn" id="2_raqm0"]
+[ext_resource type="PackedScene" uid="uid://bselw8ieny17t" path="res://data/CustomComponents/pathfinding_logic.tscn" id="2_irmgw"]
 
 [node name="BaseHero" type="CharacterBody2D"]
 script = ExtResource("1_2ek3k")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 
-[node name="PathfindingLogic" parent="." instance=ExtResource("2_raqm0")]
+[node name="PathfindingLogic" parent="." instance=ExtResource("2_irmgw")]

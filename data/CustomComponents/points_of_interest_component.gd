@@ -58,11 +58,14 @@ func _get_uniqe_tail_array_vector(arr_of_arrs, start_point):
 	rogue_paths = {}
 	return go_points_arr
 
-func generate_path_map(start_point, points_of_interest):
+func generate_path_map(start_point, points_of_interest) -> Dictionary:
+	# print(points_of_interest)
 	var path_array = {start_point: []}
 	for point in points_of_interest:
 		path_array[start_point].append(astar_grid.get_point_path(start_point, point))
 	var road_dict =_get_uniqe_tail_array_vector(path_array, 0)
+	if not road_dict is Dictionary:
+		road_dict = {road_dict:road_dict}
 	return road_dict
 
 

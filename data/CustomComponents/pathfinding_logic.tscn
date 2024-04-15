@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" path="res://data/CustomComponents/pathfinding_logic.gd" id="1_ofl0d"]
 
-[node name="PathfindingLogic" type="Node2D"]
+[node name="PathfindingLogicTooSmart" type="Node2D"]
 script = ExtResource("1_ofl0d")
 
 [node name="UpdatePathTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.09
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 31.45
+path_desired_distance = 16.57
 path_postprocessing = 1
 debug_enabled = true
 

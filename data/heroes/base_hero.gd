@@ -2,7 +2,7 @@ class_name BaseHero extends CharacterBody2D
 
 
 
-#@onready var pathfinder = $PathfindingLogic as PathfinderLogic
+# @onready var pathfinder = $PathfindingLogic as PathfinderLogic
 
 #@onready var direction = pathfinder.target_path_vector
 
