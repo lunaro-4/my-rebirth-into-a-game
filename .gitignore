@@ -3,6 +3,5 @@
 addons/timer/
 addons/timer/time.txt
 addons/timer/time.txt
-work_start.sh
 nvim.sh
 ptt.json

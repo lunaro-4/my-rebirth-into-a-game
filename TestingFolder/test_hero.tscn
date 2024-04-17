@@ -17,8 +17,6 @@ animations = [{
 
 [node name="TestHero" instance=ExtResource("1_2hp83")]
 script = ExtResource("2_3fu0v")
-speed = 100
-path_map = {}
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_raauo")
