@@ -3,10 +3,12 @@ extends Node2D
 
 #@onready var pathfinding = $PointsOfInterest/PathfindingLogic as PathfinderLogic
 
+var hero_scene = preload("res://data/heroes/test_hero.tscn")
+
 @onready var ground = $Ground as TileMap
 @onready var walls = $NavigationRegion2D/Walls as TileMap
 @onready var mark = $mark as TileMap
-@onready var hero = $TestHero as TestHero
+# @onready var hero = $TestHero as TestHero
 @onready var poic = $PointsOfInterestComponent as PointsOfInterestComponent
 
 
@@ -15,6 +17,7 @@ var astar_grid : AStarGrid2D
 var pathfinding_array : Array[Node]
 
 var points_of_interest_astar_coord: Array[Vector2i] = []
+var points_of_interest_global = []
 
 const STARTING_POINT = Vector2i(0,0)
 
@@ -28,35 +31,17 @@ signal target_update
 
 
 func _ready():
-	# pathfinding_array =  $PointsOfInterest.get_children().filter(func(node): return node is PathfinderLogic )
-	# for node in pathfinding_array:
-	# 	pass
-		#node.pathfinding_init()
-	
-	hero.on_point_reached.connect(on_point_reached)
-	
+
 	_init_grid()
 	_update_grid_from_tilemap()
 	_backtrack_recursive(STARTING_POINT, [])
+
 	poic.astar_grid = astar_grid
-	hero.known_points_of_interest_astar = points_of_interest_astar_coord.duplicate()
-	var points_of_interest_global = []
 	for point in points_of_interest_astar_coord:
 		points_of_interest_global.append(astar_grid.get_point_position(point))
-	hero.known_points_of_interest_global = points_of_interest_global.duplicate()
-	hero.poic = poic
-	crossroads_path_map = poic.generate_path_map(Vector2i(), points_of_interest_astar_coord)
-	# crossroads_path_map = poic.generate_path_map(STARTING_POINT, points_of_interest_astar_coord)
-	hero.path_map = crossroads_path_map
-	##--##--## ДЕБАГ
-	# hero.debug_mode = true
-	# hero.debug_path  = [0,0] as  Array[int]
-	# hero.debug_path  = [0] as  Array[int]
-	##--##--##
 
 	points_established.emit()
 	# hero.generate_path_map()
-	hero._init_hero_movement()
 
 	
 	
@@ -126,6 +111,13 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 
 
 
+
+###########################
+# Базовая обработка героя
+###########################
+
+
+
 func set_new_point_for_hero(point_coords : Vector2i, input_hero):
 	var new_point = Marker2D.new()
 	new_point.position = point_coords
@@ -143,6 +135,22 @@ func on_point_reached() -> bool:
 
 
 
+func spawn_hero(spawn_point_astar, debug_array = KEY_NONE ):
+	var hero = hero_scene.instantiate()
+	if debug_array != KEY_NONE:
+		hero.debug_mode = true
+		hero.debug_array = debug_array
+	hero.starting_point_astar = spawn_point_astar
+	hero.scale = Vector2(0.3,0.3)
+	hero.global_position = astar_grid.get_point_position(spawn_point_astar)	
+	hero.on_point_reached.connect(on_point_reached)
+	hero.known_points_of_interest_astar = points_of_interest_astar_coord.duplicate()
+	hero.known_points_of_interest_global = points_of_interest_global.duplicate()
+	hero.poic = poic
+	crossroads_path_map = poic.generate_path_map(hero.starting_point_astar, points_of_interest_astar_coord)
+	hero.path_map = crossroads_path_map
+	add_child(hero)
+	hero._init_hero_movement()
 
 
 

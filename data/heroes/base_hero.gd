@@ -91,6 +91,9 @@ var current_path_map
 func point_choose_logic(path_variants):
 	# printerr("У героя должен быть метод point_choose_logic, определяющий логику нахождения следующей точки")
 	# printerr("Использую метод рандомного поиска")
+	# 
+	# func point_choose_logic(path_variants):
+	#	return super(path_variants)	
 	return path_variants[randi()%path_variants.size()]
 
 
@@ -113,8 +116,7 @@ func get_next_point():
 		chosen_path = point_choose_logic(path_variants)
 	# Здесь задается следующая точка маршрута, исходя из выбранного пути
 	var chosen_point = KEY_NONE
-	print(type_string(typeof(chosen_path)))
-	print(chosen_path)
+	# print(type_string(typeof(chosen_path)))
 	if chosen_path is Dictionary:
 		chosen_point = chosen_path.keys()[0]
 	else:

@@ -47,7 +47,11 @@
 		{
 			"uuid": "bf51c205-b9d6-4c23-b785-9542daf6edb6",
 			"title": "Подзадачи",
-			"tasks": []
+			"tasks": [
+				"c0123ad2-9f38-49d8-94b5-ab0aa8ed2ffd",
+				"2a55351c-5bf9-482d-9c2c-e49736d07945",
+				"cb13462a-d275-41ae-87d9-a06382ac3a93"
+			]
 		},
 		{
 			"uuid": "c3132273-9a71-4681-8bbe-aed0347913aa",
@@ -126,6 +130,65 @@
 				},
 				{
 					"details": "Звуковые эффекты",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "eb7da53b-9916-4eda-9969-48552243744b",
+			"title": "",
+			"description": "",
+			"category": "678adcdb-a8e4-4d69-bc60-96eba69fe4f3",
+			"steps": []
+		},
+		{
+			"uuid": "c0123ad2-9f38-49d8-94b5-ab0aa8ed2ffd",
+			"title": "Система крафта",
+			"description": "",
+			"category": "3a73fde9-d32c-4db0-8018-cdd249cfc86a",
+			"steps": [
+				{
+					"details": "Интерфейс крафта",
+					"done": false
+				},
+				{
+					"details": "Рецепты",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "2a55351c-5bf9-482d-9c2c-e49736d07945",
+			"title": "Система лута",
+			"description": "",
+			"category": "3a73fde9-d32c-4db0-8018-cdd249cfc86a",
+			"steps": [
+				{
+					"details": "Души",
+					"done": false
+				},
+				{
+					"details": "Скейлы душ",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "cb13462a-d275-41ae-87d9-a06382ac3a93",
+			"title": "Герои",
+			"description": "",
+			"category": "3a73fde9-d32c-4db0-8018-cdd249cfc86a",
+			"steps": [
+				{
+					"details": "Классы",
+					"done": false
+				},
+				{
+					"details": "Подклассы",
+					"done": false
+				},
+				{
+					"details": "Таблицы дропа",
 					"done": false
 				}
 			]

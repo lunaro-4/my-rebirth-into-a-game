@@ -5,10 +5,11 @@ extends GutTest
 
 @onready var poic : PointsOfInterestComponent
 
-func before_each():
-	poic = PointsOfInterestComponent.new()
-func after_each():
-	poic.free()
+var test_level = preload('res://TestingFolder/Tests/testing_ground.tscn') as PackedScene
+# var test_hero = preload('res://data/heroes/test_hero.tscn')
+
+# func before_each():
+# func after_each():
 
 const STARTING_POINT = Vector2i(0,0)
 
@@ -33,5 +34,18 @@ Vector2(-16, 192), Vector2(0, 208), Vector2(0, 224)]
 ]
 
 func test_generate_path_map():
+	poic = PointsOfInterestComponent.new()
 	var test_map = poic._get_uniqe_tail_array_vector({STARTING_POINT: arr_of_arrs}, 0)
 	assert_eq(str(test_map), "{ (0, 0): [{ (144, 32): [(368, 240), (224, 224)] }, (0, 224)] }")
+	poic.free()
+
+
+
+func test_on_level():
+	# var level = autofree(test_level.instance())
+	pass_test("pass")
+	pass
+
+
+
+
