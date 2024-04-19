@@ -54,6 +54,7 @@ var target_path_vector : Vector2
 var waypoint_array
 var check_map_ready = false
 var active := false
+var chase_state := false
 
 ## Сигнал, выдаваемый при достижении точки в поиске пути
 signal waypoint_reached(data, waypoint_index)
@@ -102,8 +103,18 @@ func _physics_process(_delta):
 func _on_path_update_timeout():
 	map_ready_sig.emit()
 	# set_path_vector(nav_agent.get_current_navigation_path_index())
+	if chase_state:
+		makepath()
 	pass
 
+func start_chase(chase_target):
+	chase_state = true	
+	target = chase_target	
+
+
+func end_chase(other_target):
+	chase_state = false	
+	target = other_target	
 
 ## на случай если нужно прекратить поиск пути
 func stop_pathfinding():

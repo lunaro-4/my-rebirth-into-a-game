@@ -1,4 +1,4 @@
-@icon("res://CustomComponents/CustomComponentIcons/animation.png")
+@icon("./CustomComponentIcons/animation.png")
 class_name AnimationComponent extends Node
 
 @export var main_sprite : AnimatedSprite2D

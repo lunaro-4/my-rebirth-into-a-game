@@ -1,4 +1,4 @@
-@icon("res://CustomComponents/CustomComponentIcons/bell.png")
+@icon("./CustomComponentIcons/bell.png")
 class_name HurtBoxComponent extends Area2D
 
 
@@ -6,10 +6,14 @@ class_name HurtBoxComponent extends Area2D
 
 @export var knockback_component : KnockBackComponent
 
+@export var debug_mode : bool
+
 @onready var got_hit_by_list : Array
 
 ## 
 func hurt(damage: float):
+	if debug_mode:
+		printt(get_parent(),"got hit for", damage)
 	health_component.decrease(damage)
 
 func knockback(value : float, area: Node2D):

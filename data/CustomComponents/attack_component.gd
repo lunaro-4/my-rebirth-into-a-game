@@ -1,4 +1,4 @@
-@icon("res://CustomComponents/CustomComponentIcons/sword_b.png")
+@icon("./CustomComponentIcons/sword_b.png")
 class_name AttackComponent extends Area2D
 
 ## how much damage will HurtBox rescive
