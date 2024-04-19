@@ -1,6 +1,6 @@
 [gd_resource type="VisualShader" load_steps=12 format=3 uid="uid://dq7dtw2tlj0ie"]
 
-[ext_resource type="Texture2D" uid="uid://djn6tt7cb5epb" path="res://assets/Inventory Assets/InventoryBackGroundFon.png" id="1_4gmvr"]
+[ext_resource type="Texture2D" uid="uid://djn6tt7cb5epb" path="res://assets/inventory_assets/InventoryBackGroundFon.png" id="1_4gmvr"]
 
 [sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_mdgy1"]
 default_input_values = [0, Quaternion(0, 0, 0, 0)]
