@@ -57,34 +57,71 @@ func _on_attack_1_component_attack_finished():
 # 	$StateChart.set_event("enemy_detected")
 # 	pass # Replace with function body.
 
+
+
+
 var detected_enemy = null
 
+func _connect_enemy_death(if_connect:bool, con_func: Callable):
+	if detected_enemy.minion_dead.is_connected(con_func):
+		if !if_connect:
+			detected_enemy.minion_dead.disconnect(con_func)
+	else:
+		if if_connect:
+			detected_enemy.minion_dead.connect(con_func)
+
 func _on_enemy_detected(body):
-	# print(_body)
-	if body is CharacterBody2D and body != self:
+	if body is BaseMinion and body != self:
 		detected_enemy = body
+		_connect_enemy_death(true,_on_enemy_forgotten)
 		$StateChart.send_event("enemy_detected")
 	pass # Replace with function body.
 
 
 func _on_enemy_undetected(body):
 	# print(_body)
-	if body is CharacterBody2D and body != self:
-		detected_enemy = null
+	if body is BaseMinion and body != self:
+		_connect_enemy_death(false,_on_enemy_forgotten)
 		$StateChart.send_event("enemy_undetected")
-	pass # Replace with function body.
+		await get_tree().create_timer(0.01).timeout
+		if !is_instance_valid(body):
+			redetect_enemies()
 
 func _on_attack_state_physics_processing(_delta):
-	if detected_enemy != null:
+	# if detected_enemy != null:
 		pathfinder.target = detected_enemy
 		pathfinder.makepath()
-	pass # Replace with function body.
+	# else:
+	# 	redetect_enemies()
+
+func redetect_enemies():
+	var detected_enemies= check_bodies_presence()
+	if detected_enemies.size() > 0:
+		_on_enemy_detected(detected_enemies[0])
+	else:
+		_on_enemy_forgotten()
+
+func _on_enemy_forgotten():
+	if is_instance_valid(detected_enemy):
+		_connect_enemy_death(false,_on_enemy_forgotten)
+	$StateChart.send_event("enemy_forget")
 
 func _on_attack_state_exited():
+	if !is_instance_valid(detected_enemy) or !check_bodies_presence().has(detected_enemy):
 		detected_enemy = null
 		update_target()
+	else:
+		await get_tree().create_timer(0.01).timeout
+		$StateChart.send_event("enemy_detected")
+
+func check_bodies_presence() -> Array:
+	return $EnemyDetectionArea.get_overlapping_bodies().filter(func(body):
+		return (body!=self and body is CharacterBody2D))
+
 
 func _on_explore_state_entered():
+	detected_enemy = null
+	redetect_enemies()
 	state_explore = true
 
 func _on_explore_state_exited():

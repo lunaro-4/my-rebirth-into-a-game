@@ -83,3 +83,5 @@ main_sprite = NodePath("../AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="6"]
 shape = SubResource("CircleShape2D_fqyko")
+
+[connection signal="on_death" from="HealthComponent" to="." method="_on_death"]

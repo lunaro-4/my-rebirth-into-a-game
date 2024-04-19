@@ -1,6 +1,7 @@
-class_name BaseEnemy extends CharacterBody2D
+class_name BaseMinion extends CharacterBody2D
 
 
+signal minion_dead
 
 func _ready():
 	pass

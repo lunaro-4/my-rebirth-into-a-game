@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://jsguafbwww4q"]
+[gd_scene load_steps=7 format=3 uid="uid://85p67a66gv7x"]
 
-[ext_resource type="FontFile" uid="uid://bec8b5vxhpurx" path="res://assets/Inventory Assets/TLHeader-Regular-RUS.otf" id="1_8spl2"]
+[ext_resource type="FontFile" uid="uid://bec8b5vxhpurx" path="res://assets/inventory_assets/TLHeader-Regular-RUS.otf" id="1_8spl2"]
 [ext_resource type="Script" path="res://TestingFolder/Inventory_test_system.gd" id="1_k1jkr"]
-[ext_resource type="PackedScene" uid="uid://b6hgiqbpslicr" path="res://TestingFolder/Slot.tscn" id="2_0e251"]
-[ext_resource type="Texture2D" uid="uid://bfp0qn55potv1" path="res://assets/Inventory Assets/But2.png" id="3_xqkf3"]
-[ext_resource type="Texture2D" uid="uid://dc1b7htdj0ddd" path="res://assets/Inventory Assets/ButPressed.png" id="4_lii7s"]
-[ext_resource type="Texture2D" uid="uid://de03pmybxbvaf" path="res://assets/Inventory Assets/ButMouseEnter.png" id="5_7v0uf"]
+[ext_resource type="PackedScene" path="res://TestingFolder/Slot.tscn" id="2_0e251"]
+[ext_resource type="Texture2D" uid="uid://bfp0qn55potv1" path="res://assets/inventory_assets/But2.png" id="3_xqkf3"]
+[ext_resource type="Texture2D" uid="uid://dc1b7htdj0ddd" path="res://assets/inventory_assets/ButPressed.png" id="4_lii7s"]
+[ext_resource type="Texture2D" uid="uid://de03pmybxbvaf" path="res://assets/inventory_assets/ButMouseEnter.png" id="5_7v0uf"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

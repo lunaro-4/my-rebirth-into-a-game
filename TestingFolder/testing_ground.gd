@@ -3,7 +3,7 @@ extends Node2D
 
 #@onready var pathfinding = $PointsOfInterest/PathfindingLogic as PathfinderLogic
 
-var hero_scene = preload("res://data/heroes/test_hero.tscn")
+var hero_scene = preload("res://data/heroes/test_hero/test_hero.tscn")
 
 @onready var ground = $Ground as TileMap
 @onready var walls = $NavigationRegion2D/Walls as TileMap
@@ -43,7 +43,7 @@ func _ready():
 	points_established.emit()
 	# hero.generate_path_map()
 
-	var hero = spawn_hero(Vector2i(1,1), [0,0] as Array[int])
+	var hero = spawn_hero(Vector2i(1,1), [1] as Array[int])
 	$StateChartDebugger.debug_node(hero.get_node("StateChart"))
 
 	

@@ -1,5 +1,4 @@
-extends CharacterBody2D
-
+class_name Slime extends BaseMinion
 
 @onready var attack_1_component = $Attack1Component as AttackComponent
 
@@ -14,3 +13,7 @@ func _process(_delta):
 
 func _on_attack_1_component_attack_finished():
 	attack_1_component.attack()
+
+func _on_death():
+	minion_dead.emit()
+	queue_free()
