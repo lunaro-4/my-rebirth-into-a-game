@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dc1b7htdj0ddd"
-path="res://.godot/imported/ButPressed.png-082139a7cda0abba387508827fa23318.ctex"
+uid="uid://de03pmybxbvaf"
+path="res://.godot/imported/ButMouseEnter.png-8bf6177114a883c094d4440d42f69e43.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Inventory Assets/ButPressed.png"
-dest_files=["res://.godot/imported/ButPressed.png-082139a7cda0abba387508827fa23318.ctex"]
+source_file="res://assets/inventory_assets/ButMouseEnter.png"
+dest_files=["res://.godot/imported/ButMouseEnter.png-8bf6177114a883c094d4440d42f69e43.ctex"]
 
 [params]
 

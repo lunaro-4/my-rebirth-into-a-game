@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bec8b5vxhpurx"
-path="res://.godot/imported/TLHeader-Regular-RUS.otf-c69feb9419daaa0c342895d812c30423.fontdata"
+path="res://.godot/imported/TLHeader-Regular-RUS.otf-4be3af281215022ff7d59eff8b23b011.fontdata"
 
 [deps]
 
-source_file="res://assets/Inventory Assets/TLHeader-Regular-RUS.otf"
-dest_files=["res://.godot/imported/TLHeader-Regular-RUS.otf-c69feb9419daaa0c342895d812c30423.fontdata"]
+source_file="res://assets/inventory_assets/TLHeader-Regular-RUS.otf"
+dest_files=["res://.godot/imported/TLHeader-Regular-RUS.otf-4be3af281215022ff7d59eff8b23b011.fontdata"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjpgg7wlict3m"
-path="res://.godot/imported/InventoryBackGround.png-e1f65de48d50a7574304a6be5ce62287.ctex"
+uid="uid://djn6tt7cb5epb"
+path="res://.godot/imported/InventoryBackGroundFon.png-1789b059223424ffd9efdf7d9dd8b419.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Inventory Assets/InventoryBackGround.png"
-dest_files=["res://.godot/imported/InventoryBackGround.png-e1f65de48d50a7574304a6be5ce62287.ctex"]
+source_file="res://assets/inventory_assets/InventoryBackGroundFon.png"
+dest_files=["res://.godot/imported/InventoryBackGroundFon.png-1789b059223424ffd9efdf7d9dd8b419.ctex"]
 
 [params]
 
