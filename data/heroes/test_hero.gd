@@ -1,6 +1,12 @@
 class_name TestHero extends BaseHero
 
 
+@onready var attack_1_component = $Attack1Component as AttackComponent
+
+func _ready():
+	super()
+	attack_1_component.attack()
+
 
 func point_choose_logic(path_variants):
 	return super(path_variants)
@@ -33,5 +39,11 @@ func _target_reached():
 	# FIXME 
 	#get_tree().quit()
 
+
+
+
+
+func _on_attack_1_component_attack_finished():
+	attack_1_component.attack()
 
 

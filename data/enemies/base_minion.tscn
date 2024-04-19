@@ -4,17 +4,18 @@
 [ext_resource type="PackedScene" uid="uid://laivrmt2olyg" path="res://data/CustomComponents/attack_component.tscn" id="2_j6hxu"]
 [ext_resource type="PackedScene" uid="uid://cj6bda8y1k831" path="res://data/CustomComponents/health_component.tscn" id="3_80uno"]
 [ext_resource type="PackedScene" uid="uid://cuad5o64p42de" path="res://data/CustomComponents/hurt_box_component.tscn" id="4_mfayq"]
-[ext_resource type="PackedScene" uid="uid://bselw8ieny17t" path="res://data/CustomComponents/pathfinding_logic_too_smart.tscn" id="5_3jd7f"]
+[ext_resource type="PackedScene" uid="uid://bselw8ieny17t" path="res://data/CustomComponents/pathfinding_logic.tscn" id="5_3jd7f"]
 [ext_resource type="PackedScene" uid="uid://c67gnj668snc6" path="res://data/CustomComponents/animation_component.tscn" id="6_472pl"]
 
 [node name="BaseMinion" type="CharacterBody2D"]
 script = ExtResource("1_eg0sl")
 
-[node name="AttackComponent" parent="." instance=ExtResource("2_j6hxu")]
+[node name="Attack1Component" parent="." instance=ExtResource("2_j6hxu")]
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_80uno")]
 
-[node name="HurtBoxComponent" parent="." instance=ExtResource("4_mfayq")]
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_mfayq")]
+health_component = NodePath("../HealthComponent")
 
 [node name="PathfindingLogic" parent="." instance=ExtResource("5_3jd7f")]
 

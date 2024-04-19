@@ -1,11 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://cn72ke0k838lf"]
+[gd_scene load_steps=6 format=3 uid="uid://cn72ke0k838lf"]
 
 [ext_resource type="Script" path="res://data/heroes/base_hero.gd" id="1_2ek3k"]
 [ext_resource type="PackedScene" uid="uid://bselw8ieny17t" path="res://data/CustomComponents/pathfinding_logic.tscn" id="2_irmgw"]
+[ext_resource type="PackedScene" uid="uid://cj6bda8y1k831" path="res://data/CustomComponents/health_component.tscn" id="2_rrmmd"]
+[ext_resource type="PackedScene" uid="uid://cuad5o64p42de" path="res://data/CustomComponents/hurt_box_component.tscn" id="4_mlsjc"]
+[ext_resource type="PackedScene" uid="uid://laivrmt2olyg" path="res://data/CustomComponents/attack_component.tscn" id="5_47fbr"]
 
 [node name="BaseHero" type="CharacterBody2D"]
 script = ExtResource("1_2ek3k")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="HealthComponent" parent="." instance=ExtResource("2_rrmmd")]
 
 [node name="PathfindingLogic" parent="." instance=ExtResource("2_irmgw")]
+
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_mlsjc")]
+health_component = NodePath("../HealthComponent")
+
+[node name="Attack1Component" parent="." instance=ExtResource("5_47fbr")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[connection signal="on_death" from="HealthComponent" to="." method="_on_death"]

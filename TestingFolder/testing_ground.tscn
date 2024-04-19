@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3i3lt04qqlqa"]
+[gd_scene load_steps=14 format=3 uid="uid://d3i3lt04qqlqa"]
 
 [ext_resource type="Texture2D" uid="uid://d07sk3rgrldee" path="res://TestingFolder/Texture/eart.png" id="1_7pk7p"]
 [ext_resource type="Script" path="res://TestingFolder/testing_ground.gd" id="1_io62u"]
 [ext_resource type="Texture2D" uid="uid://colqh1ug3qkg5" path="res://TestingFolder/Texture/TX Tileset Stone Ground.png" id="2_xbgmc"]
 [ext_resource type="Texture2D" uid="uid://ctphrdqyuwcc2" path="res://TestingFolder/colour atlas.png" id="6_1arad"]
+[ext_resource type="PackedScene" uid="uid://cclhe6u0fnoqh" path="res://data/enemies/slime.tscn" id="6_fujxb"]
 [ext_resource type="Script" path="res://data/CustomComponents/points_of_interest_component.gd" id="7_8j77i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_30jdl"]
@@ -975,3 +976,8 @@ format = 2
 
 [node name="PointsOfInterestComponent" type="Node2D" parent="."]
 script = ExtResource("7_8j77i")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Slime" parent="." instance=ExtResource("6_fujxb")]
+position = Vector2(290, 161)

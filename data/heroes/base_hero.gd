@@ -162,3 +162,15 @@ func _reached(_data, _waypoint_index):
 
 func _target_reached():
 	assert(false, "Необходимо задать обработку достижения цели")
+
+
+
+
+
+###########################
+# Другое
+###########################
+
+
+func _on_death():
+	print(self, "is now dead")
