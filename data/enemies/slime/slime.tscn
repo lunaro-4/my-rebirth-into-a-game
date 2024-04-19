@@ -1,12 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://cclhe6u0fnoqh"]
+[gd_scene load_steps=13 format=3 uid="uid://cclhe6u0fnoqh"]
 
 [ext_resource type="PackedScene" uid="uid://p0n82nqqcn0b" path="res://data/enemies/base_minion.tscn" id="1_ofwp1"]
-[ext_resource type="Script" path="res://data/enemies/slime.gd" id="2_u3krg"]
+[ext_resource type="Script" path="res://data/enemies/slime/slime.gd" id="2_u3krg"]
 [ext_resource type="Texture2D" uid="uid://dyh70p23g6me0" path="res://assets/sprites/slime_front.png" id="3_4rfpl"]
-[ext_resource type="Script" path="res://data/enemies/attacks/slime_attack_1_animation.gd" id="3_d47xm"]
+[ext_resource type="Script" path="res://data/enemies/slime/slime_attack_1_animation.gd" id="3_7g2xx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1pxa1"]
 radius = 34.0147
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r1wc2"]
+radius = 14.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nbn22"]
 atlas = ExtResource("3_4rfpl")
@@ -44,6 +47,8 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_fqyko"]
+
 [node name="Slime" instance=ExtResource("1_ofwp1")]
 script = ExtResource("2_u3krg")
 
@@ -61,11 +66,20 @@ color = Color(1, 0.156863, 0.129412, 0.682353)
 polygon = PackedVector2Array(3, 38, -12, 37, -29, 29, -34, 15, -37, -4, -34, -19, -20, -31, -9, -36, 2, -38, 13, -36, 24, -32, 34, -20, 38, -5, 37, 14, 30, 25, 12, 36)
 
 [node name="Attack1Animation" type="Node2D" parent="Attack1Component" index="2" node_paths=PackedStringArray("anim_poly")]
-script = ExtResource("3_d47xm")
+script = ExtResource("3_7g2xx")
 anim_poly = NodePath("../Attack1Poly")
+
+[node name="HealthComponent" parent="." index="1"]
+max_health = 75
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+shape = SubResource("CircleShape2D_r1wc2")
 
 [node name="AnimatedSprite2D" parent="." index="4"]
 sprite_frames = SubResource("SpriteFrames_58lm3")
 
 [node name="AnimationComponent" parent="." index="5" node_paths=PackedStringArray("main_sprite")]
 main_sprite = NodePath("../AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="6"]
+shape = SubResource("CircleShape2D_fqyko")

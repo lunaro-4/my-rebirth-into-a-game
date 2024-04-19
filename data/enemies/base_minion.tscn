@@ -8,13 +8,18 @@
 [ext_resource type="PackedScene" uid="uid://c67gnj668snc6" path="res://data/CustomComponents/animation_component.tscn" id="6_472pl"]
 
 [node name="BaseMinion" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_eg0sl")
 
 [node name="Attack1Component" parent="." instance=ExtResource("2_j6hxu")]
+collision_layer = 2
+collision_mask = 0
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_80uno")]
 
 [node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_mfayq")]
+collision_mask = 1
 health_component = NodePath("../HealthComponent")
 
 [node name="PathfindingLogic" parent="." instance=ExtResource("5_3jd7f")]

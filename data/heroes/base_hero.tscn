@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://laivrmt2olyg" path="res://data/CustomComponents/attack_component.tscn" id="5_47fbr"]
 
 [node name="BaseHero" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 2
 script = ExtResource("1_2ek3k")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_rrmmd")]
@@ -14,9 +16,11 @@ script = ExtResource("1_2ek3k")
 [node name="PathfindingLogic" parent="." instance=ExtResource("2_irmgw")]
 
 [node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_mlsjc")]
+collision_mask = 2
 health_component = NodePath("../HealthComponent")
 
 [node name="Attack1Component" parent="." instance=ExtResource("5_47fbr")]
+collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 

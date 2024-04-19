@@ -43,7 +43,8 @@ func _ready():
 	points_established.emit()
 	# hero.generate_path_map()
 
-	spawn_hero(Vector2i(1,1))
+	var hero = spawn_hero(Vector2i(1,1), [0,0] as Array[int])
+	$StateChartDebugger.debug_node(hero.get_node("StateChart"))
 
 	
 	
@@ -137,11 +138,11 @@ func on_point_reached() -> bool:
 
 
 
-func spawn_hero(spawn_point_astar, debug_array = KEY_NONE ):
+func spawn_hero(spawn_point_astar, debug_path = null ):
 	var hero = hero_scene.instantiate()
-	if debug_array != KEY_NONE:
+	if debug_path != null:
 		hero.debug_mode = true
-		hero.debug_array = debug_array
+		hero.debug_path = debug_path
 	hero.starting_point_astar = spawn_point_astar
 	hero.scale = Vector2(0.2,0.2)
 	hero.global_position = astar_grid.get_point_position(spawn_point_astar)	
@@ -153,6 +154,7 @@ func spawn_hero(spawn_point_astar, debug_array = KEY_NONE ):
 	hero.path_map = crossroads_path_map
 	add_child(hero)
 	hero._init_hero_movement()
+	return hero
 
 
 
