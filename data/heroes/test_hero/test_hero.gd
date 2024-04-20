@@ -7,6 +7,7 @@ var state_explore := true
 
 func _ready():
 	super()
+	await get_tree().create_timer(0.1).timeout
 	attack_1_component.attack()
 
 
@@ -71,6 +72,7 @@ func _connect_enemy_death(if_connect:bool, con_func: Callable):
 			detected_enemy.minion_dead.connect(con_func)
 
 func _on_enemy_detected(body):
+	_on_enemy_forgotten()
 	if body is BaseMinion and body != self:
 		detected_enemy = body
 		_connect_enemy_death(true,_on_enemy_forgotten)

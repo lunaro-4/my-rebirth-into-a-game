@@ -8,6 +8,7 @@ var debug_path : Array[int]
 
 var debug_path_point =0
 
+@export var soul : Soul
 
 @export var speed = 100
 
@@ -141,7 +142,9 @@ func _init_hero_movement(start_from = starting_point_astar):
 
 func generate_path_map(map_starting_point = starting_point_astar):
 	if poic:
-		path_map=poic.generate_path_map(map_starting_point, known_points_of_interest_astar)
+		path_map = {}
+		while path_map == {}:
+			path_map=poic.generate_path_map(map_starting_point, known_points_of_interest_astar)
 	else:
 		assert(false, str("no poic at", self))
 
@@ -174,3 +177,8 @@ func _target_reached():
 
 func _on_death():
 	print(self, "is now dead")
+	var soul_drop = soul.scene.instantiate()
+	soul_drop.soul = soul
+	soul_drop.global_position = global_position
+	get_parent().add_child(soul_drop)
+	queue_free()
