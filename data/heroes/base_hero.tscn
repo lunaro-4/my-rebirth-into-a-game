@@ -12,10 +12,13 @@
 
 [node name="BaseHero" type="CharacterBody2D"]
 collision_layer = 5
-collision_mask = 2
+collision_mask = 14
 script = ExtResource("1_2ek3k")
 
+[node name="HeroCollision" type="CollisionShape2D" parent="."]
+
 [node name="HealthComponent" parent="." instance=ExtResource("2_rrmmd")]
+max_health = 100
 
 [node name="PathfindingLogic" parent="." instance=ExtResource("2_irmgw")]
 
@@ -33,6 +36,10 @@ collision_mask = 0
 collision_layer = 0
 collision_mask = 3
 
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("6_4c8oy")
 
@@ -48,6 +55,11 @@ script = ExtResource("9_3o1d3")
 to = NodePath("../../Attack")
 event = &"enemy_detected"
 
+[node name="ToInteraction" type="Node" parent="StateChart/Root/Explore"]
+script = ExtResource("9_3o1d3")
+to = NodePath("../../Interaction")
+event = &"interaction_required"
+
 [node name="Attack" type="Node" parent="StateChart/Root"]
 script = ExtResource("8_8a0cf")
 
@@ -62,4 +74,17 @@ script = ExtResource("9_3o1d3")
 to = NodePath("../../Explore")
 event = &"enemy_forget"
 
+[node name="Interaction" type="Node" parent="StateChart/Root"]
+script = ExtResource("8_8a0cf")
+
+[node name="ToExplore" type="Node" parent="StateChart/Root/Interaction"]
+script = ExtResource("9_3o1d3")
+to = NodePath("../../Explore")
+event = &"interaction_finished"
+
+[node name="StuckTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="on_death" from="HealthComponent" to="." method="_on_death"]
+[connection signal="timeout" from="StuckTimer" to="." method="_on_stuck_timer_timeout"]

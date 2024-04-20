@@ -3,7 +3,13 @@ class_name Soul extends Resource
 
 @export var name : String
 @export var sprite : SpriteFrames
-enum SoulType {RED, BLUE, GREEN}
+
+enum SoulType {
+			RED = 0,
+			BLUE = 1,
+			GREEN = 2,
+		}
+
 @export var type : SoulType
 
 

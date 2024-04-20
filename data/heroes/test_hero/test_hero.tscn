@@ -1,10 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://pinfmowtm0bj"]
+[gd_scene load_steps=12 format=3 uid="uid://pinfmowtm0bj"]
 
 [ext_resource type="PackedScene" uid="uid://cn72ke0k838lf" path="res://data/heroes/base_hero.tscn" id="1_qbasj"]
 [ext_resource type="Script" path="res://data/heroes/test_hero/test_hero.gd" id="2_jf5al"]
 [ext_resource type="Script" path="res://data/heroes/test_hero/test_hero_attack_1_animation.gd" id="3_3hbfj"]
 [ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="3_7nrcr"]
 [ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="4_11rb4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ugx1g"]
+radius = 55.0818
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m1id3"]
 radius = 120.037
@@ -23,26 +26,27 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7dgsn"]
-radius = 54.3323
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_ln0pg"]
 radius = 660.824
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_iq1ig"]
+radius = 119.419
+
 [node name="TestHero" instance=ExtResource("1_qbasj")]
-collision_mask = 14
 motion_mode = 1
 script = ExtResource("2_jf5al")
 soul = ExtResource("3_7nrcr")
-path_map = {}
 
-[node name="HealthComponent" parent="." index="0"]
+[node name="HeroCollision" parent="." index="0"]
+shape = SubResource("CircleShape2D_ugx1g")
+
+[node name="HealthComponent" parent="." index="1"]
 max_health = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent" index="0"]
 shape = SubResource("CircleShape2D_m1id3")
 
-[node name="Attack1Component" parent="." index="3" node_paths=PackedStringArray("hit_animation_object")]
+[node name="Attack1Component" parent="." index="4" node_paths=PackedStringArray("hit_animation_object")]
 damage = 3.0
 delay = 0.5
 hit_window = 1.0
@@ -59,13 +63,13 @@ polygon = PackedVector2Array(-26, 188, -45, 182, -87, 168, -115, 146, -150, 124,
 script = ExtResource("3_3hbfj")
 anim_poly = NodePath("../Attack1Polygon")
 
-[node name="AnimatedSprite2D" parent="." index="4"]
+[node name="AnimatedSprite2D" parent="." index="5"]
 sprite_frames = SubResource("SpriteFrames_raauo")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
-shape = SubResource("CircleShape2D_7dgsn")
 
 [node name="Area2" type="CollisionShape2D" parent="EnemyDetectionArea" index="0"]
 shape = SubResource("CircleShape2D_ln0pg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" index="0"]
+shape = SubResource("CircleShape2D_iq1ig")
 
 [connection signal="attack_finished" from="Attack1Component" to="." method="_on_attack_1_component_attack_finished"]

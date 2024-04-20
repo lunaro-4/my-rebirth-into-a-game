@@ -1,0 +1,79 @@
+[gd_scene load_steps=13 format=3 uid="uid://bwumloxfvkt0t"]
+
+[ext_resource type="PackedScene" uid="uid://cn72ke0k838lf" path="res://data/heroes/base_hero.tscn" id="1_yb3bv"]
+[ext_resource type="Script" path="res://data/heroes/rogue/rogue.gd" id="2_jww5s"]
+[ext_resource type="Resource" uid="uid://dhqhmsuw7jq2p" path="res://data/souls_and_currency/green_soul.tres" id="3_naieu"]
+[ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="3_vnu4t"]
+[ext_resource type="Script" path="res://data/heroes/rogue/rogue_attack_1_animation.gd" id="4_278qf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wf6gu"]
+radius = 59.2115
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bvggr"]
+radius = 92.0217
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ng76g"]
+radius = 180.069
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4i4bu"]
+atlas = ExtResource("3_vnu4t")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f5hrw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4i4bu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uuecl"]
+radius = 565.053
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wxtaw"]
+radius = 68.7314
+
+[node name="Rogue" instance=ExtResource("1_yb3bv")]
+script = ExtResource("2_jww5s")
+soul = ExtResource("3_naieu")
+speed = 120
+
+[node name="HeroCollision" parent="." index="0"]
+shape = SubResource("CircleShape2D_wf6gu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+shape = SubResource("CircleShape2D_bvggr")
+debug_color = Color(0.980392, 0, 0.364706, 1)
+
+[node name="Attack1Component" parent="." index="4" node_paths=PackedStringArray("hit_animation_object")]
+damage = 10.0
+delay = 0.5
+hit_window = 1.0
+speed_modifyer = 1.2
+hit_animation_object = NodePath("Attack1Animation")
+
+[node name="Attack1Zone" type="CollisionShape2D" parent="Attack1Component" index="0"]
+shape = SubResource("CircleShape2D_ng76g")
+
+[node name="Attack1Polygon" type="Polygon2D" parent="Attack1Component" index="1"]
+color = Color(0.776471, 1, 0.694118, 0.870588)
+polygon = PackedVector2Array(-26, 188, -45, 182, -87, 168, -115, 146, -150, 124, -168, 78, -180, 38, -192, -16, -182, -59, -164, -97, -139, -131, -105, -158, -76, -173, -52, -182, -23, -191, 9, -195, 42, -185, 88, -163, 109, -153, 134, -124, 167, -99, 177, -77, 178, -43, 181, 4, 183, 45, 176, 70, 162, 97, 146, 124, 114, 153, 72, 180, 40, 188, 7, 190)
+
+[node name="Attack1Animation" type="Node2D" parent="Attack1Component" index="2" node_paths=PackedStringArray("anim_poly")]
+script = ExtResource("4_278qf")
+anim_poly = NodePath("../Attack1Polygon")
+
+[node name="AnimatedSprite2D" parent="." index="5"]
+modulate = Color(0.435294, 1, 0.341176, 1)
+sprite_frames = SubResource("SpriteFrames_f5hrw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectionArea" index="0"]
+shape = SubResource("CircleShape2D_uuecl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" index="0"]
+shape = SubResource("CircleShape2D_wxtaw")
+
+[connection signal="attack_finished" from="Attack1Component" to="." method="_on_attack_1_component_attack_finished"]

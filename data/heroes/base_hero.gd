@@ -18,6 +18,7 @@ var target_reached := false
 var on_way_to_final := false
 
 
+
 var starting_point_astar : Vector2i
 
 
@@ -161,6 +162,17 @@ func _reached(_data, _waypoint_index):
 	# print("вставить мой метод")
 	pass
 
+func point_exclude_and_move_on(point_to_exclude):
+	# print("called to exclude ", point_to_exclude)
+	reset_starting_point(get_parent().global_to_astar(global_position))
+	debug_mode = false
+	var final_point = known_points_of_interest_global.filter(func(point): return CustomMath.compare_vectors(point, point_to_exclude))[0]
+	var final_point_index = known_points_of_interest_global.find(final_point)
+	known_points_of_interest_global.pop_at(final_point_index)
+	known_points_of_interest_astar.pop_at(final_point_index)
+	await generate_path_map(starting_point_astar)
+	on_way_to_final = false
+
 
 
 func _target_reached():
@@ -175,6 +187,10 @@ func _target_reached():
 
 @onready var enemy_detection_area = $EnemyDetectionArea as Area2D
 
+@onready var interaction_area = $InteractionArea as Area2D
+
+var _available_interactions = [] as Array[InteractableObject.InteractionTypes]
+
 var state_explore := true
 
 var detected_enemy = null
@@ -183,6 +199,8 @@ var detected_enemy = null
 func connect_state_machine_functions():
 	enemy_detection_area.body_entered.connect(_on_enemy_detected)
 	enemy_detection_area.body_exited.connect(_on_enemy_undetected)
+	interaction_area.body_entered.connect(_on_interaction_object_detected)
+
 	# var explore_state = state_chart.get_node("Root").get_node("Explore") as AtomicState
 	var attack_state = state_chart.get_node("Root").get_node("Attack") as AtomicState
 	attack_state.state_physics_processing.connect(_on_attack_state_physics_processing)
@@ -231,7 +249,7 @@ func _on_attack_state_exited():
 		state_chart.send_event("enemy_detected")
 
 func check_bodies_presence() -> Array:
-	return $EnemyDetectionArea.get_overlapping_bodies().filter(func(body):
+	return enemy_detection_area.get_overlapping_bodies().filter(func(body):
 		return (body!=self and body is CharacterBody2D))
 
 
@@ -243,7 +261,48 @@ func _on_explore_state_entered():
 func _on_explore_state_exited():
 	state_explore = false
 
+func _on_interaction_object_detected(body):
+	if body.get_parent() is InteractableObject:
+		state_chart.send_event("interaction_required")
+		interaction_attempt(body.get_parent())
 
+func interaction_attempt(object : InteractableObject):
+	for interaction in _available_interactions:
+		if object.available_interactions.has(interaction):
+			# FIXME
+			target_reached = true
+			await get_tree().create_timer(3).timeout
+			object.interact()
+			break
+	if !target_reached:
+		# print('fail')
+		on_obsticle_interaction_fail()
+	else:
+		target_reached = false
+	state_chart.send_event("interaction_finished")
+
+func find_other_obsitcles():
+	return interaction_area.get_overlapping_bodies().filter(func(body):
+		return (body!=self and body is InteractableObject))
+	
+func on_obsticle_interaction_fail():
+	if on_way_to_final:
+		point_exclude_and_move_on(current_path_map)
+	else:
+		var points_for_removal = recursive_find_endpoints(current_path_map, [])
+		# print("points for removal ",points_for_removal)
+		for point in points_for_removal:
+			point_exclude_and_move_on(point)
+	_init_hero_movement()
+
+func recursive_find_endpoints(points_dict : Dictionary, endpoints : Array) -> Array:
+	for point in points_dict.values():
+		if point is Dictionary:
+			recursive_find_endpoints(point, endpoints)
+		else:
+			endpoints.append(point)
+			return endpoints
+	return endpoints
 
 ###########################
 # Другое
@@ -257,3 +316,17 @@ func _on_death():
 	soul_drop.global_position = global_position
 	get_parent().add_child(soul_drop)
 	queue_free()
+
+var prev_pos = null
+var cur_pos = global_position
+const STUCK_MARGIN = 10
+
+func _on_stuck_timer_timeout():
+	if prev_pos and cur_pos and (prev_pos - cur_pos).length() < STUCK_MARGIN and state_explore:
+		update_target()
+		if move_and_slide() and find_other_obsitcles().size() >0:
+			interaction_attempt(find_other_obsitcles()[0])
+	else:
+		prev_pos = cur_pos
+		cur_pos = global_position
+

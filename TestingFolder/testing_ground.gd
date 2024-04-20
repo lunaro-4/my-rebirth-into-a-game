@@ -43,7 +43,7 @@ func _ready():
 	points_established.emit()
 	# hero.generate_path_map()
 
-	var hero = spawn_hero(Vector2i(1,1), [1] as Array[int])
+	var hero = spawn_hero(Vector2i(1,1))#, [1] as Array[int])
 	$StateChartDebugger.debug_node(hero.get_node("StateChart"))
 
 	
@@ -63,8 +63,8 @@ func _init_grid():
 
 
 func _update_grid_from_tilemap() -> void:
-	for i in range(astar_grid.size.x):
-		for j in range(astar_grid.size.y):
+	for i in range(astar_grid.region.position.x, astar_grid.region.end.x):
+		for j in range(astar_grid.region.position.y, astar_grid.region.end.y):
 			var id = Vector2i(i, j)
 			# If game_map does not have a cell source id >= 0
 			# then we're looking at an invalid location
@@ -151,6 +151,7 @@ func spawn_hero(spawn_point_astar, debug_path = null ):
 	hero.known_points_of_interest_global = points_of_interest_global.duplicate()
 	hero.poic = poic
 	crossroads_path_map = poic.generate_path_map(hero.starting_point_astar, points_of_interest_astar_coord)
+	print(crossroads_path_map)
 	hero.path_map = crossroads_path_map
 	add_child(hero)
 	hero._init_hero_movement()

@@ -7,3 +7,8 @@ enum InteractionTypes{
 
 
 var available_interactions : Array[InteractionTypes] = []
+
+
+func interact():
+	printerr("Method \"interact\" is not declared!")
+	return false
