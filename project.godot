@@ -89,3 +89,4 @@ Left_Mouse_Button={
 2d_physics/layer_1="heroes"
 2d_physics/layer_2="minions"
 2d_physics/layer_3="walls"
+2d_physics/layer_4="InteractableObjects"

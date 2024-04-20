@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bsm83w612ohal"]
+[gd_scene load_steps=15 format=3 uid="uid://bsm83w612ohal"]
 
 [ext_resource type="Script" path="res://TestingFolder/testing_labyrinth.gd" id="1_8m586"]
 [ext_resource type="Texture2D" uid="uid://d07sk3rgrldee" path="res://TestingFolder/Texture/eart.png" id="2_ay3dt"]
 [ext_resource type="Texture2D" uid="uid://colqh1ug3qkg5" path="res://TestingFolder/Texture/TX Tileset Stone Ground.png" id="3_qydpe"]
 [ext_resource type="Texture2D" uid="uid://ctphrdqyuwcc2" path="res://TestingFolder/colour atlas.png" id="4_x1tsn"]
 [ext_resource type="Script" path="res://data/CustomComponents/points_of_interest_component.gd" id="5_ina7a"]
+[ext_resource type="PackedScene" uid="uid://crl3hw6hemnhg" path="res://data/level_objects/door_lock.tscn" id="7_p6a0v"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="7_shjri"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_30jdl"]
@@ -977,7 +978,9 @@ format = 2
 [node name="PointsOfInterestComponent" type="Node2D" parent="."]
 script = ExtResource("5_ina7a")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="DoorLock" parent="." instance=ExtResource("7_p6a0v")]
+position = Vector2(251, 212)
+scale = Vector2(0.161691, 0.161691)
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("7_shjri")]
 offset_left = 537.0

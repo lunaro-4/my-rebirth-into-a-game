@@ -42,12 +42,12 @@ func _handle_rogue_paths(base_point, current_point_int, prev_point, rogue_paths)
 	# var prev_point = longest_path[point-1]
 	var go_points_arr = {}
 	# Обработать каждую группу
-	# Если находимся на точке развилки, обрабатывем пути из каждой группы
+	# Если находимся на точке развилки, обрабатываем пути из каждой группы
 	if rogue_paths.size() >1:
 		go_points_arr = {prev_point: []}
 		for path in rogue_paths.keys():
 			go_points_arr[prev_point].append(_get_uniqe_tail_array_vector({prev_point: rogue_paths.get(path)}, current_point_int))
-	# Если в единственной группе много массивоы, идти по ним с сохранением последней точки развилки, пока не найдем новую развилку
+	# Если в единственной группе много массивов, идти по ним с сохранением последней точки развилки, пока не найдем новую развилку
 	else:
 		if path_count.values().max() >1:
 			go_points_arr = _get_uniqe_tail_array_vector({base_point: rogue_paths[rogue_paths.keys()[0]]}, current_point_int)

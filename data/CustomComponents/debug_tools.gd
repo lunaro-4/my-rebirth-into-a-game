@@ -1,4 +1,4 @@
-@icon("res://CustomComponents/CustomComponentIcons/bracket-dot.png")
+@icon("./CustomComponentIcons/bracket-dot.png")
 class_name DebugTools
 
 

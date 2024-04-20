@@ -1,14 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://pinfmowtm0bj"]
+[gd_scene load_steps=11 format=3 uid="uid://pinfmowtm0bj"]
 
 [ext_resource type="PackedScene" uid="uid://cn72ke0k838lf" path="res://data/heroes/base_hero.tscn" id="1_qbasj"]
 [ext_resource type="Script" path="res://data/heroes/test_hero/test_hero.gd" id="2_jf5al"]
 [ext_resource type="Script" path="res://data/heroes/test_hero/test_hero_attack_1_animation.gd" id="3_3hbfj"]
 [ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="3_7nrcr"]
 [ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="4_11rb4"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="5_g0qw8"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="6_7fo37"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="7_3cjcu"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="8_egamx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m1id3"]
 radius = 120.037
@@ -30,14 +26,15 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_7dgsn"]
 radius = 54.3323
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5p4fc"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ln0pg"]
 radius = 660.824
 
 [node name="TestHero" instance=ExtResource("1_qbasj")]
-collision_mask = 6
+collision_mask = 14
 motion_mode = 1
 script = ExtResource("2_jf5al")
 soul = ExtResource("3_7nrcr")
+path_map = {}
 
 [node name="HealthComponent" parent="." index="0"]
 max_health = 10
@@ -67,48 +64,8 @@ sprite_frames = SubResource("SpriteFrames_raauo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
 shape = SubResource("CircleShape2D_7dgsn")
-disabled = true
 
-[node name="StateChart" type="Node" parent="." index="6"]
-script = ExtResource("5_g0qw8")
-
-[node name="Root" type="Node" parent="StateChart" index="0"]
-script = ExtResource("6_7fo37")
-initial_state = NodePath("Explore")
-
-[node name="Explore" type="Node" parent="StateChart/Root" index="0"]
-script = ExtResource("7_3cjcu")
-
-[node name="ToAttack" type="Node" parent="StateChart/Root/Explore" index="0"]
-script = ExtResource("8_egamx")
-to = NodePath("../../Attack")
-event = &"enemy_detected"
-
-[node name="Attack" type="Node" parent="StateChart/Root" index="1"]
-script = ExtResource("7_3cjcu")
-
-[node name="UnAttack" type="Node" parent="StateChart/Root/Attack" index="0"]
-script = ExtResource("8_egamx")
-to = NodePath("../../Explore")
-event = &"enemy_undetected"
-delay_seconds = 3.015
-
-[node name="ToExplore" type="Node" parent="StateChart/Root/Attack" index="1"]
-script = ExtResource("8_egamx")
-to = NodePath("../../Explore")
-event = &"enemy_forget"
-
-[node name="EnemyDetectionArea" type="Area2D" parent="." index="7"]
-collision_layer = 0
-collision_mask = 3
-
-[node name="Area" type="CollisionShape2D" parent="EnemyDetectionArea" index="0"]
-shape = SubResource("CircleShape2D_5p4fc")
+[node name="Area2" type="CollisionShape2D" parent="EnemyDetectionArea" index="0"]
+shape = SubResource("CircleShape2D_ln0pg")
 
 [connection signal="attack_finished" from="Attack1Component" to="." method="_on_attack_1_component_attack_finished"]
-[connection signal="state_entered" from="StateChart/Root/Explore" to="." method="_on_explore_state_entered"]
-[connection signal="state_exited" from="StateChart/Root/Explore" to="." method="_on_explore_state_exited"]
-[connection signal="state_exited" from="StateChart/Root/Attack" to="." method="_on_attack_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/Root/Attack" to="." method="_on_attack_state_physics_processing"]
-[connection signal="body_entered" from="EnemyDetectionArea" to="." method="_on_enemy_detected"]
-[connection signal="body_exited" from="EnemyDetectionArea" to="." method="_on_enemy_undetected"]
