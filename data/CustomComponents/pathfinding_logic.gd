@@ -81,6 +81,9 @@ func makepath():
 			get_parent().is_static = true
 	else:
 		nav_agent.target_position = target.global_position
+		if !nav_agent.is_target_reachable():
+			printerr("warning! target is out of reach")
+			pass
 		## Далее идет костыль К1
 		waypoint_array = nav_agent.get_current_navigation_path()
 		# set_path_vector(nav_agent.get_current_navigation_path_index())
