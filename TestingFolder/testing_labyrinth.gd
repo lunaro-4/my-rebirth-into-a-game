@@ -151,6 +151,7 @@ func spawn_hero(spawn_point_astar, debug_path = null ):
 	hero.known_points_of_interest_global = points_of_interest_global.duplicate()
 	hero.poic = poic
 	crossroads_path_map = poic.generate_path_map(hero.starting_point_astar, points_of_interest_astar_coord)
+	print(crossroads_path_map)
 	hero.path_map = crossroads_path_map
 	add_child(hero)
 	hero._init_hero_movement()

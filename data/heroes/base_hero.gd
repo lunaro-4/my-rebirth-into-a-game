@@ -69,6 +69,7 @@ func target_ready():
 
 
 func update_target():
+	await get_tree().create_timer(0.02).timeout
 	pathfinder.target = target
 	pathfinder.pathfinding_init()
 

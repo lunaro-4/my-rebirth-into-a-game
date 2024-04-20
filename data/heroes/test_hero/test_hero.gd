@@ -7,7 +7,6 @@ var state_explore := true
 
 func _ready():
 	super()
-	await get_tree().create_timer(0.1).timeout
 	attack_1_component.attack()
 
 
@@ -24,9 +23,10 @@ func _target_reached():
 	if known_points_of_interest_astar.size() < 2:
 		target_reached = true
 		pathfinder.stop_pathfinding()
+		print(self,' done')
 		return
 	if on_way_to_final:
-		print("Я достиг конца")
+		# print("Я достиг конца")
 		reset_starting_point(current_path_map)
 		debug_mode = false
 		var final_point = known_points_of_interest_global.filter(func(point): return CustomMath.compare_vectors(point, current_path_map))[0]
@@ -37,7 +37,7 @@ func _target_reached():
 		await generate_path_map(current_point)
 		_init_hero_movement()
 	else:
-		print("Развилка")
+		# print("Развилка")
 		get_next_point()
 	pathfinder.makepath()
 	# target_reached = true
