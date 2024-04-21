@@ -36,7 +36,7 @@ collision_mask = 0
 collision_layer = 0
 collision_mask = 3
 
-[node name="InteractionArea" type="Area2D" parent="."]
+[node name="ObstacleDetectionArea" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 8
 
@@ -57,7 +57,7 @@ event = &"enemy_detected"
 
 [node name="ToInteraction" type="Node" parent="StateChart/Root/Explore"]
 script = ExtResource("9_3o1d3")
-to = NodePath("../../Interaction")
+to = NodePath("../../Interact")
 event = &"interaction_required"
 
 [node name="Attack" type="Node" parent="StateChart/Root"]
@@ -74,10 +74,10 @@ script = ExtResource("9_3o1d3")
 to = NodePath("../../Explore")
 event = &"enemy_forget"
 
-[node name="Interaction" type="Node" parent="StateChart/Root"]
+[node name="Interact" type="Node" parent="StateChart/Root"]
 script = ExtResource("8_8a0cf")
 
-[node name="ToExplore" type="Node" parent="StateChart/Root/Interaction"]
+[node name="ToExplore" type="Node" parent="StateChart/Root/Interact"]
 script = ExtResource("9_3o1d3")
 to = NodePath("../../Explore")
 event = &"interaction_finished"

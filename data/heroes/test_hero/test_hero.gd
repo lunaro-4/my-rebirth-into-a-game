@@ -33,7 +33,7 @@ func _target_reached():
 		known_points_of_interest_global.pop_at(final_point_index)
 		var current_point = known_points_of_interest_astar.pop_at(final_point_index)
 		on_way_to_final = false
-		await generate_path_map(current_point)
+		await _generate_path_map(current_point)
 		_init_hero_movement()
 	else:
 		# print("Развилка")
@@ -66,7 +66,7 @@ func _on_enemy_undetected(body):
 		state_chart.send_event("enemy_undetected")
 		await get_tree().create_timer(0.01).timeout
 		if !is_instance_valid(body):
-			redetect_enemies()
+			_redetect_enemies()
 
 # func _on_enemy_detection_area_area_entered(_area:Area2D):
 # 	$StateChart.set_event("enemy_detected")

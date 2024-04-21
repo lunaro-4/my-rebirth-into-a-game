@@ -26,11 +26,19 @@ func _target_reached():
 		return
 	if on_way_to_final:
 		# print("Я достиг конца")
-		point_exclude_and_move_on(current_path_map)
-		_init_hero_movement()
+		if current_path_map is Dictionary:
+			on_way_to_final = false
+			get_next_point()
+		else:
+			_point_exclude_and_move_on(current_path_map)
+			_init_hero_movement()
 	else:
-		# print("Развилка")
-		get_next_point()
+		if current_path_map is Dictionary:
+			get_next_point()
+		else:
+			# on_way_to_final = true
+			# _target_reached()
+			return
 	pathfinder.makepath()
 
 
@@ -56,7 +64,7 @@ func _on_enemy_undetected(body):
 		state_chart.send_event("enemy_undetected")
 		await get_tree().create_timer(0.01).timeout
 		if !is_instance_valid(body):
-			redetect_enemies()
+			_redetect_enemies()
 
 
 func _on_death():

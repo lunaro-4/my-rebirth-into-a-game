@@ -124,13 +124,18 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 ###########################
 
 
+var hero_points  = [] as Array[Marker2D]
+
+const MAX_HERO_POINTS_ON_MAP = 8
 
 func set_new_point_for_hero(point_coords : Vector2i, input_hero):
 	var new_point = Marker2D.new()
 	new_point.position = point_coords
 	add_child(new_point)
-	input_hero.target = new_point
-	pass
+	hero_points.append(new_point)
+	input_hero.exploration_target = new_point
+	if hero_points.size() > MAX_HERO_POINTS_ON_MAP:
+		hero_points.pop_front().queue_free()
 
 
 
@@ -163,5 +168,5 @@ func spawn_hero(spawn_point_astar, debug_path = null ):
 	return hero
 
 func global_to_astar(input_pos: Vector2):
-	return Vector2i(input_pos.x/astar_grid.cell_size.x, input_pos.y/astar_grid.cell_size.y)
+	return Vector2i(floor(input_pos.x/astar_grid.cell_size.x), floor(input_pos.y/astar_grid.cell_size.y))
 

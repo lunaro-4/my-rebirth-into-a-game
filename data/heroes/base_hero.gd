@@ -30,26 +30,21 @@ func _ready():
 	await target_appeared
 	await get_tree().create_timer(0.01).timeout
 	DebugTools.check_null(pathfinder,"PathfinderLogic", self, true)
-	DebugTools.check_null(target,"target", self, true)
+	DebugTools.check_null(exploration_target,"exploration_target", self, true)
 	_initialise_pathfinding()
-	generate_path_map()
-	connect_state_machine_functions()
+	_generate_path_map()
+	_connect_state_machine_functions()
 
 func _physics_process(_delta : float):
-	if not target_reached:
-		direction = pathfinder.target_path_vector
-		velocity = direction * speed
-	else:
-		velocity = Vector2(0,0)
-	move_and_slide()
 
+	pass
 
 
 ###########################
 # Поиск пути
 ###########################
 
-@export var target : Node2D
+@export var exploration_target : Node2D
 
 @onready var pathfinder = $PathfindingLogic as PathfinderLogic
 
@@ -62,15 +57,15 @@ func _initialise_pathfinding():
 		get_parent().points_established.connect(target_ready)
 	pathfinder.path_finished.connect(_target_reached)
 	pathfinder.waypoint_reached.connect(_reached)
-	update_target()
+	update_target(exploration_target)
 
 func target_ready():
 	target_appeared.emit()
 
 
-func update_target():
+func update_target(target_to_set):
 	await get_tree().create_timer(0.02).timeout
-	pathfinder.target = target
+	pathfinder.target = target_to_set
 	pathfinder.pathfinding_init()
 
 
@@ -108,7 +103,7 @@ func get_next_point():
 	# Если передать словарь с ключом с одним значением, обработать это значение как точку.
 	if not path_variants is Array:
 		get_parent().set_new_point_for_hero(path_variants, self)
-		update_target()
+		update_target(exploration_target)
 		return
 	var chosen_path
 	if debug_mode:
@@ -121,12 +116,19 @@ func get_next_point():
 	# print(type_string(typeof(chosen_path)))
 	if chosen_path is Dictionary:
 		chosen_point = chosen_path.keys()[0]
+		var next_point = chosen_path.values()[0]
+		if (not next_point is Array and not next_point is Dictionary) and CustomMath.compare_vectors(chosen_path.keys()[0], next_point):
+			# HACK
+			chosen_path = next_point
+			on_way_to_final = true
 	else:
 		chosen_point = chosen_path
 		on_way_to_final = true
 	current_path_map = chosen_path
+	# if chosen_path is Vector2i or chosen_path is Vector2:
+	# 	on_way_to_final = true
 	get_parent().set_new_point_for_hero(chosen_point, self)
-	update_target()
+	update_target(exploration_target)
 
 func _init_hero_movement(start_from = starting_point_astar):
 	current_path_map = path_map
@@ -137,11 +139,11 @@ func _init_hero_movement(start_from = starting_point_astar):
 		get_next_point()
 	else:
 		get_parent().set_new_point_for_hero(path_map.keys()[0], self)
-		update_target()
+		update_target(exploration_target)
 	target_ready()	
 
 
-func generate_path_map(map_starting_point = starting_point_astar):
+func _generate_path_map(map_starting_point = starting_point_astar):
 	if poic:
 		path_map = {}
 		while path_map == {}:
@@ -149,10 +151,10 @@ func generate_path_map(map_starting_point = starting_point_astar):
 	else:
 		assert(false, str("no poic at", self))
 
+
 ###########################
 # Обработка хождения по лабиринту
 ###########################
-
 
 
 func reset_starting_point(new_point_astar):
@@ -162,16 +164,18 @@ func _reached(_data, _waypoint_index):
 	# print("вставить мой метод")
 	pass
 
-func point_exclude_and_move_on(point_to_exclude):
+func _point_exclude_and_move_on(point_to_exclude):
 	# print("called to exclude ", point_to_exclude)
 	reset_starting_point(get_parent().global_to_astar(global_position))
 	debug_mode = false
-	var final_point = known_points_of_interest_global.filter(func(point): return CustomMath.compare_vectors(point, point_to_exclude))[0]
-	var final_point_index = known_points_of_interest_global.find(final_point)
-	known_points_of_interest_global.pop_at(final_point_index)
-	known_points_of_interest_astar.pop_at(final_point_index)
-	await generate_path_map(starting_point_astar)
-	on_way_to_final = false
+	var final_point = known_points_of_interest_global.filter(func(point): return CustomMath.compare_vectors(point, point_to_exclude))
+	if final_point.size() >0:
+		final_point = final_point[0]
+		var final_point_index = known_points_of_interest_global.find(final_point)
+		known_points_of_interest_global.pop_at(final_point_index)
+		known_points_of_interest_astar.pop_at(final_point_index)
+		await _generate_path_map(starting_point_astar)
+		on_way_to_final = false
 
 
 
@@ -187,7 +191,7 @@ func _target_reached():
 
 @onready var enemy_detection_area = $EnemyDetectionArea as Area2D
 
-@onready var interaction_area = $InteractionArea as Area2D
+@onready var obstacle_detection_area = $ObstacleDetectionArea as Area2D
 
 var _available_interactions = [] as Array[InteractableObject.InteractionTypes]
 
@@ -195,16 +199,65 @@ var state_explore := true
 
 var detected_enemy = null
 
+var is_able_to_move := true
 
-func connect_state_machine_functions():
+
+func _connect_state_machine_functions():
 	enemy_detection_area.body_entered.connect(_on_enemy_detected)
 	enemy_detection_area.body_exited.connect(_on_enemy_undetected)
-	interaction_area.body_entered.connect(_on_interaction_object_detected)
+	obstacle_detection_area.body_entered.connect(_on_obstacle_detected)
 
-	# var explore_state = state_chart.get_node("Root").get_node("Explore") as AtomicState
+	var explore_state = state_chart.get_node("Root").get_node("Explore") as AtomicState
 	var attack_state = state_chart.get_node("Root").get_node("Attack") as AtomicState
+	var interact_state = state_chart.get_node("Root").get_node("Interact") as AtomicState
 	attack_state.state_physics_processing.connect(_on_attack_state_physics_processing)
+	interact_state.state_physics_processing.connect(_on_interact_state_physics_processing)
+	# HACK
+	explore_state.state_physics_processing.connect(_on_explore_state_physics_processing)
+	state_chart.send_event("interaction_required")
+	state_chart.send_event("interaction_finished")
+
+func _move():
+	if is_able_to_move:
+		direction = pathfinder.target_path_vector
+		velocity = direction * speed
+	else:
+		velocity = Vector2(0,0)
+	move_and_slide()
 	
+##########
+# Состояние исследования 
+##########
+
+func _on_explore_state_physics_processing(_delta:float):
+	# print('yes')
+	if not target_reached:
+		# update_target(exploration_target)
+		_path_update_counter(_delta)
+		_move()
+
+func _path_update_counter(count_add):
+	path_update_counter += count_add
+	if path_update_counter >5:
+		pathfinder.makepath()
+		path_update_counter = 0
+
+func _on_explore_state_entered():
+	detected_enemy = null
+	_redetect_enemies()
+	state_explore = true
+
+func _on_explore_state_exited():
+	state_explore = false
+
+
+##########
+# Состояние атаки
+##########
+
+func _on_attack_state_physics_processing(_delta):
+	update_target(detected_enemy)
+	_move()
 
 func _connect_enemy_death(if_connect:bool, con_func: Callable):
 	if detected_enemy.minion_dead.is_connected(con_func):
@@ -221,15 +274,9 @@ func _on_enemy_detected(_body):
 func _on_enemy_undetected(_body):
 	printerr("You should specify \"_on_enemy_undetected\" method!")
 
-func _on_attack_state_physics_processing(_delta):
-	# if detected_enemy != null:
-		pathfinder.target = detected_enemy
-		pathfinder.makepath()
-	# else:
-	# 	redetect_enemies()
 
-func redetect_enemies():
-	var detected_enemies= check_bodies_presence()
+func _redetect_enemies():
+	var detected_enemies= _find_other_minions()
 	if detected_enemies.size() > 0:
 		_on_enemy_detected(detected_enemies[0])
 	else:
@@ -241,68 +288,78 @@ func _on_enemy_forgotten():
 	state_chart.send_event("enemy_forget")
 
 func _on_attack_state_exited():
-	if !is_instance_valid(detected_enemy) or !check_bodies_presence().has(detected_enemy):
+	if !is_instance_valid(detected_enemy) or !_find_other_minions().has(detected_enemy):
 		detected_enemy = null
-		update_target()
+		update_target(exploration_target)
 	else:
 		await get_tree().create_timer(0.01).timeout
 		state_chart.send_event("enemy_detected")
 
-func check_bodies_presence() -> Array:
+func _find_other_minions() -> Array:
 	return enemy_detection_area.get_overlapping_bodies().filter(func(body):
-		return (body!=self and body is CharacterBody2D))
+		return (body!=self and body is BaseMinion))
 
 
-func _on_explore_state_entered():
-	detected_enemy = null
-	redetect_enemies()
-	state_explore = true
+##########
+# Состояние взаимодействия с объектами
+##########
 
-func _on_explore_state_exited():
-	state_explore = false
+var object_to_interact : Node2D
 
-func _on_interaction_object_detected(body):
-	if body.get_parent() is InteractableObject:
+var path_update_counter = 0
+
+func _on_interact_state_physics_processing(_delta:float):
+	var distance_to_object = (object_to_interact.global_position - global_position).length()
+	if object_to_interact.interaction_distance > distance_to_object:
+		update_target(object_to_interact)
+		_move()
+
+
+func _on_obstacle_detected(body):
+	if body.get_parent() is Obstacle:
 		state_chart.send_event("interaction_required")
-		interaction_attempt(body.get_parent())
+		object_to_interact = body.get_parent()
+		_interaction_attempt(object_to_interact)
 
-func interaction_attempt(object : InteractableObject):
+func _interacion_process():
+	printerr("\"_interacion_process\" is not overridden!")
+	await get_tree().create_timer(2).timeout
+
+func _interaction_attempt(object : InteractableObject):
+	var interaction_success := false
 	for interaction in _available_interactions:
 		if object.available_interactions.has(interaction):
-			# FIXME
-			target_reached = true
-			await get_tree().create_timer(3).timeout
+			interaction_success = true
+			await _interacion_process() 
 			object.interact()
 			break
-	if !target_reached:
-		# print('fail')
-		on_obsticle_interaction_fail()
-	else:
-		target_reached = false
+	if !interaction_success:
+		_on_obstacle_interaction_fail()
 	state_chart.send_event("interaction_finished")
 
-func find_other_obsitcles():
-	return interaction_area.get_overlapping_bodies().filter(func(body):
+func _find_other_obstacles():
+	return obstacle_detection_area.get_overlapping_bodies().filter(func(body):
 		return (body!=self and body is InteractableObject))
 	
-func on_obsticle_interaction_fail():
+func _on_obstacle_interaction_fail():
 	if on_way_to_final:
-		point_exclude_and_move_on(current_path_map)
+		_point_exclude_and_move_on(current_path_map)
 	else:
-		var points_for_removal = recursive_find_endpoints(current_path_map, [])
+		var points_for_removal = _recursive_find_endpoints(current_path_map, [])
 		# print("points for removal ",points_for_removal)
 		for point in points_for_removal:
-			point_exclude_and_move_on(point)
+			_point_exclude_and_move_on(point)
 	_init_hero_movement()
 
-func recursive_find_endpoints(points_dict : Dictionary, endpoints : Array) -> Array:
+func _recursive_find_endpoints(points_dict : Dictionary, endpoints : Array) -> Array:
 	for point in points_dict.values():
 		if point is Dictionary:
-			recursive_find_endpoints(point, endpoints)
+			_recursive_find_endpoints(point, endpoints)
 		else:
 			endpoints.append(point)
 			return endpoints
 	return endpoints
+
 
 ###########################
 # Другое
@@ -323,10 +380,14 @@ const STUCK_MARGIN = 10
 
 func _on_stuck_timer_timeout():
 	if prev_pos and cur_pos and (prev_pos - cur_pos).length() < STUCK_MARGIN and state_explore:
-		update_target()
-		if move_and_slide() and find_other_obsitcles().size() >0:
-			interaction_attempt(find_other_obsitcles()[0])
+		update_target(exploration_target)
+		if _find_other_obstacles().size() >0:
+			_interaction_attempt(_find_other_obstacles()[0])
 	else:
 		prev_pos = cur_pos
 		cur_pos = global_position
+
+
+
+
 

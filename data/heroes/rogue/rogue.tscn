@@ -73,7 +73,7 @@ sprite_frames = SubResource("SpriteFrames_f5hrw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectionArea" index="0"]
 shape = SubResource("CircleShape2D_uuecl")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObstacleDetectionArea" index="0"]
 shape = SubResource("CircleShape2D_wxtaw")
 
 [connection signal="attack_finished" from="Attack1Component" to="." method="_on_attack_1_component_attack_finished"]
