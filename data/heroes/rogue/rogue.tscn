@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwumloxfvkt0t"]
+[gd_scene load_steps=14 format=3 uid="uid://bwumloxfvkt0t"]
 
 [ext_resource type="PackedScene" uid="uid://cn72ke0k838lf" path="res://data/heroes/base_hero.tscn" id="1_yb3bv"]
 [ext_resource type="Script" path="res://data/heroes/rogue/rogue.gd" id="2_jww5s"]
@@ -35,6 +35,9 @@ radius = 565.053
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wxtaw"]
 radius = 68.7314
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5eoe4"]
+radius = 507.44
 
 [node name="Rogue" instance=ExtResource("1_yb3bv")]
 script = ExtResource("2_jww5s")
@@ -75,5 +78,8 @@ shape = SubResource("CircleShape2D_uuecl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ObstacleDetectionArea" index="0"]
 shape = SubResource("CircleShape2D_wxtaw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableDetectionArea" index="0"]
+shape = SubResource("CircleShape2D_5eoe4")
 
 [connection signal="attack_finished" from="Attack1Component" to="." method="_on_attack_1_component_attack_finished"]

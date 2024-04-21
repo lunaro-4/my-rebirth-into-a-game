@@ -193,7 +193,7 @@ func _target_reached():
 
 @onready var obstacle_detection_area = $ObstacleDetectionArea as Area2D
 
-var _available_interactions = [] as Array[InteractableObject.InteractionTypes]
+@onready var interactable_detection_area = $InteractableDetectionArea as Area2D
 
 var state_explore := true
 
@@ -206,15 +206,19 @@ func _connect_state_machine_functions():
 	enemy_detection_area.body_entered.connect(_on_enemy_detected)
 	enemy_detection_area.body_exited.connect(_on_enemy_undetected)
 	obstacle_detection_area.body_entered.connect(_on_obstacle_detected)
+	interactable_detection_area.body_entered.connect(_on_interactable_detected)
 
 	var explore_state = state_chart.get_node("Root").get_node("Explore") as AtomicState
 	var attack_state = state_chart.get_node("Root").get_node("Attack") as AtomicState
-	var interact_state = state_chart.get_node("Root").get_node("Interact") as AtomicState
+	var move_to_interact = state_chart.get_node("Root").get_node("MoveToInteract") as AtomicState
+	var interact = state_chart.get_node("Root").get_node("Interact") as AtomicState
 	attack_state.state_physics_processing.connect(_on_attack_state_physics_processing)
-	interact_state.state_physics_processing.connect(_on_interact_state_physics_processing)
-	# HACK
+	move_to_interact.state_physics_processing.connect(_on_move_to_interact_physics_processing)
+	interact.state_entered.connect(_on_interact_state_entered)
+	interact.state_exited.connect(_on_interact_state_exited)
 	explore_state.state_physics_processing.connect(_on_explore_state_physics_processing)
 	state_chart.send_event("interaction_required")
+	# state_chart.send_event("in_interaction_radius")
 	state_chart.send_event("interaction_finished")
 
 func _move():
@@ -308,12 +312,33 @@ var object_to_interact : Node2D
 
 var path_update_counter = 0
 
-func _on_interact_state_physics_processing(_delta:float):
-	var distance_to_object = (object_to_interact.global_position - global_position).length()
-	if object_to_interact.interaction_distance > distance_to_object:
-		update_target(object_to_interact)
-		_move()
+var _available_interactions = [InteractableObject.InteractionTypes.PICKUP] as Array[InteractableObject.InteractionTypes]
 
+var is_interaction_valid := false
+
+signal interacting_initialised
+
+func _on_interact_state_entered():
+	interacting_initialised.emit()
+
+func _on_interact_state_exited():
+	pass
+
+func _on_move_to_interact_physics_processing(_delta:float):
+	if is_instance_valid(object_to_interact) and object_to_interact:
+		var distance_to_object = (object_to_interact.global_position - global_position).length()
+		if object_to_interact.interaction_distance < distance_to_object:
+			update_target(object_to_interact)
+			_move()
+		else:
+			# print(distance_to_object, object_to_interact.global_position,global_position)
+			state_chart.send_event("in_interaction_radius")
+	else:
+		# state_chart.send_event("interaction_finished")
+		pass
+
+func on_item_pickup(item):
+	print("Picked up ", item)
 
 func _on_obstacle_detected(body):
 	if body.get_parent() is Obstacle:
@@ -321,17 +346,25 @@ func _on_obstacle_detected(body):
 		object_to_interact = body.get_parent()
 		_interaction_attempt(object_to_interact)
 
-func _interacion_process():
-	printerr("\"_interacion_process\" is not overridden!")
+func _on_interactable_detected(body):
+	if not body.get_parent() is Obstacle:
+		state_chart.send_event("interaction_required")
+		object_to_interact = body.get_parent()
+		_interaction_attempt(object_to_interact)
+
+func _interaction_process():
+	printerr("\"_interacion_process\" is not overriden!")
 	await get_tree().create_timer(2).timeout
 
 func _interaction_attempt(object : InteractableObject):
 	var interaction_success := false
 	for interaction in _available_interactions:
 		if object.available_interactions.has(interaction):
-			interaction_success = true
-			await _interacion_process() 
-			object.interact()
+			await interacting_initialised
+			await _interaction_process() 
+			var interaction_outcome = object.interact(self)
+			if interaction_outcome == null or interaction_outcome == false:
+				interaction_success = true
 			break
 	if !interaction_success:
 		_on_obstacle_interaction_fail()

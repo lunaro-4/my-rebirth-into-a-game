@@ -1,14 +1,22 @@
 class_name InteractableObject extends LevelObject
 
+@export var interaction_distance : int
+
 enum InteractionTypes{
-	THIEF_UNLOCK = 0, 
-	WARRIOR_UNLOCK = 1,
-	MAGE_UNLOCK = 2, }
+	DEFAULT,
+	THIEF_UNLOCK, 
+	WARRIOR_UNLOCK,
+	MAGE_UNLOCK, 
+	PICKUP,
+
+
+	}
+
 
 
 var available_interactions : Array[InteractionTypes] = []
 
 
-func interact():
+func interact(_interacting_entity):
 	printerr("Method \"interact\" is not declared!")
-	return false
+	return true

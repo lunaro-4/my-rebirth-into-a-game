@@ -1,3 +1,4 @@
+@icon("./ghost-script.png")
 class_name Soul extends Resource
 
 
