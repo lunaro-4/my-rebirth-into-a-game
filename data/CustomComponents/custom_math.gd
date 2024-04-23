@@ -13,7 +13,7 @@ static func find_in_array(vec: Vector2, arr :Array) -> Vector2:
 			return i
 	return Vector2()
 
-static func find_in_array_i(vec: Vector2i, arr :Array[Vector2i]) -> Vector2i:
+static func find_in_array_i(vec: Vector2i, arr :Array) -> Vector2i:
 	for i in arr:
 		if compare_vectors(i,vec):
 			return i

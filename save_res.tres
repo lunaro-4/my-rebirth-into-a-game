@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SaveFile" load_steps=2 format=3 uid="uid://dgqmbuy23mc10"]
+
+[ext_resource type="Script" path="res://data/levels/save_file.gd" id="1_ltta6"]
+
+[resource]
+script = ExtResource("1_ltta6")
+date = ""
+node_data_array = Array[Dictionary]([])

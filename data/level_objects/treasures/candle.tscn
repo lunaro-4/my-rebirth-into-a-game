@@ -8,6 +8,7 @@ size = Vector2(200, 184)
 
 [node name="Candle" type="Node2D"]
 script = ExtResource("1_rkg03")
+interaction_distance = 50
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.100975, 0.100975)

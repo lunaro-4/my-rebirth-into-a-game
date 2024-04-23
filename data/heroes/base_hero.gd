@@ -242,7 +242,7 @@ func _on_explore_state_physics_processing(_delta:float):
 
 func _path_update_counter(count_add):
 	path_update_counter += count_add
-	if path_update_counter >5:
+	if path_update_counter > 3:
 		pathfinder.makepath()
 		path_update_counter = 0
 

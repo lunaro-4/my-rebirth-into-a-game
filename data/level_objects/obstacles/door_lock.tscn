@@ -8,6 +8,7 @@ size = Vector2(512, 254)
 
 [node name="DoorLock" type="Node2D"]
 script = ExtResource("1_jf40c")
+interaction_distance = 40
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_sim4p")
