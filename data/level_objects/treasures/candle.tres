@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelObject" load_steps=4 format=3 uid="uid://i8igppnl7su8"]
+
+[ext_resource type="Image" uid="uid://ddu6yp6cuwpb1" path="res://data/level_objects/treasures/gold-filled.png" id="1_afuy3"]
+[ext_resource type="Script" path="res://data/level_objects/level_object.gd" id="1_edfr8"]
+[ext_resource type="PackedScene" uid="uid://c1ld5kvwous8m" path="res://data/level_objects/treasures/candle.tscn" id="2_20jpr"]
+
+[resource]
+script = ExtResource("1_edfr8")
+name = "Candle"
+object_scene = ExtResource("2_20jpr")
+icon = ExtResource("1_afuy3")
+type = 1
+scale = 0.175

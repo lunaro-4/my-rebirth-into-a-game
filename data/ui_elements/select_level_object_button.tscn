@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnpyx7ad065qn"]
+
+[ext_resource type="Script" path="res://data/ui_elements/select_level_object_button.gd" id="1_boh6i"]
+[ext_resource type="Resource" uid="uid://d7qowb8lsja5" path="res://data/level_objects/obstacles/door_lock.tres" id="2_oxfwy"]
+
+[node name="SelectLevelObjectButton" type="MarginContainer"]
+script = ExtResource("1_boh6i")
+level_object = ExtResource("2_oxfwy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ButtonLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2

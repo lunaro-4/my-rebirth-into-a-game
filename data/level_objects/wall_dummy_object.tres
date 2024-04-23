@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelObject" load_steps=3 format=3 uid="uid://ccc0kului4086"]
+
+[ext_resource type="Image" uid="uid://xnw2jq4g3ax6" path="res://TestingFolder/wall_placeholder.png" id="1_jkyla"]
+[ext_resource type="Script" path="res://data/level_objects/level_object.gd" id="1_t27xb"]
+
+[resource]
+script = ExtResource("1_t27xb")
+name = "Wall"
+icon = ExtResource("1_jkyla")
+type = 99
+scale = 0.0

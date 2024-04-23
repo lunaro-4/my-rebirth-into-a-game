@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://xnw2jq4g3ax6"
+path="res://.godot/imported/wall_placeholder.png-f1f2e12b52576636cf12d7ef317299ff.image"
+
+[deps]
+
+source_file="res://TestingFolder/wall_placeholder.png"
+dest_files=["res://.godot/imported/wall_placeholder.png-f1f2e12b52576636cf12d7ef317299ff.image"]
+
+[params]
+

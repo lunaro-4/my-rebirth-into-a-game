@@ -1,4 +1,4 @@
-class_name InteractableObject extends LevelObject
+class_name InteractableObject extends Node2D
 
 @export var interaction_distance : int
 
