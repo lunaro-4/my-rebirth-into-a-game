@@ -4,13 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://f3uam4i1a0lq" path="res://TestingFolder/PVZ-Squash-3939305007.jpg" id="2_sim4p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r33xp"]
-size = Vector2(512, 254)
+size = Vector2(244, 254)
 
 [node name="DoorLock" type="Node2D"]
 script = ExtResource("1_jf40c")
 interaction_distance = 40
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 1)
 texture = ExtResource("2_sim4p")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
