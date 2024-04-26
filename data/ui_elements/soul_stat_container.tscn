@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://dac0ybvwfkirq"]
+
+[ext_resource type="Script" path="res://data/ui_elements/soul_stat_container.gd" id="1_362sc"]
+[ext_resource type="Texture2D" uid="uid://cen5pggdk00en" path="res://TestingFolder/green.png" id="2_dry8a"]
+
+[node name="SoulStatContainer" type="MarginContainer"]
+script = ExtResource("1_362sc")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_dry8a")
+expand_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="HFlowContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SoulNameLable" type="Label" parent="HBoxContainer/HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Red soul
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HFlowContainer"]
+layout_mode = 2
+
+[node name="LeftText" type="Label" parent="HBoxContainer/HFlowContainer/HBoxContainer"]
+layout_mode = 2
+text = "Souls left:"
+
+[node name="LeftNum" type="Label" parent="HBoxContainer/HFlowContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "123
+"
+
+[node name="ToSpendText" type="Label" parent="HBoxContainer/HFlowContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "-"
+
+[node name="ToSpendNum" type="Label" parent="HBoxContainer/HFlowContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "123
+"

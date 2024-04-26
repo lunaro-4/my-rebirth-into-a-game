@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Soul" load_steps=3 format=3 uid="uid://ral3cnmhvc7r"]
+
+[ext_resource type="Script" path="res://data/souls_and_currency/soul.gd" id="1_qiah2"]
+[ext_resource type="SpriteFrames" uid="uid://dlp2unc0iy06e" path="res://data/souls_and_currency/blue_soul_sprite.tres" id="2_aghe2"]
+
+[resource]
+script = ExtResource("1_qiah2")
+name = "Blue soul"
+sprite = ExtResource("2_aghe2")
+type = 2

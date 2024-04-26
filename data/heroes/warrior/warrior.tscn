@@ -1,0 +1,77 @@
+[gd_scene load_steps=13 format=3 uid="uid://b1b3n3epdi7at"]
+
+[ext_resource type="PackedScene" uid="uid://cn72ke0k838lf" path="res://data/heroes/base_hero.tscn" id="1_ksy23"]
+[ext_resource type="Script" path="res://data/heroes/warrior/warrior.gd" id="2_r84fh"]
+[ext_resource type="Texture2D" uid="uid://dts044t23auss" path="res://icon.svg" id="3_51gpv"]
+[ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="3_pw5qx"]
+[ext_resource type="Script" path="res://data/heroes/warrior/warrion_attack_1_animation.gd" id="3_ywxho"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jbypv"]
+radius = 62.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qvp4m"]
+radius = 86.0523
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t0ctr"]
+radius = 180.069
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gl57k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_51gpv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eldoh"]
+radius = 552.008
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u43eu"]
+radius = 78.6384
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i1hyj"]
+radius = 287.696
+
+[node name="Warrior" instance=ExtResource("1_ksy23")]
+script = ExtResource("2_r84fh")
+soul = ExtResource("3_pw5qx")
+
+[node name="HeroCollision" parent="." index="0"]
+shape = SubResource("CircleShape2D_jbypv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+shape = SubResource("CircleShape2D_qvp4m")
+
+[node name="Attack1Component" parent="." index="4" node_paths=PackedStringArray("hit_animation_object")]
+damage = 50.0
+knockback = 10.0
+delay = 1.5
+hit_window = 1.0
+hit_animation_object = NodePath("Attack1Animation")
+
+[node name="Attack1Zone" type="CollisionShape2D" parent="Attack1Component" index="0"]
+shape = SubResource("CircleShape2D_t0ctr")
+
+[node name="Attack1Polygon" type="Polygon2D" parent="Attack1Component" index="1"]
+color = Color(0.776471, 0.105882, 0, 0.870588)
+polygon = PackedVector2Array(-26, 188, -45, 182, -87, 168, -115, 146, -150, 124, -168, 78, -180, 38, -192, -16, -182, -59, -164, -97, -139, -131, -105, -158, -76, -173, -52, -182, -23, -191, 9, -195, 42, -185, 88, -163, 109, -153, 134, -124, 167, -99, 177, -77, 178, -43, 181, 4, 183, 45, 176, 70, 162, 97, 146, 124, 114, 153, 72, 180, 40, 188, 7, 190)
+
+[node name="Attack1Animation" type="Node2D" parent="Attack1Component" index="2" node_paths=PackedStringArray("anim_poly")]
+script = ExtResource("3_ywxho")
+anim_poly = NodePath("../Attack1Polygon")
+
+[node name="AnimatedSprite2D" parent="." index="5"]
+modulate = Color(1, 0.141176, 0.14902, 1)
+sprite_frames = SubResource("SpriteFrames_gl57k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectionArea" index="0"]
+shape = SubResource("CircleShape2D_eldoh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObstacleDetectionArea" index="0"]
+shape = SubResource("CircleShape2D_u43eu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableDetectionArea" index="0"]
+shape = SubResource("CircleShape2D_i1hyj")

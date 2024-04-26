@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=3 uid="uid://c66130rqe54"]
+
+[ext_resource type="Script" path="res://data/ui_elements/object_syntesys.gd" id="1_v4ikc"]
+
+[node name="Object Synthesys" type="PanelContainer"]
+script = ExtResource("1_v4ikc")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 2
+split_offset = -210
+
+[node name="Container" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="HSplitContainer/Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BACK" type="Control" parent="HSplitContainer/Container/ButtonsContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Preview" type="Control" parent="HSplitContainer/Container"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Container/Preview"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResultImage" type="TextureRect" parent="HSplitContainer/Container/Preview/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ObjectName" type="Label" parent="HSplitContainer/Container/Preview/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CreateButton" type="Button" parent="HSplitContainer/Container/Preview/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create!
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="SoulsLablel" type="Label" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Souls
+"
+
+[node name="SoulStatList" type="VBoxContainer" parent="HSplitContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RecepiesLablel" type="Label" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Recepies"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RecepiesList" type="GridContainer" parent="HSplitContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelObject" load_steps=6 format=3 uid="uid://reubwkr54vq5"]
+
+[ext_resource type="Script" path="res://data/level_objects/level_object.gd" id="1_g50or"]
+[ext_resource type="Image" uid="uid://b5selagceqqmh" path="res://data/level_objects/enemies/chess-knight.png" id="1_mk15c"]
+[ext_resource type="PackedScene" uid="uid://cclhe6u0fnoqh" path="res://data/enemies/slime/slime.tscn" id="2_m8x2m"]
+[ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="3_u3jm2"]
+[ext_resource type="Resource" uid="uid://dhqhmsuw7jq2p" path="res://data/souls_and_currency/green_soul.tres" id="4_qq1xk"]
+
+[resource]
+script = ExtResource("1_g50or")
+name = "Slime"
+object_scene = ExtResource("2_m8x2m")
+icon = ExtResource("1_mk15c")
+type = 2
+scale = 0.0
+recepie = Array[Resource("res://data/souls_and_currency/soul.gd")]([ExtResource("3_u3jm2"), ExtResource("4_qq1xk"), ExtResource("4_qq1xk")])

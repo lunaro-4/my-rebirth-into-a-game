@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://xqpjcr0edec8"]
+
+[ext_resource type="PackedScene" uid="uid://c66130rqe54" path="res://data/ui_elements/object_synthesys.tscn" id="1_deo5k"]
+
+[node name="InventoryUI" type="TabContainer"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 44.0
+offset_top = -310.0
+offset_right = 859.0
+offset_bottom = 309.0
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="Object Synthesys" parent="." instance=ExtResource("1_deo5k")]
+layout_mode = 2
+
+[node name="Treasure Creation" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="Inventory2" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2

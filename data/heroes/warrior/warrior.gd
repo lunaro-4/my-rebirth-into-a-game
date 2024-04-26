@@ -1,7 +1,3 @@
-# meta-name: Hero 
-# meta-description: Заготовка под скрипт героя
-# meta-space-indent: 4
-
 extends BaseHero
 
 
@@ -10,7 +6,8 @@ extends BaseHero
 
 func _ready():
 	super()
-	# attack_1_component.attack()
+	attack_1_component.attack()
+	_available_interactions.append(InteractableObject.InteractionTypes.WARRIOR_UNLOCK)
 
 
 func point_choose_logic(path_variants):
@@ -71,3 +68,4 @@ func _on_enemy_undetected(body):
 
 func _on_death():
 	super()
+

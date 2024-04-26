@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b0rtg7bsh2umk"]
+[gd_scene load_steps=4 format=3 uid="uid://b0rtg7bsh2umk"]
 
 [ext_resource type="Script" path="res://data/souls_and_currency/soul_scene.gd" id="1_olvwx"]
+[ext_resource type="SpriteFrames" uid="uid://dlp2unc0iy06e" path="res://data/souls_and_currency/blue_soul_sprite.tres" id="2_bcq8r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5u0ms"]
 radius = 21.0238
@@ -9,6 +10,7 @@ radius = 21.0238
 script = ExtResource("1_olvwx")
 
 [node name="SoulSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_bcq8r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5u0ms")

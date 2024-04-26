@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="LevelObject" load_steps=4 format=3 uid="uid://d7qowb8lsja5"]
+[gd_resource type="Resource" script_class="LevelObject" load_steps=6 format=3 uid="uid://d7qowb8lsja5"]
 
 [ext_resource type="Image" uid="uid://c5jf7rl4kkjp6" path="res://data/level_objects/obstacles/red-box.png" id="1_1l3wb"]
 [ext_resource type="Script" path="res://data/level_objects/level_object.gd" id="1_oqoqc"]
 [ext_resource type="PackedScene" uid="uid://crl3hw6hemnhg" path="res://data/level_objects/obstacles/door_lock.tscn" id="2_25hwd"]
+[ext_resource type="Resource" uid="uid://dhqhmsuw7jq2p" path="res://data/souls_and_currency/green_soul.tres" id="3_mwt0r"]
+[ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="4_qukjf"]
 
 [resource]
 script = ExtResource("1_oqoqc")
@@ -11,3 +13,4 @@ object_scene = ExtResource("2_25hwd")
 icon = ExtResource("1_1l3wb")
 type = 0
 scale = 0.162
+recepie = Array[Resource("res://data/souls_and_currency/soul.gd")]([ExtResource("3_mwt0r"), ExtResource("4_qukjf")])

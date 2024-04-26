@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://b5selagceqqmh"
+path="res://.godot/imported/chess-knight.png-2a818e49bd7cb572cd49d00485b3332f.image"
+
+[deps]
+
+source_file="res://data/level_objects/enemies/chess-knight.png"
+dest_files=["res://.godot/imported/chess-knight.png-2a818e49bd7cb572cd49d00485b3332f.image"]
+
+[params]
+
