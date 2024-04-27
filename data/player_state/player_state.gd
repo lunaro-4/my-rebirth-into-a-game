@@ -33,7 +33,9 @@ func load_player_state() -> bool:
 		var new_object = LevelObject.new()
 		new_object.name = object.name
 		new_object.object_scene = load(object.object_scene)
+		# new_object.object_scene = object.object_scene
 		new_object.icon = load(object.icon)
+		# new_object.icon = object.icon
 		new_object.type = object.type
 		new_object.scale = object.scale
 		new_object.recepie = [] as Array[Soul] 
@@ -53,6 +55,7 @@ func load_player_state() -> bool:
 	var json_soul_data = json.get_data()
 	soul_inventory.set_new_array(json_soul_data)
 
+	inventory_updated.emit()
 	return true
 
 func save_player_state():
@@ -70,7 +73,7 @@ func save_player_state():
 
 func add_object_to_inventory(object):
 	objects_inventory.append(object)
-	print(objects_inventory.get_inventory())
+	# print(objects_inventory.get_inventory())
 	inventory_updated.emit()
 
 func change_soul_amount(change_values : Dictionary) -> bool:
@@ -93,7 +96,6 @@ func spend_souls(change_values : Dictionary) -> bool:
 			if change_values_return_code == soul_inventory.ErrorCodes.LESS_THAN_ZERO:
 				assert(false, str("Attempt to set value ", value, " below zero"))
 	soul_amount_updated.emit()
-	print(soul_inventory.get_amount())
 	return true
  
 

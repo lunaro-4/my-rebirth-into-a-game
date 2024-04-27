@@ -120,11 +120,13 @@ func _update_set_to_spend(set_to_spend : Dictionary):
 				continue
 
 func _create_object():
-	print(creatable_object)
+	# print(creatable_object)
 	var new_object = LevelObject.new()
 	new_object.name = creatable_object.name
-	new_object.object_scene = creatable_object.object_scene.duplicate()
-	new_object.icon = creatable_object.icon.duplicate()
+	# new_object.object_scene = creatable_object.object_scene.duplicate()
+	# new_object.icon = creatable_object.icon.duplicate()
+	new_object.object_scene = creatable_object.object_scene
+	new_object.icon = creatable_object.icon
 	new_object.type = creatable_object.type
 	new_object.scale = creatable_object.scale
 	new_object.recepie = creatable_object.recepie.duplicate()

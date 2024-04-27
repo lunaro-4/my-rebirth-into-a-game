@@ -37,5 +37,8 @@ func get_amount() -> Dictionary:
 	return inventory_array
 
 func set_new_array(array: Dictionary) ->Dictionary:
-	inventory_array = array
+	var new_array = {}
+	for key in array.keys():
+		new_array [int(key)] = array [key]
+	inventory_array = new_array
 	return inventory_array

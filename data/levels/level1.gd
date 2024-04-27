@@ -26,13 +26,13 @@ func _ready():
 	_update_inventory()
 
 	map_redactor_component.wall_map = walls
-
+	
 	save_button.pressed.connect(map_redactor_component.save_level_to_file.bind(save_location))
 	load_button.pressed.connect(map_redactor_component.load_level_from_file.bind(save_location))
 	reset_button.pressed.connect(map_redactor_component.reset_map)
 	play_button.pressed.connect(start_game)
 	crafting_menu_toggle.pressed.connect(_inventory_visibility_toggle)
-
+	
 	PlayerState.inventory_updated.connect(_update_inventory)
 	_swich_interfaces(true)
 
@@ -66,7 +66,7 @@ var points_of_interest_global = []
 var crossroads_path_map : Dictionary
 
 @onready var ground = $Floor as TileMap
-@onready var walls = $NavigationRegion2D/WallUnbreakable as TileMap
+@onready var walls = $NavigationRegion2D/Walls as TileMap
 @onready var debug_mark = $mark as TileMap
 @onready var poic = $PointsOfInterestComponent as PointsOfInterestComponent
 @onready var wall_map = %Walls as TileMap
