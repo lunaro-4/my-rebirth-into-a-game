@@ -1,15 +1,16 @@
 extends MarginContainer
 
 
-const SOULS_LEFT = {
-	Soul.SoulType.RED : 12,
-	Soul.SoulType.GREEN : 3,
-	Soul.SoulType.BLUE : 7
-}
+# const SOULS_LEFT = {
+# 	Soul.SoulType.RED : 12,
+# 	Soul.SoulType.GREEN : 3,
+# 	Soul.SoulType.BLUE : 7
+# }
 
 @export var soul_to_show : Soul
 
 var container_id 
+var initial_souls_left
 
 @onready var texture_rect = %TextureRect as TextureRect
 @onready var soul_name_lable = %SoulNameLable as Label
@@ -19,14 +20,16 @@ var container_id
 
 
 func _ready():
-	update_soul()
+	update_soul(initial_souls_left)
 
-func update_soul():
-	var soul_left_dict = SOULS_LEFT
+func update_soul(souls_left):
+	if souls_left == null:
+		souls_left = 0
+	# var soul_left_dict = SOULS_LEFT
 	container_id = soul_to_show.type
 	soul_name_lable.text = str(soul_to_show.name)
 	texture_rect.texture = soul_to_show.sprite.get_frame_texture("default",0)	
-	left_num.text = str(soul_left_dict[soul_to_show.type])
+	left_num.text = str(souls_left)
 	set_to_spend(0)
 
 func set_to_spend(amount: float):
@@ -40,4 +43,4 @@ func set_to_spend(amount: float):
 			to_spend_text.set_text("-")
 		else:
 			to_spend_text.set_text("+")
-	to_spend_num = str(amount)	
+	to_spend_num.set_text(str(amount))

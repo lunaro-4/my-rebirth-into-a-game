@@ -15,3 +15,20 @@ enum ObjectType {
 @export var recepie : Array[Soul]
 
 # var iccco = ScenePreviewExtractor.get_preview(object_scene,self,"set_texture")
+
+func _translate_recepie_to_paths():
+	var path_array = []
+	for soul in recepie:
+		path_array.append(soul.resource_path)
+	return path_array
+
+func save() -> Dictionary:
+	var save_dict= {
+		"name" = name,
+		"object_scene" = object_scene.resource_path,
+		"icon" = icon.resource_path,
+		"type" = type,
+		"scale" = scale,
+		"recepie" = _translate_recepie_to_paths()
+	}
+	return save_dict

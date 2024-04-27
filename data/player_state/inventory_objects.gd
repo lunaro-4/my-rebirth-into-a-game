@@ -25,3 +25,7 @@ func get_count() -> Dictionary:
 		else:
 			count_dict[object] = 1
 	return count_dict
+
+func set_new_array(array: Array) -> Array[LevelObject]:
+	inventory_array = array as Array[LevelObject]
+	return inventory_array
