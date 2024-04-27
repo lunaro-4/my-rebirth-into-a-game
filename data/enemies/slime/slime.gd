@@ -17,3 +17,8 @@ func _on_attack_1_component_attack_finished():
 func _on_death():
 	minion_dead.emit()
 	queue_free()
+
+func save():
+	var save_array = super()
+	save_array ["filepath"] = get_scene_file_path()
+	return save_array

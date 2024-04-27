@@ -32,3 +32,11 @@ func save() -> Dictionary:
 		"recepie" = _translate_recepie_to_paths()
 	}
 	return save_dict
+
+func get_scene_instance() -> Node2D:
+	var new_scene_instance = object_scene.instantiate()
+	new_scene_instance.bound_object = self
+	return new_scene_instance
+
+func is_equal_to(other_object : LevelObject) -> bool:
+	return recepie == other_object.recepie

@@ -1,14 +1,6 @@
 class_name Level extends Node2D
 
 
-@onready var buttons_container = %ButtonsContainer as HBoxContainer
-
-@onready var map_redactor_component = $MapRedactorComponent as MapRedactor
-
-@onready var save_button = %SaveButton as Button
-@onready var load_button = %LoadButton as Button
-@onready var reset_button = %ResetButton as Button
-@onready var play_button = %PlayButton as Button
 
 
 enum states {
@@ -16,14 +8,22 @@ enum states {
 	}
 
 var save_location = "user://level1/save.tres"
+var player_inventory #= [load("res://data/level_objects/wall_dummy_object.tres"),
+# 			load("res://data/level_objects/obstacles/door_lock.tres"),
+# 			load("res://data/level_objects/treasures/candle.tres")]
+var wall_dummy_object = load("res://data/level_objects/wall_dummy_object.tres")
 
-var player_inventory = [load("res://data/level_objects/wall_dummy_object.tres"),
-			load("res://data/level_objects/obstacles/door_lock.tres"),
-			load("res://data/level_objects/treasures/candle.tres")]
+@onready var buttons_container = %ButtonsContainer as HBoxContainer
+@onready var map_redactor_component = $MapRedactorComponent as MapRedactor
+@onready var save_button = %SaveButton as Button
+@onready var load_button = %LoadButton as Button
+@onready var reset_button = %ResetButton as Button
+@onready var play_button = %PlayButton as Button
+@onready var crafting_menu_toggle = %CraftingMenuToggle as Button
 
 func _ready():
 
-	map_redactor_component.populate_buttons_container(player_inventory)
+	_update_inventory()
 
 	map_redactor_component.wall_map = walls
 
@@ -31,15 +31,39 @@ func _ready():
 	load_button.pressed.connect(map_redactor_component.load_level_from_file.bind(save_location))
 	reset_button.pressed.connect(map_redactor_component.reset_map)
 	play_button.pressed.connect(start_game)
+	crafting_menu_toggle.pressed.connect(_inventory_visibility_toggle)
+
+	PlayerState.inventory_updated.connect(_update_inventory)
 	_swich_interfaces(true)
 
 
+func _update_inventory():
+	player_inventory = PlayerState.get_inventory().duplicate()
+	player_inventory.push_front(wall_dummy_object)
+	map_redactor_component.populate_buttons_container(player_inventory)
 
 func _swich_interfaces(state):
 	$MenuButtons.visible = state
 	$ObjectSelectionBarLayer.visible = state
 
+func _inventory_visibility_toggle():
+	%InventoryUI.visible = !%InventoryUI.visible
 
+###########################
+# Начало игры
+###########################
+
+signal points_established
+signal target_update
+
+const STARTING_POINT = Vector2i(0,0)
+const DEFAULT_SAVE_RESOURCE_PATH = "user://save_res.tres"
+
+var astar_grid : AStarGrid2D
+var pathfinding_array : Array[Node]
+var points_of_interest_astar_coord: Array[Vector2i] = []
+var points_of_interest_global = []
+var crossroads_path_map : Dictionary
 
 @onready var ground = $Floor as TileMap
 @onready var walls = $NavigationRegion2D/WallUnbreakable as TileMap
@@ -47,24 +71,6 @@ func _swich_interfaces(state):
 @onready var poic = $PointsOfInterestComponent as PointsOfInterestComponent
 @onready var wall_map = %Walls as TileMap
 
-var astar_grid : AStarGrid2D
-
-var pathfinding_array : Array[Node]
-
-var points_of_interest_astar_coord: Array[Vector2i] = []
-var points_of_interest_global = []
-
-const STARTING_POINT = Vector2i(0,0)
-
-var crossroads_path_map : Dictionary
-
-
-signal points_established
-
-signal target_update
-
-
-const DEFAULT_SAVE_RESOURCE_PATH = "user://save_res.tres"
 
 func start_game():
 
@@ -165,10 +171,9 @@ func _backtrack_recursive(current_cell : Vector2i, visited: Array[Vector2i]):
 # Базовая обработка героя
 ###########################
 
+const MAX_HERO_POINTS_ON_MAP = 8
 
 var hero_points  = [] as Array[Marker2D]
-
-const MAX_HERO_POINTS_ON_MAP = 8
 
 func set_new_point_for_hero(point_coords : Vector2i, input_hero):
 	var new_point = Marker2D.new()

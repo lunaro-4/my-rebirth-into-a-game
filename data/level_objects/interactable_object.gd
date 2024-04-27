@@ -1,6 +1,7 @@
 class_name InteractableObject extends Node2D
 
 @export var interaction_distance : int
+@export var bound_object : LevelObject
 
 enum InteractionTypes{
 	DEFAULT,

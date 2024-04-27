@@ -1,6 +1,12 @@
 extends PanelContainer
 
 const CRAFTING_SIZE = 3
+const EMPTY_SOUL_ARRAY = {
+	Soul.SoulType.RED : 0,
+	Soul.SoulType.GREEN : 0,
+	Soul.SoulType.BLUE : 0
+}
+
 
 var soul_choice = preload("res://data/ui_elements/soul_choice.tscn")
 var soul_stat_container = preload("res://data/ui_elements/soul_stat_container.tscn")
@@ -31,6 +37,7 @@ var selected_recepie
 
 func _ready():
 	available_souls.sort_custom(func(soul1, soul2): return soul1.type < soul2.type)
+	_update_souls()
 
 	for slot in range(CRAFTING_SIZE):
 		var new_soul_button = soul_choice.instantiate()
@@ -43,6 +50,7 @@ func _ready():
 	for soul in available_souls:
 		var new_soul_container = soul_stat_container.instantiate()
 		new_soul_container.soul_to_show = soul
+		new_soul_container.initial_souls_left = souls_left [soul.type]
 		soul_stat_list.add_child(new_soul_container)
 		soul_stat_container_array.append(new_soul_container)
 
@@ -89,12 +97,27 @@ func _on_soul_selected():
 		object_name.set_text(this_found_recepie.name)
 		creatable_object = this_found_recepie
 		create_button.disabled = false
+		var set_to_spend = EMPTY_SOUL_ARRAY.duplicate()
+		for soul in selected_recepie:
+			if soul == -1:
+				continue
+			set_to_spend [soul] += 1
+		_update_set_to_spend(set_to_spend)
+
 	else: 
 		result_image.set_texture(null)
 		object_name.set_text('')
 		creatable_object = null
 		create_button.disabled = true
+		_update_set_to_spend(EMPTY_SOUL_ARRAY)
 
+# HACK
+func _update_set_to_spend(set_to_spend : Dictionary):
+	for soul in set_to_spend.keys():
+		for container in soul_stat_container_array:
+			if container.container_id  == soul:
+				container.set_to_spend(set_to_spend [soul])
+				continue
 
 func _create_object():
 	print(creatable_object)
@@ -108,6 +131,8 @@ func _create_object():
 	PlayerState.add_object_to_inventory(new_object)
 	var spend_count = {} as Dictionary
 	for soul in selected_recepie:
+		if soul == -1:
+			continue
 		if spend_count.keys().has(soul):
 			spend_count [soul] += 1
 		else:

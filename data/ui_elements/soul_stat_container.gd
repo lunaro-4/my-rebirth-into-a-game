@@ -21,6 +21,7 @@ var initial_souls_left
 
 func _ready():
 	update_soul(initial_souls_left)
+	set_to_spend(0)
 
 func update_soul(souls_left):
 	if souls_left == null:
@@ -30,7 +31,6 @@ func update_soul(souls_left):
 	soul_name_lable.text = str(soul_to_show.name)
 	texture_rect.texture = soul_to_show.sprite.get_frame_texture("default",0)	
 	left_num.text = str(souls_left)
-	set_to_spend(0)
 
 func set_to_spend(amount: float):
 	if amount == 0:
