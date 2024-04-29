@@ -23,15 +23,17 @@ var wall_dummy_object = load("res://data/level_objects/wall_dummy_object.tres")
 
 func _ready():
 
+	map_redactor_component.wall_blueprint = wall_dummy_object
 	_update_inventory()
 
-	map_redactor_component.wall_map = walls
+	map_redactor_component.wall_map = wall_map
 	
 	save_button.pressed.connect(map_redactor_component.save_level_to_file.bind(save_location))
 	load_button.pressed.connect(map_redactor_component.load_level_from_file.bind(save_location))
 	reset_button.pressed.connect(map_redactor_component.reset_map)
 	play_button.pressed.connect(start_game)
 	crafting_menu_toggle.pressed.connect(_inventory_visibility_toggle)
+
 	
 	PlayerState.inventory_updated.connect(_update_inventory)
 	_swich_interfaces(true)
@@ -39,8 +41,8 @@ func _ready():
 
 func _update_inventory():
 	player_inventory = PlayerState.get_inventory().duplicate()
-	player_inventory.push_front(wall_dummy_object)
-	map_redactor_component.populate_buttons_container(player_inventory)
+	# player_inventory.push_front(wall_dummy_object)
+	map_redactor_component.update_inventory(player_inventory)
 
 func _swich_interfaces(state):
 	$MenuButtons.visible = state
@@ -66,7 +68,7 @@ var points_of_interest_global = []
 var crossroads_path_map : Dictionary
 
 @onready var ground = $Floor as TileMap
-@onready var walls = $NavigationRegion2D/Walls as TileMap
+@onready var wall_unbreakable = $NavigationRegion2D/WallUnbreakable as TileMap
 @onready var debug_mark = $mark as TileMap
 @onready var poic = $PointsOfInterestComponent as PointsOfInterestComponent
 @onready var wall_map = %Walls as TileMap
@@ -83,7 +85,7 @@ func start_game():
 	$NavigationRegion2D.bake_navigation_polygon()
 
 	_init_grid()
-	_update_grid_from_tilemap(walls)
+	_update_grid_from_tilemap(wall_unbreakable)
 	_update_grid_from_tilemap(wall_map)
 	_backtrack_recursive(STARTING_POINT, [])
 
@@ -105,8 +107,8 @@ func start_game():
 
 func _init_grid():
 	astar_grid = AStarGrid2D.new()
-	astar_grid.region = walls.get_used_rect()
-	astar_grid.cell_size = walls.tile_set.tile_size
+	astar_grid.region = wall_unbreakable.get_used_rect()
+	astar_grid.cell_size = wall_unbreakable.tile_set.tile_size
 	astar_grid.update()
 	return astar_grid
 

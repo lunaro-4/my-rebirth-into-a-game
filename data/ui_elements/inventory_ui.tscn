@@ -16,10 +16,10 @@ size_flags_horizontal = 4
 [node name="Object Synthesys" parent="." instance=ExtResource("1_deo5k")]
 layout_mode = 2
 
-[node name="Treasure Creation" type="PanelContainer" parent="."]
+[node name="Treasure Synthesys" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 2
 
-[node name="Inventory2" type="PanelContainer" parent="."]
+[node name="Object salvage" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 2

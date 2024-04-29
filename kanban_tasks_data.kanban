@@ -23,7 +23,7 @@
 		{
 			"uuid": "678adcdb-a8e4-4d69-bc60-96eba69fe4f3",
 			"title": "Подзадача: Паша",
-			"color": "ff0000"
+			"color": "0200ff"
 		}
 	],
 	"stages": [
@@ -42,7 +42,9 @@
 		{
 			"uuid": "00d4f9f5-526b-4375-9d93-3f51404d239d",
 			"title": "В процессе ⏳",
-			"tasks": []
+			"tasks": [
+				"ddb3e470-64cf-4b3a-b760-70a32a4bb1b4"
+			]
 		},
 		{
 			"uuid": "bf51c205-b9d6-4c23-b785-9542daf6edb6",
@@ -189,6 +191,50 @@
 				},
 				{
 					"details": "Таблицы дропа",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "ddb3e470-64cf-4b3a-b760-70a32a4bb1b4",
+			"title": "Первый уровень: механики",
+			"description": "",
+			"category": "678adcdb-a8e4-4d69-bc60-96eba69fe4f3",
+			"steps": [
+				{
+					"details": "Окно крафта",
+					"done": true
+				},
+				{
+					"details": "Окно сокровищ",
+					"done": false
+				},
+				{
+					"details": "Окно разбора",
+					"done": false
+				},
+				{
+					"details": "Инвентарное ограничение на размещение",
+					"done": true
+				},
+				{
+					"details": "Сохранение инвентаря и душ",
+					"done": true
+				},
+				{
+					"details": "Сохранение пресета карты",
+					"done": true
+				},
+				{
+					"details": "Рандомные герои",
+					"done": false
+				},
+				{
+					"details": "Сокровищное ограничение на размещение",
+					"done": false
+				},
+				{
+					"details": "Ограничение размещения сокровищ",
 					"done": false
 				}
 			]
