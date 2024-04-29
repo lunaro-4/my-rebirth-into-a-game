@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bkxv82i6o5e8b"]
 
-[ext_resource type="Script" path="res://data/ui_elements/soul_choice.gd" id="1_ujc61"]
+[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/object_synthesys/soul_choice.gd" id="1_ujc61"]
 
 [node name="SoulChoice" type="MarginContainer"]
 size_flags_horizontal = 3

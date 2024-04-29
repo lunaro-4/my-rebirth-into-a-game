@@ -8,6 +8,8 @@ extends MarginContainer
 @onready var souls_recepie = %SoulsRecepie as HBoxContainer
 @onready var button = %Button as Button
 
+# Подключить нажатие : $RecepieContainer.button.pressed.connect(<function_name>.bind(new_recepie_container.object.recepie))
+
 func _ready():
 	texture_rect.set_texture(ImageTexture.create_from_image(object.icon))
 	recepie_name_lable.set_text(object.name)
@@ -17,6 +19,6 @@ func _ready():
 		# FIXME сейчас квадраты очень больше, из-за того что текстуры по разному импортированы и разного размера.
 		# в будущем нужно поменять на  TextureRect.EXPAND_FIT_WIDTH (?)
 		new_image.set_expand_mode(TextureRect.EXPAND_KEEP_SIZE)
-		new_image.set_texture(soul.sprite.get_frame_texture("default",0))
+		new_image.set_texture(soul.get_preview())
 		souls_recepie.add_child(new_image)
 	

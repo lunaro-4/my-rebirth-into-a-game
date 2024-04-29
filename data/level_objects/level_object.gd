@@ -13,14 +13,21 @@ enum ObjectType {
 @export var type : ObjectType
 @export var scale : float
 @export var recepie : Array[Soul]
+var soul_costs : Dictionary
 
 # var iccco = ScenePreviewExtractor.get_preview(object_scene,self,"set_texture")
 
-func _translate_recepie_to_paths():
-	var path_array = []
-	for soul in recepie:
-		path_array.append(soul.resource_path)
-	return path_array
+func _translate_recepie():
+	if type != ObjectType.TREASURE:
+		var path_array = []
+		for soul in recepie:
+			path_array.append(soul.resource_path)
+		return path_array
+	else:
+		var path_dict = {}
+		for soul in recepie:
+			path_dict [soul.resource_path] = soul_costs [soul]
+		return path_dict
 
 func save() -> Dictionary:
 	var save_dict= {
@@ -29,7 +36,7 @@ func save() -> Dictionary:
 		"icon" = icon.resource_path,
 		"type" = type,
 		"scale" = scale,
-		"recepie" = _translate_recepie_to_paths()
+		"recepie" = _translate_recepie()
 	}
 	return save_dict
 

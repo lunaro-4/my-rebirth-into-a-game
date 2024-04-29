@@ -29,7 +29,7 @@ func update_soul(souls_left):
 	# var soul_left_dict = SOULS_LEFT
 	container_id = soul_to_show.type
 	soul_name_lable.text = str(soul_to_show.name)
-	texture_rect.texture = soul_to_show.sprite.get_frame_texture("default",0)	
+	texture_rect.texture = soul_to_show.get_preview()
 	left_num.text = str(souls_left)
 
 func set_to_spend(amount: float):

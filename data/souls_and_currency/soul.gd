@@ -12,5 +12,7 @@ enum SoulType {
 @export var type : SoulType
 
 
-# var icon = sprite.get_frame_texture("default",0)
 var scene = load("res://data/souls_and_currency/soul_scene.tscn") as PackedScene
+
+func get_preview():
+	return sprite.get_frame_texture("default",0)

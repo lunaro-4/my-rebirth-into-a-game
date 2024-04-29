@@ -8,9 +8,9 @@ const EMPTY_SOUL_ARRAY = {
 }
 
 
-var soul_choice = preload("res://data/ui_elements/soul_choice.tscn")
-var soul_stat_container = preload("res://data/ui_elements/soul_stat_container.tscn")
-var recepie_container = preload("res://data/ui_elements/recepie_container.tscn") 
+@export var soul_choice : PackedScene
+@export var soul_stat_container : PackedScene
+@export var recepie_container : PackedScene
 var available_souls = [
 	load("res://data/souls_and_currency/red_soul.tres"),
 	load("res://data/souls_and_currency/blue_soul.tres"),

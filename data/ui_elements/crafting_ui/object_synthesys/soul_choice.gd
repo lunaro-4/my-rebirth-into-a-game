@@ -15,7 +15,7 @@ var index_to_sprite_dict = {} as Dictionary
 func _ready():
 	for soul in soul_options:
 		option_button.add_item(soul.name, soul.type)
-		index_to_sprite_dict[soul.type] = soul.sprite.get_frame_texture("default",0)
+		index_to_sprite_dict[soul.type] = soul.get_preview()
 	option_button.item_selected.connect(_set_button_sprite)
 	option_button.item_selected.connect(_soul_selected_emit)
 

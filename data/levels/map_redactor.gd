@@ -85,6 +85,7 @@ func _remove_object_scene_by_object(object_to_remove : LevelObject, repopulate_b
 		_populate_buttons_container(left_objects_array)
 	# object_instance_dict [object_to_remove]
 
+# TODO сделать такую же фильтрацию при загрузке сейва карты
 func update_inventory(inventory):
 	for object in placed_objects_array:
 		var input_array_fixed = inventory.filter(func(compare_object : LevelObject): return compare_object.is_equal_to(object))
@@ -154,6 +155,7 @@ const DEFAULT_SAVE_RESOURCE_PATH = "user://save_res.tres"
 
 
 func save_level_to_file(save_path: String = DEFAULT_SAVE_RESOURCE_PATH) -> void:
+	printerr("ВНИМАНИЕ: эта функция ещё не обновлялась и работает некорректно с инвентарем")
 	var save_file = SaveFile.new()
 	for node in get_tree().get_nodes_in_group("Savable"):
 		if node.scene_file_path.is_empty():
@@ -170,6 +172,7 @@ func reset_map():
 		node.queue_free()
 
 func load_level_from_file(level_res_path : String = DEFAULT_SAVE_RESOURCE_PATH):
+	printerr("ВНИМАНИЕ: эта функция ещё не обновлялась и работает некорректно с инвентарем")
 	var load_res = load(level_res_path) as SaveFile
 	reset_map()
 	# print(occupied_cells.values()[0])

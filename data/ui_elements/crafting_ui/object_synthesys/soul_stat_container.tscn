@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dac0ybvwfkirq"]
 
-[ext_resource type="Script" path="res://data/ui_elements/soul_stat_container.gd" id="1_362sc"]
+[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/object_synthesys/soul_stat_container.gd" id="1_362sc"]
 [ext_resource type="Texture2D" uid="uid://cen5pggdk00en" path="res://TestingFolder/green.png" id="2_dry8a"]
 
 [node name="SoulStatContainer" type="MarginContainer"]

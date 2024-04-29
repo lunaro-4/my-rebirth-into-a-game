@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://colqh1ug3qkg5" path="res://TestingFolder/Texture/TX Tileset Stone Ground.png" id="4_gphsi"]
 [ext_resource type="Script" path="res://data/CustomComponents/points_of_interest_component.gd" id="5_hruwx"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="6_mqiq4"]
-[ext_resource type="PackedScene" uid="uid://xqpjcr0edec8" path="res://data/ui_elements/inventory_ui.tscn" id="9_iynda"]
+[ext_resource type="PackedScene" uid="uid://xqpjcr0edec8" path="res://data/ui_elements/crafting_ui/inventory_ui.tscn" id="9_iynda"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_froca"]
 texture = ExtResource("1_rk6f2")
