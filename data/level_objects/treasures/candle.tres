@@ -1,8 +1,11 @@
-[gd_resource type="Resource" script_class="LevelObject" load_steps=4 format=3 uid="uid://i8igppnl7su8"]
+[gd_resource type="Resource" script_class="LevelObject" load_steps=7 format=3 uid="uid://i8igppnl7su8"]
 
 [ext_resource type="Image" uid="uid://ddu6yp6cuwpb1" path="res://data/level_objects/treasures/gold-filled.png" id="1_afuy3"]
 [ext_resource type="Script" path="res://data/level_objects/level_object.gd" id="1_edfr8"]
 [ext_resource type="PackedScene" uid="uid://c1ld5kvwous8m" path="res://data/level_objects/treasures/candle.tscn" id="2_20jpr"]
+[ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="3_wvghs"]
+[ext_resource type="Resource" uid="uid://dhqhmsuw7jq2p" path="res://data/souls_and_currency/green_soul.tres" id="4_768u7"]
+[ext_resource type="Resource" uid="uid://ral3cnmhvc7r" path="res://data/souls_and_currency/blue_soul.tres" id="5_e8s74"]
 
 [resource]
 script = ExtResource("1_edfr8")
@@ -11,4 +14,4 @@ object_scene = ExtResource("2_20jpr")
 icon = ExtResource("1_afuy3")
 type = 1
 scale = 0.175
-recepie = Array[Resource("res://data/souls_and_currency/soul.gd")]([])
+recepie = Array[Resource("res://data/souls_and_currency/soul.gd")]([ExtResource("3_wvghs"), ExtResource("4_768u7"), ExtResource("5_e8s74")])

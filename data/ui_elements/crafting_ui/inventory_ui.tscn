@@ -1,12 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://xqpjcr0edec8"]
+[gd_scene load_steps=10 format=3 uid="uid://xqpjcr0edec8"]
 
 [ext_resource type="PackedScene" uid="uid://c66130rqe54" path="res://data/ui_elements/crafting_ui/object_synthesys/object_synthesys.tscn" id="1_deo5k"]
 [ext_resource type="PackedScene" uid="uid://d2a0stwwrpmd7" path="res://data/ui_elements/crafting_ui/treasure_synthesys/treasure_soul_container.tscn" id="2_dvugt"]
+[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/treasure_syntesys.gd" id="2_l6jho"]
 [ext_resource type="Texture2D" uid="uid://cen5pggdk00en" path="res://TestingFolder/green.png" id="2_nq60h"]
 [ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="3_8rwds"]
+[ext_resource type="PackedScene" uid="uid://bb7up16bij8bx" path="res://data/ui_elements/crafting_ui/treasure_synthesys/treasure_container.tscn" id="3_t48m5"]
 [ext_resource type="Resource" uid="uid://dhqhmsuw7jq2p" path="res://data/souls_and_currency/green_soul.tres" id="5_qbce0"]
 [ext_resource type="Resource" uid="uid://ral3cnmhvc7r" path="res://data/souls_and_currency/blue_soul.tres" id="6_p2a2i"]
-[ext_resource type="PackedScene" uid="uid://bb7up16bij8bx" path="res://data/ui_elements/crafting_ui/treasure_synthesys/treasure_container.tscn" id="7_8hltp"]
+[ext_resource type="PackedScene" uid="uid://d31ekpqr0y5tb" path="res://data/ui_elements/crafting_ui/soul_stat_list.tscn" id="7_6cl2e"]
 
 [node name="InventoryUI" type="TabContainer"]
 anchors_preset = 4
@@ -26,6 +28,8 @@ layout_mode = 2
 
 [node name="Treasure Synthesys" type="PanelContainer" parent="."]
 layout_mode = 2
+script = ExtResource("2_l6jho")
+treasure_container = ExtResource("3_t48m5")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="Treasure Synthesys"]
 layout_mode = 2
@@ -44,6 +48,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="UpperSoulContainer" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/UpperRow" instance=ExtResource("2_dvugt")]
+unique_name_in_owner = true
 layout_mode = 2
 soul = ExtResource("3_8rwds")
 
@@ -59,11 +64,24 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/TreasureRow"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/TreasureRow"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/TreasureRow/VBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+size_flags_vertical = 3
 texture = ExtResource("2_nq60h")
 stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/TreasureRow/VBoxContainer"]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/TreasureRow/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Confirm"
 
 [node name="Control2" type="Control" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/TreasureRow"]
 layout_mode = 2
@@ -78,6 +96,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="LowerLeftSoulContainer" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/LowerRow" instance=ExtResource("2_dvugt")]
+unique_name_in_owner = true
 layout_mode = 2
 soul = ExtResource("5_qbce0")
 
@@ -90,6 +109,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="LowerRightSoulContainer" parent="Treasure Synthesys/HSplitContainer/VBoxContainer2/LowerRow" instance=ExtResource("2_dvugt")]
+unique_name_in_owner = true
 layout_mode = 2
 soul = ExtResource("6_p2a2i")
 
@@ -100,8 +120,19 @@ size_flags_horizontal = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="Treasure Synthesys/HSplitContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Treasure Synthesys/HSplitContainer/VBoxContainer"]
+[node name="SoulsLabel" type="Label" parent="Treasure Synthesys/HSplitContainer/VBoxContainer"]
 layout_mode = 2
+text = "Souls"
+horizontal_alignment = 1
+
+[node name="SoulStatList" parent="Treasure Synthesys/HSplitContainer/VBoxContainer" instance=ExtResource("7_6cl2e")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Treasure Synthesys/HSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "Treasures"
+horizontal_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Treasure Synthesys/HSplitContainer/VBoxContainer"]
 layout_mode = 2
@@ -112,9 +143,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="TreasureContainer" parent="Treasure Synthesys/HSplitContainer/VBoxContainer/ScrollContainer/TreasureList" instance=ExtResource("7_8hltp")]
-layout_mode = 2
 
 [node name="Object salvage" type="PanelContainer" parent="."]
 visible = false

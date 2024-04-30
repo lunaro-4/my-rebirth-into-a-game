@@ -9,8 +9,9 @@ const EMPTY_SOUL_ARRAY = {
 
 
 @export var soul_choice : PackedScene
-@export var soul_stat_container : PackedScene
 @export var recepie_container : PackedScene
+
+
 var available_souls = [
 	load("res://data/souls_and_currency/red_soul.tres"),
 	load("res://data/souls_and_currency/blue_soul.tres"),
@@ -27,6 +28,7 @@ var soul_stat_container_array = []
 var creatable_object 
 var selected_recepie
 
+
 @onready var buttons_container = %ButtonsContainer  as HBoxContainer
 @onready var soul_stat_list = %SoulStatList as VBoxContainer
 @onready var recepie_list = %RecepiesList
@@ -37,7 +39,6 @@ var selected_recepie
 
 func _ready():
 	available_souls.sort_custom(func(soul1, soul2): return soul1.type < soul2.type)
-	_update_souls()
 
 	for slot in range(CRAFTING_SIZE):
 		var new_soul_button = soul_choice.instantiate()
@@ -47,12 +48,7 @@ func _ready():
 		soul_button_array.append(new_soul_button)
 		buttons_container.add_child(new_soul_button)
 
-	for soul in available_souls:
-		var new_soul_container = soul_stat_container.instantiate()
-		new_soul_container.soul_to_show = soul
-		new_soul_container.initial_souls_left = souls_left [soul.type]
-		soul_stat_list.add_child(new_soul_container)
-		soul_stat_container_array.append(new_soul_container)
+	soul_stat_list.pupulate_list(available_souls)
 
 	for recepie in known_recepies:
 		var new_known_recepie_in_type = []
@@ -67,7 +63,6 @@ func _ready():
 		new_recepie_container.button.pressed.connect(set_recepie.bind(new_recepie_container.object.recepie))
 
 	create_button.pressed.connect(_create_object)
-	PlayerState.soul_amount_updated.connect(_update_souls)
 	PlayerState.inventory_updated.connect(_update_invetnory)
 	
 func clear_selection():
@@ -96,28 +91,22 @@ func _on_soul_selected():
 		result_image.set_texture(image_texture)
 		object_name.set_text(this_found_recepie.name)
 		creatable_object = this_found_recepie
+		# TODO добавить проверку на возможность крафта по цене душ
 		create_button.disabled = false
 		var set_to_spend = EMPTY_SOUL_ARRAY.duplicate()
 		for soul in selected_recepie:
 			if soul == -1:
 				continue
 			set_to_spend [soul] += 1
-		_update_set_to_spend(set_to_spend)
+		soul_stat_list.update_set_to_spend(set_to_spend)
 
 	else: 
 		result_image.set_texture(null)
 		object_name.set_text('')
 		creatable_object = null
 		create_button.disabled = true
-		_update_set_to_spend(EMPTY_SOUL_ARRAY)
+		soul_stat_list.update_set_to_spend(EMPTY_SOUL_ARRAY)
 
-# HACK
-func _update_set_to_spend(set_to_spend : Dictionary):
-	for soul in set_to_spend.keys():
-		for container in soul_stat_container_array:
-			if container.container_id  == soul:
-				container.set_to_spend(set_to_spend [soul])
-				continue
 
 func _create_object():
 	# print(creatable_object)
@@ -147,11 +136,6 @@ func _on_save_pressed():
 
 func _on_load_pressed():
 	PlayerState.load_player_state()
-
-func _update_souls():
-	souls_left = PlayerState.get_souls()
-	for container in soul_stat_container_array:
-		container.update_soul(souls_left [container.soul_to_show.type])
 
 func _update_invetnory():
 	# souls_left = PlayerState.get_inventory()

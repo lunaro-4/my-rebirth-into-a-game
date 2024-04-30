@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://bb7up16bij8bx"]
+[gd_scene load_steps=2 format=3 uid="uid://bb7up16bij8bx"]
+
+[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/treasure_synthesys/treasure_container.gd" id="1_plwn0"]
 
 [node name="TreasureContainer" type="MarginContainer"]
+script = ExtResource("1_plwn0")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

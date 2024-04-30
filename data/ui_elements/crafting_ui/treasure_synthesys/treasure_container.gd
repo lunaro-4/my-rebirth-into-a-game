@@ -3,7 +3,7 @@ extends MarginContainer
 
 
 
-@export var treasure : Treasure 
+@export var treasure : LevelObject 
 
 @onready var texture_rect = %TextureRect as TextureRect
 @onready var recepie_name_lable = %RecepieNameLabel as Label
@@ -15,7 +15,7 @@ extends MarginContainer
 func _ready():
 	texture_rect.set_texture(ImageTexture.create_from_image(treasure.icon))
 	recepie_name_lable.set_text(treasure.name)
-	for soul in recepie:
+	for soul in treasure.recepie:
 		var new_image = TextureRect.new()
 		# FIXME сейчас квадраты очень больше, из-за того что текстуры по разному импортированы и разного размера.
 		# в будущем нужно поменять на  TextureRect.EXPAND_FIT_WIDTH (?)

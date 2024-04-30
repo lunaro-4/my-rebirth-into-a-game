@@ -1,9 +1,13 @@
 extends VBoxContainer
 
 
+signal value_changed(current_value)
+
 @export var soul : Soul
 
 var last_text_input
+var container_id : int
+var current_soul_value
 
 
 @onready var manual_input = %ManualInput as SpinBox
@@ -33,7 +37,16 @@ func _on_right_pressed():
 	slider.value += slider.step
 func _on_manual_input_changed(_value):
 	slider.value = manual_input.value
+	current_soul_value = slider.value
+	value_changed.emit(current_soul_value)
 	pass
 func _on_slider_value_changed(_value):
 	manual_input.value = slider.value
+	current_soul_value = manual_input.value
+	value_changed.emit(current_soul_value)
 	pass
+
+
+func set_new_value(value : float):
+	slider.set_value_no_signal(value)
+	manual_input.set_value_no_signal(value)

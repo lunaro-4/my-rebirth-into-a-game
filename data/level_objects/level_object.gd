@@ -13,21 +13,23 @@ enum ObjectType {
 @export var type : ObjectType
 @export var scale : float
 @export var recepie : Array[Soul]
-var soul_costs : Dictionary
+## Dict {soul_object : float}
+var treasure_soul_intake : Dictionary
 
 # var iccco = ScenePreviewExtractor.get_preview(object_scene,self,"set_texture")
 
 func _translate_recepie():
-	if type != ObjectType.TREASURE:
-		var path_array = []
-		for soul in recepie:
-			path_array.append(soul.resource_path)
-		return path_array
-	else:
-		var path_dict = {}
-		for soul in recepie:
-			path_dict [soul.resource_path] = soul_costs [soul]
-		return path_dict
+	var path_dict = {}
+	var soul_cost = get_soul_cost()
+	for soul in recepie:
+		path_dict [soul.resource_path] = soul_cost [soul]
+	return path_dict
+
+func _translate_recepie_to_paths():
+	var path_array = []
+	for soul in recepie:
+		path_array.append(soul.resource_path)
+	return path_array
 
 func save() -> Dictionary:
 	var save_dict= {
@@ -36,7 +38,8 @@ func save() -> Dictionary:
 		"icon" = icon.resource_path,
 		"type" = type,
 		"scale" = scale,
-		"recepie" = _translate_recepie()
+		"recepie" = _translate_recepie_to_paths(),
+		"treasure_soul_intake" = _translate_recepie()
 	}
 	return save_dict
 
@@ -46,4 +49,19 @@ func get_scene_instance() -> Node2D:
 	return new_scene_instance
 
 func is_equal_to(other_object : LevelObject) -> bool:
-	return recepie == other_object.recepie
+	return recepie == other_object.recepie and type == other_object.type
+
+func get_soul_cost():
+	if type == ObjectType.TREASURE:
+		if !treasure_soul_intake:
+			for soul in recepie:
+				treasure_soul_intake [soul] = 0
+		return treasure_soul_intake
+	else:
+		var soul_cost = {}
+		for soul in recepie:
+			if soul in soul_cost.keys():
+				soul_cost [soul] += 1
+			else:
+				soul_cost [soul] = 1
+		return soul_cost

@@ -11,6 +11,7 @@ extends MarginContainer
 
 var container_id 
 var initial_souls_left
+var current_souls_left
 
 @onready var texture_rect = %TextureRect as TextureRect
 @onready var soul_name_lable = %SoulNameLable as Label
@@ -30,9 +31,11 @@ func update_soul(souls_left):
 	container_id = soul_to_show.type
 	soul_name_lable.text = str(soul_to_show.name)
 	texture_rect.texture = soul_to_show.get_preview()
+	current_souls_left = souls_left
 	left_num.text = str(souls_left)
 
 func set_to_spend(amount: float):
+	var is_change_viable = true
 	if amount == 0:
 		to_spend_text.visible = false
 		to_spend_num.visible = false
@@ -41,6 +44,11 @@ func set_to_spend(amount: float):
 		to_spend_num.visible = true
 		if amount > 0:
 			to_spend_text.set_text("-")
+			if current_souls_left - amount < 0:
+				is_change_viable = false
 		else:
+			amount *= -1
 			to_spend_text.set_text("+")
 	to_spend_num.set_text(str(amount))
+	return is_change_viable
+	

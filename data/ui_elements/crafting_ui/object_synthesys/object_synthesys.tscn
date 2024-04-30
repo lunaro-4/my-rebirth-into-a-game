@@ -2,13 +2,12 @@
 
 [ext_resource type="Script" path="res://data/ui_elements/crafting_ui/object_synthesys/object_syntesys.gd" id="1_f17t1"]
 [ext_resource type="PackedScene" uid="uid://bkxv82i6o5e8b" path="res://data/ui_elements/crafting_ui/object_synthesys/soul_choice.tscn" id="2_ps4pm"]
-[ext_resource type="PackedScene" uid="uid://dac0ybvwfkirq" path="res://data/ui_elements/crafting_ui/object_synthesys/soul_stat_container.tscn" id="3_he1bg"]
 [ext_resource type="PackedScene" uid="uid://cx8x7u7d2r187" path="res://data/ui_elements/crafting_ui/object_synthesys/recepie_container.tscn" id="4_hxp25"]
+[ext_resource type="PackedScene" uid="uid://d31ekpqr0y5tb" path="res://data/ui_elements/crafting_ui/soul_stat_list.tscn" id="5_dymab"]
 
 [node name="Object Synthesys" type="PanelContainer"]
 script = ExtResource("1_f17t1")
 soul_choice = ExtResource("2_ps4pm")
-soul_stat_container = ExtResource("3_he1bg")
 recepie_container = ExtResource("4_hxp25")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
@@ -83,7 +82,7 @@ size_flags_vertical = 0
 text = "Souls
 "
 
-[node name="SoulStatList" type="VBoxContainer" parent="HSplitContainer/VBoxContainer"]
+[node name="SoulStatList" parent="HSplitContainer/VBoxContainer" instance=ExtResource("5_dymab")]
 unique_name_in_owner = true
 layout_mode = 2
 

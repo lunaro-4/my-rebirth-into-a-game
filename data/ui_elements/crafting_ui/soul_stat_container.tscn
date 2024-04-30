@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://dac0ybvwfkirq"]
 
-[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/object_synthesys/soul_stat_container.gd" id="1_362sc"]
-[ext_resource type="Texture2D" uid="uid://cen5pggdk00en" path="res://TestingFolder/green.png" id="2_dry8a"]
+[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/soul_stat_container.gd" id="1_v318k"]
+[ext_resource type="Texture2D" uid="uid://cen5pggdk00en" path="res://TestingFolder/green.png" id="2_fv47k"]
 
 [node name="SoulStatContainer" type="MarginContainer"]
-script = ExtResource("1_362sc")
+script = ExtResource("1_v318k")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -12,7 +12,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("2_dry8a")
+texture = ExtResource("2_fv47k")
 expand_mode = 2
 
 [node name="Control" type="Control" parent="HBoxContainer"]

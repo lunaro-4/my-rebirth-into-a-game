@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://d31ekpqr0y5tb"]
+
+[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/soul_stat_list.gd" id="1_nmq7c"]
+[ext_resource type="PackedScene" uid="uid://dac0ybvwfkirq" path="res://data/ui_elements/crafting_ui/soul_stat_container.tscn" id="2_vwwlb"]
+
+[node name="SoulStatList" type="VBoxContainer"]
+script = ExtResource("1_nmq7c")
+soul_stat_container = ExtResource("2_vwwlb")

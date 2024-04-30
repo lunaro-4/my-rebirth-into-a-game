@@ -7,4 +7,4 @@
 script = ExtResource("1_3j02n")
 name = "Red soul"
 sprite = ExtResource("2_1vja7")
-type = ""
+type = 0
