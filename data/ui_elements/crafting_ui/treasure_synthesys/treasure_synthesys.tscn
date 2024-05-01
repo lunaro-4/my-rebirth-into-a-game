@@ -1,0 +1,128 @@
+[gd_scene load_steps=9 format=3 uid="uid://bp8hgesfw8gip"]
+
+[ext_resource type="Script" path="res://data/ui_elements/crafting_ui/treasure_syntesys.gd" id="1_rmv7x"]
+[ext_resource type="PackedScene" uid="uid://bb7up16bij8bx" path="res://data/ui_elements/crafting_ui/treasure_synthesys/treasure_container.tscn" id="2_m7kf5"]
+[ext_resource type="PackedScene" uid="uid://d2a0stwwrpmd7" path="res://data/ui_elements/crafting_ui/treasure_synthesys/treasure_soul_container.tscn" id="3_51fs3"]
+[ext_resource type="Resource" uid="uid://bpquyayuerpt0" path="res://data/souls_and_currency/red_soul.tres" id="4_ae4qw"]
+[ext_resource type="Texture2D" uid="uid://cen5pggdk00en" path="res://TestingFolder/green.png" id="5_yrcfs"]
+[ext_resource type="Resource" uid="uid://dhqhmsuw7jq2p" path="res://data/souls_and_currency/green_soul.tres" id="6_rh30k"]
+[ext_resource type="Resource" uid="uid://ral3cnmhvc7r" path="res://data/souls_and_currency/blue_soul.tres" id="7_wne5c"]
+[ext_resource type="PackedScene" uid="uid://d31ekpqr0y5tb" path="res://data/ui_elements/crafting_ui/soul_stat_list.tscn" id="8_m8mol"]
+
+[node name="Treasure Synthesys" type="PanelContainer"]
+script = ExtResource("1_rmv7x")
+treasure_container = ExtResource("2_m7kf5")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 2
+split_offset = -210
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UpperRow" type="HBoxContainer" parent="HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="HSplitContainer/VBoxContainer2/UpperRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UpperSoulContainer" parent="HSplitContainer/VBoxContainer2/UpperRow" instance=ExtResource("3_51fs3")]
+unique_name_in_owner = true
+layout_mode = 2
+soul = ExtResource("4_ae4qw")
+
+[node name="Control2" type="Control" parent="HSplitContainer/VBoxContainer2/UpperRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TreasureRow" type="HBoxContainer" parent="HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="HSplitContainer/VBoxContainer2/TreasureRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/VBoxContainer2/TreasureRow"]
+layout_mode = 2
+
+[node name="TreasurePreview" type="TextureRect" parent="HSplitContainer/VBoxContainer2/TreasureRow/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_yrcfs")
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/VBoxContainer2/TreasureRow/VBoxContainer"]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="HSplitContainer/VBoxContainer2/TreasureRow/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Confirm"
+
+[node name="Control2" type="Control" parent="HSplitContainer/VBoxContainer2/TreasureRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LowerRow" type="HBoxContainer" parent="HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control3" type="Control" parent="HSplitContainer/VBoxContainer2/LowerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LowerLeftSoulContainer" parent="HSplitContainer/VBoxContainer2/LowerRow" instance=ExtResource("3_51fs3")]
+unique_name_in_owner = true
+layout_mode = 2
+soul = ExtResource("6_rh30k")
+
+[node name="Control" type="Control" parent="HSplitContainer/VBoxContainer2/LowerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control4" type="Control" parent="HSplitContainer/VBoxContainer2/LowerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LowerRightSoulContainer" parent="HSplitContainer/VBoxContainer2/LowerRow" instance=ExtResource("3_51fs3")]
+unique_name_in_owner = true
+layout_mode = 2
+soul = ExtResource("7_wne5c")
+
+[node name="Control2" type="Control" parent="HSplitContainer/VBoxContainer2/LowerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="SoulsLabel" type="Label" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "Souls"
+horizontal_alignment = 1
+
+[node name="SoulStatList" parent="HSplitContainer/VBoxContainer" instance=ExtResource("8_m8mol")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "Treasures"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TreasureList" type="VBoxContainer" parent="HSplitContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

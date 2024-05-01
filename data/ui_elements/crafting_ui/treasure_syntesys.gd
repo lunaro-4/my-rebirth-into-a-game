@@ -8,6 +8,7 @@ var available_souls : Array[Soul]
 var soul_to_containers_dict = {}
 var soul_before_tweak_value = {}
 var chosen_treasure : LevelObject
+var treasure_inventory_index = {}
 
 @onready var soul_stat_list = %SoulStatList as VBoxContainer
 @onready var treasure_list = %TreasureList as VBoxContainer
@@ -17,6 +18,7 @@ var chosen_treasure : LevelObject
 	%LowerRightSoulContainer
 ] as Array[VBoxContainer]
 @onready var confirm_button = %ConfirmButton as Button
+@onready var treasure_preview = %TreasurePreview as TextureRect
 
 
 
@@ -69,6 +71,7 @@ func _reset_treasure():
 	for container in soul_containers_array:
 		container.set_new_value(0)
 	chosen_treasure = null
+	treasure_preview.texture = null
 	_change_button_state(false)
 
 
@@ -80,16 +83,20 @@ func _on_treasure_chosen(treasure : LevelObject):
 			if container.container_id == soul.type and soul_before_tweak_value [soul] != null:
 				container.current_soul_value = soul_before_tweak_value [soul]
 				container.set_new_value(container.current_soul_value)
+	treasure_preview.texture = ImageTexture.create_from_image(treasure.icon)
+
 
 func _update_treasure_list():
 	for child in treasure_list.get_children():
 		child.queue_free()
 	var treasures_array = PlayerState.get_treasures()
-	for treasure in treasures_array:
-		var new_treasure = treasure_container.instantiate()
-		new_treasure.treasure = treasure
-		treasure_list.add_child(new_treasure)
-		new_treasure.button.pressed.connect(_on_treasure_chosen.bind(treasure))
+	for treasure in range(treasures_array.size()):
+		var this_treasure = treasures_array [treasure]
+		var new_container = treasure_container.instantiate()
+		new_container.treasure = this_treasure
+		treasure_list.add_child(new_container)
+		treasure_inventory_index [ this_treasure] = treasure
+		new_container.button.pressed.connect(_on_treasure_chosen.bind(this_treasure))
 	
 func _commit_changes():
 	var values_to_write	= {}
@@ -105,7 +112,9 @@ func _commit_changes():
 		value_change [this_soul.type] = this_value_diff
 
 	chosen_treasure.treasure_soul_intake = values_to_write.duplicate()
+	PlayerState.update_treasure( treasure_inventory_index [chosen_treasure] , chosen_treasure)
 	PlayerState.change_soul_amount(value_change)
 	soul_stat_list.reset_value_change()
 	_reset_treasure()
+	_update_treasure_list()
 

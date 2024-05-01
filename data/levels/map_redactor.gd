@@ -3,7 +3,7 @@ class_name MapRedactor extends Node2D
 
 @export var wall_map : TileMap
 # @export var inventory = [] as Array
-@export var wall_blueprint: PackedScene #  = preload("res://TestingFolder/wall_blueprint.tscn")
+@export var wall_blueprint: LevelObject #  = preload("res://TestingFolder/wall_blueprint.tscn")
 @export var buttons_container : HBoxContainer
 
 var cell_to_place
@@ -40,12 +40,11 @@ func _unhandled_input(event):
 			var is_placing_wall = event.button_index == MOUSE_BUTTON_LEFT and event.pressed and is_wall_selected
 			var is_removing_wall = event.button_index == MOUSE_BUTTON_RIGHT and event.pressed
 			
-			var map_cell_to_place = wall_map.local_to_map(get_local_mouse_position())
+			# var map_cell_to_place = wall_map.local_to_map(get_local_mouse_position())
 			# print("mouse")
 
 			if is_placing_wall:
-				if !wall_map.get_cell_tile_data(0, map_cell_to_place):
-					wall_map.set_cell(0, map_cell_to_place, 0, Vector2i(1,1))
+				_set_wall(cell_to_place, true)
 
 			elif is_placing_object:
 				# wall_map.set_cell(0, cell_to_place, 0, Vector2i(1,1))
@@ -68,13 +67,26 @@ func _unhandled_input(event):
 
 			if is_removing_wall:
 				_remove_object_scene_by_coord(cell_to_place)
-				if wall_map.get_cell_tile_data(0, map_cell_to_place):
-					wall_map.erase_cell(0, map_cell_to_place)
+				_set_wall(cell_to_place, false)
+
+func _set_wall(local_coord : Vector2i, set_value : bool):
+	var map_coord = wall_map.local_to_map(local_coord)
+	var is_cell_occupied = (wall_map.get_cell_tile_data(0, map_coord)) or (local_coord in occupied_cells.keys())
+	if set_value and !is_cell_occupied:
+		wall_map.set_cell(0, map_coord, 0, Vector2i(1,1))
+		occupied_cells [local_coord] = null
+	elif !set_value and is_cell_occupied:
+		wall_map.erase_cell(0, map_coord)
+		occupied_cells.erase(local_coord)
+	else:
+		# printerr("set_value and is_cell_occupied are equal!")
+		pass
 
 func _remove_object_scene_by_coord(coord : Vector2i):
 	if occupied_cells.keys().filter(func(cell): return CustomMath.compare_vectors(cell, coord)).size() > 0:
 		var coordinate_key = CustomMath.find_in_array_i(cell_to_place, occupied_cells.keys() as Array[Vector2i])
-		_remove_object_scene_by_object(occupied_cells [coordinate_key])
+		if occupied_cells [coordinate_key] != null:
+			_remove_object_scene_by_object(occupied_cells [coordinate_key])
 
 func _remove_object_scene_by_object(object_to_remove : LevelObject, repopulate_buttons : bool = true):
 	object_instance_dict [object_to_remove] .queue_free()
@@ -101,11 +113,12 @@ func update_inventory(inventory):
 # Обработка кнопок
 ###########################
 
-func _populate_buttons_container(inventory):
-	if wall_blueprint:
-		inventory.push_forward(wall_blueprint)
+func _populate_buttons_container(_inventory):
+	var inventory = _inventory.duplicate()
 	for child in buttons_container.get_children():
 		child.queue_free()
+	if wall_blueprint:
+		inventory.push_front(wall_blueprint)
 	for object in inventory:
 		var new_button = select_level_object_button.instantiate()
 		new_button.level_object = object
@@ -121,11 +134,12 @@ func _clear_current_object_scene():
 
 func _on_button_pressed(object:LevelObject):
 	if object.type == LevelObject.ObjectType.WALL:
-		object.object_scene = wall_blueprint
+		object.object_scene = wall_blueprint.object_scene
 		is_wall_selected = true
+		_swap_chosen_object(object, object.object_scene.instantiate())
 	else:
 		is_wall_selected = false
-	_swap_chosen_object(object)
+		_swap_chosen_object(object)
 	current_object = object
 
 
@@ -140,9 +154,12 @@ func _get_scene_from_object(object: LevelObject) -> Node2D:
 	return new_object_instance
 
 	
-func _swap_chosen_object(object: LevelObject): 
+func _swap_chosen_object(object: LevelObject, preset_scene : Node2D = null): 
 	_clear_current_object_scene()
-	current_object_scene = _get_scene_from_object(object)
+	if preset_scene == null:
+		current_object_scene = _get_scene_from_object(object)
+	else:
+		current_object_scene = preset_scene
 	current_object_scene.modulate.a = 0.4
 	add_child(current_object_scene)
 
@@ -162,6 +179,10 @@ func save_level_to_file(save_path: String = DEFAULT_SAVE_RESOURCE_PATH) -> void:
 			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
 			continue
 		save_file.occupied_cells [Vector2i(node.position)] = node.bound_object
+	for coord in occupied_cells.keys():
+		if occupied_cells [coord] == null:
+			save_file.occupied_cells [coord] = null
+
 
 	ResourceSaver.save(save_file,save_path)
 
@@ -177,10 +198,16 @@ func load_level_from_file(level_res_path : String = DEFAULT_SAVE_RESOURCE_PATH):
 	reset_map()
 	# print(occupied_cells.values()[0])
 	# print(type_string(typeof(occupied_cells.values()[0])))
+	occupied_cells = {}
 	var local_occupied_cells = load_res.occupied_cells
 	for coord in local_occupied_cells.keys():
-		var new_level_object = local_occupied_cells [coord].get_scene_instance()
-		new_level_object.position = coord
-		new_level_object.add_to_group("Savable")
-		add_child(new_level_object)
-		occupied_cells [coord] = new_level_object
+		var new_level_object = local_occupied_cells [coord]
+		if new_level_object != null:
+			var new_object_scene = _get_scene_from_object(new_level_object)
+			new_object_scene.position = coord
+			new_object_scene.add_to_group("Savable")
+			add_child(new_object_scene)
+			occupied_cells [ coord ] = new_level_object
+		else:
+			_set_wall(Vector2i(coord), true)
+			occupied_cells [coord] = null

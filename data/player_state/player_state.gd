@@ -150,3 +150,13 @@ func get_available_souls():
 
 func get_treasures():
 	return treasure_inventory.get_inventory()
+
+func update_treasure(old_treasure_index : int, new_treasure : LevelObject):
+	var is_replacement_succes = treasure_inventory.replace_object(old_treasure_index , new_treasure)
+	if is_replacement_succes:
+		return true
+	else:
+		printerr("Something went wrong while replacing object ",
+		old_treasure_index, " to ", new_treasure,
+		" in ", treasure_inventory.get_inventory())
+	pass

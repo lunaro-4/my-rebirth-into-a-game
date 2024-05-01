@@ -1,11 +1,14 @@
-[gd_resource type="Resource" script_class="LevelObject" load_steps=3 format=3 uid="uid://ccc0kului4086"]
+[gd_resource type="Resource" script_class="LevelObject" load_steps=4 format=3 uid="uid://ccc0kului4086"]
 
 [ext_resource type="Image" uid="uid://xnw2jq4g3ax6" path="res://TestingFolder/wall_placeholder.png" id="1_jkyla"]
 [ext_resource type="Script" path="res://data/level_objects/level_object.gd" id="1_t27xb"]
+[ext_resource type="PackedScene" uid="uid://cv2cd3i58shxq" path="res://TestingFolder/wall_blueprint.tscn" id="2_xga4k"]
 
 [resource]
 script = ExtResource("1_t27xb")
 name = "Wall"
+object_scene = ExtResource("2_xga4k")
 icon = ExtResource("1_jkyla")
 type = 99
 scale = 0.0
+recepie = Array[Resource("res://data/souls_and_currency/soul.gd")]([])

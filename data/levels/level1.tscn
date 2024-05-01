@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ctphrdqyuwcc2" path="res://TestingFolder/colour atlas.png" id="1_rk6f2"]
 [ext_resource type="Texture2D" uid="uid://d07sk3rgrldee" path="res://TestingFolder/Texture/eart.png" id="2_2mm0u"]
 [ext_resource type="Script" path="res://data/levels/map_redactor.gd" id="2_hfu88"]
-[ext_resource type="PackedScene" uid="uid://cv2cd3i58shxq" path="res://TestingFolder/wall_blueprint.tscn" id="3_iehsp"]
+[ext_resource type="Resource" uid="uid://ccc0kului4086" path="res://data/level_objects/wall_dummy_object.tres" id="3_umv1q"]
 [ext_resource type="Texture2D" uid="uid://colqh1ug3qkg5" path="res://TestingFolder/Texture/TX Tileset Stone Ground.png" id="4_gphsi"]
 [ext_resource type="Script" path="res://data/CustomComponents/points_of_interest_component.gd" id="5_hruwx"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="6_mqiq4"]
@@ -884,7 +884,7 @@ script = ExtResource("1_0ckem")
 [node name="MapRedactorComponent" type="Node2D" parent="." node_paths=PackedStringArray("buttons_container")]
 z_index = 1
 script = ExtResource("2_hfu88")
-wall_blueprint = ExtResource("3_iehsp")
+wall_blueprint = ExtResource("3_umv1q")
 buttons_container = NodePath("../ObjectSelectionBarLayer/PanelContainer/ButtonsContainer")
 
 [node name="mark" type="TileMap" parent="."]
