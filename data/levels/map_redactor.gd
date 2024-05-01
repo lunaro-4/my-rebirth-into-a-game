@@ -52,17 +52,9 @@ func _unhandled_input(event):
 					return CustomMath.compare_vectors(cell,
 				Vector2i(current_object_scene.global_position))).size() == 0:
 					_clear_current_object_scene()
-					left_objects_array.erase(current_object)
-					placed_objects_array.append(current_object)
-					_populate_buttons_container(left_objects_array)
-					var new_current_object_instance = _get_scene_from_object(current_object)
-					new_current_object_instance.position= cell_to_place
-					new_current_object_instance.modulate.a = 1
-					new_current_object_instance.add_to_group("Savable")
-					occupied_cells[Vector2i(new_current_object_instance.global_position)] = current_object
-					object_instance_dict [current_object] = new_current_object_instance
-					add_child(new_current_object_instance)
+					_place_object(current_object, cell_to_place)
 					current_object = null
+					_populate_buttons_container(left_objects_array)
 					pass
 
 			if is_removing_wall:
@@ -96,6 +88,19 @@ func _remove_object_scene_by_object(object_to_remove : LevelObject, repopulate_b
 	if repopulate_buttons:
 		_populate_buttons_container(left_objects_array)
 	# object_instance_dict [object_to_remove]
+
+func _place_object(object : LevelObject, coord : Vector2i):
+	left_objects_array.erase(object)
+	placed_objects_array.append(object)
+
+	var new_current_object_instance = _get_scene_from_object(object)
+	new_current_object_instance.position = coord
+	new_current_object_instance.modulate.a = 1
+	new_current_object_instance.add_to_group("Savable")
+	add_child(new_current_object_instance)
+
+	occupied_cells [coord] = object
+	object_instance_dict [object] = new_current_object_instance
 
 # TODO сделать такую же фильтрацию при загрузке сейва карты
 func update_inventory(inventory):
@@ -172,7 +177,6 @@ const DEFAULT_SAVE_RESOURCE_PATH = "user://save_res.tres"
 
 
 func save_level_to_file(save_path: String = DEFAULT_SAVE_RESOURCE_PATH) -> void:
-	printerr("ВНИМАНИЕ: эта функция ещё не обновлялась и работает некорректно с инвентарем")
 	var save_file = SaveFile.new()
 	for node in get_tree().get_nodes_in_group("Savable"):
 		if node.scene_file_path.is_empty():
@@ -190,24 +194,30 @@ func reset_map():
 	wall_map.clear()
 	occupied_cells = {}
 	for node in get_tree().get_nodes_in_group("Savable"):
-		node.queue_free()
+		_remove_object_scene_by_object(node.bound_object, false)
+	_populate_buttons_container(left_objects_array)
+
+func _inventory_filter_by_object(inventory : Array, object : LevelObject) -> Array:
+	# var inventory = left_objects_array + placed_objects_array
+	return inventory.filter(func(compare_object : LevelObject): return compare_object.is_equal_to(object))
+
+func _place_placeholder(coord : Vector2i, object : LevelObject):
+	print('can\'t place ', object, ' at ', coord)
 
 func load_level_from_file(level_res_path : String = DEFAULT_SAVE_RESOURCE_PATH):
-	printerr("ВНИМАНИЕ: эта функция ещё не обновлялась и работает некорректно с инвентарем")
 	var load_res = load(level_res_path) as SaveFile
 	reset_map()
-	# print(occupied_cells.values()[0])
-	# print(type_string(typeof(occupied_cells.values()[0])))
 	occupied_cells = {}
 	var local_occupied_cells = load_res.occupied_cells
 	for coord in local_occupied_cells.keys():
 		var new_level_object = local_occupied_cells [coord]
 		if new_level_object != null:
-			var new_object_scene = _get_scene_from_object(new_level_object)
-			new_object_scene.position = coord
-			new_object_scene.add_to_group("Savable")
-			add_child(new_object_scene)
-			occupied_cells [ coord ] = new_level_object
+			var filtered_inventory = _inventory_filter_by_object(left_objects_array, new_level_object)
+			if filtered_inventory.size() > 0:
+				_place_object(filtered_inventory [0], coord)
+			else:
+				_place_placeholder(coord, new_level_object)
 		else:
 			_set_wall(Vector2i(coord), true)
 			occupied_cells [coord] = null
+	_populate_buttons_container(left_objects_array)
