@@ -160,3 +160,7 @@ func update_treasure(old_treasure_index : int, new_treasure : LevelObject):
 		old_treasure_index, " to ", new_treasure,
 		" in ", treasure_inventory.get_inventory())
 	pass
+
+func on_soul_pickup(soul : Soul, amount : float):
+	var add_dict = {soul.type :amount}
+	change_soul_amount(add_dict)

@@ -50,6 +50,8 @@ func _on_attack_1_component_attack_finished():
 
 
 func _on_enemy_detected(body):
+	if detected_enemy != null:
+		return
 	_on_enemy_forgotten()
 	if body is BaseMinion and body != self:
 		detected_enemy = body

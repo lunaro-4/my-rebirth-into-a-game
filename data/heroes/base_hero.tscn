@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cn72ke0k838lf"]
+[gd_scene load_steps=16 format=3 uid="uid://cn72ke0k838lf"]
 
 [ext_resource type="Script" path="res://data/heroes/base_hero.gd" id="1_2ek3k"]
 [ext_resource type="PackedScene" uid="uid://bselw8ieny17t" path="res://data/CustomComponents/pathfinding_logic.tscn" id="2_irmgw"]
@@ -9,11 +9,33 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_r2l4c"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_8a0cf"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_3o1d3"]
+[ext_resource type="Script" path="res://data/CustomComponents/hp_bar.gd" id="10_dgmv5"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_old10"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_sryqj"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rwkyv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5uu8"]
+bg_color = Color(0, 0.670512, 0.138505, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_ler7g"]
+HSlider/icons/grabber = SubResource("PlaceholderTexture2D_old10")
+HSlider/icons/grabber_disabled = SubResource("PlaceholderTexture2D_sryqj")
+HSlider/icons/grabber_highlight = SubResource("PlaceholderTexture2D_rwkyv")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_r5uu8")
 
 [node name="BaseHero" type="CharacterBody2D"]
 collision_layer = 5
 collision_mask = 14
 script = ExtResource("1_2ek3k")
+speed = null
+path_map = null
 
 [node name="HeroCollision" type="CollisionShape2D" parent="."]
 
@@ -112,6 +134,26 @@ event = &"interaction_finished"
 [node name="StuckTimer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="HPBar" type="HSlider" parent="." node_paths=PackedStringArray("health_component")]
+custom_minimum_size = Vector2(64, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -73.0
+offset_top = 96.0
+offset_right = -9.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.55156, 3.19288)
+size_flags_vertical = 1
+theme = SubResource("Theme_ler7g")
+value = 45.0
+editable = false
+scrollable = false
+script = ExtResource("10_dgmv5")
+health_component = NodePath("../HealthComponent")
 
 [connection signal="on_death" from="HealthComponent" to="." method="_on_death"]
 [connection signal="timeout" from="StuckTimer" to="." method="_on_stuck_timer_timeout"]

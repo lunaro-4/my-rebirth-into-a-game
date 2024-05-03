@@ -17,6 +17,8 @@ var target_reached := false
 
 var on_way_to_final := false
 
+var soul_value
+
 
 
 var starting_point_astar : Vector2i
@@ -400,12 +402,20 @@ func _recursive_find_endpoints(points_dict : Dictionary, endpoints : Array) -> A
 
 
 func _on_death():
+	call_deferred("_die")
+
+func _die():
 	print(self, "is now dead")
 	var soul_drop = soul.scene.instantiate()
 	soul_drop.soul = soul
 	soul_drop.global_position = global_position
+	soul_drop.soul_value = soul_value
+	soul_drop.soul_collected.connect(get_parent()._on_soul_collected.bind(soul_drop))
+
+	soul_drop.add_to_group("soul_drop")
 	get_parent().add_child(soul_drop)
 	queue_free()
+	pass
 
 var prev_pos = null
 var cur_pos = global_position

@@ -98,6 +98,12 @@ func start_game():
 	var hero = spawn_hero(Vector2i(1,1))#, [2,1,0,1] as Array[int])
 	$StateChartDebugger.debug_node(hero.get_node("StateChart"))
 
+func start_redactor():
+	map_redactor_component.is_in_redacting_mode = true
+
+	map_redactor_component.load_level_from_file()
+
+	_swich_interfaces(true)
 	
 	
 
@@ -211,6 +217,7 @@ func spawn_hero(spawn_point_astar, debug_path = null ):
 	hero.known_points_of_interest_astar = points_of_interest_astar_coord.duplicate()
 	hero.known_points_of_interest_global = points_of_interest_global.duplicate()
 	hero.poic = poic
+	hero.soul_value = 1
 	crossroads_path_map = poic.generate_path_map(hero.starting_point_astar, points_of_interest_astar_coord)
 	# print(crossroads_path_map)
 	# DebugTools.beautiful_dict_print(crossroads_path_map)
@@ -245,3 +252,8 @@ func _load_level_from_file(level_res_path : String = DEFAULT_SAVE_RESOURCE_PATH)
 				continue
 			new_object.set(i, node_data[i])
 
+
+func _on_soul_collected(soul_scene : Node2D):
+	soul_scene.queue_free()
+	if get_tree().get_nodes_in_group("soul_scene").size() <=0:
+		start_redactor()

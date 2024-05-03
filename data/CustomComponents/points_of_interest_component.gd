@@ -64,10 +64,12 @@ func _get_uniqe_tail_array_vector(arr_of_arrs, start_point):
 	var rogue_paths = _generate_rogue_path(point, array_to_inspect)
 	var longest_path = array_to_inspect[_find_longest_path(array_to_inspect)]
 	
-	var go_points_arr = _handle_rogue_paths(base_point, point, longest_path[point-1], rogue_paths)
+	var go_points_arr 
+	if rogue_paths.size() >0:
+		go_points_arr= _handle_rogue_paths(base_point, point, longest_path[point-1], rogue_paths)
+	else:
+		go_points_arr = {base_point:longest_path[-1]}
 
-	if go_points_arr == {}:
-		go_points_arr = {base_point:base_point}
 	if go_points_arr == {}:
 		assert(false)
 
