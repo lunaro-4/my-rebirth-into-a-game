@@ -34,7 +34,7 @@ func _find_longest_path(array_to_inspect) -> int:
 	return longest_id	
 
 ## Смотрим на группы путей и решаем, как их обработать
-func _handle_rogue_paths(base_point, current_point_int, prev_point, rogue_paths):
+func _handle_rogue_paths(base_point, current_point_int, prev_point, rogue_paths : Dictionary):
 	var path_count = {}
 	# Считаем, сколько массивов в каждой группе
 	for path in rogue_paths.keys():
@@ -51,6 +51,8 @@ func _handle_rogue_paths(base_point, current_point_int, prev_point, rogue_paths)
 	else:
 		if path_count.values().max() >1:
 			go_points_arr = _get_uniqe_tail_array_vector({base_point: rogue_paths[rogue_paths.keys()[0]]}, current_point_int)
+		else:
+			go_points_arr = rogue_paths.values()[0][-1]
 	return go_points_arr
 
 func _get_uniqe_tail_array_vector(arr_of_arrs, start_point):
@@ -70,9 +72,17 @@ func _get_uniqe_tail_array_vector(arr_of_arrs, start_point):
 	else:
 		go_points_arr = {base_point:longest_path[-1]}
 
-	if go_points_arr == {}:
-		assert(false)
+	if go_points_arr is Dictionary :
+		if go_points_arr == {}:
+			assert(false)
 
+		var first_vector = go_points_arr.values() [0]
+		if first_vector is Vector2i or first_vector is Vector2:
+			if CustomMath.compare_vectors(first_vector, go_points_arr.keys()[0]):
+				go_points_arr = base_point
+
+		if not go_points_arr.keys() [0] is Vector2 and not go_points_arr.keys()  [0] is Vector2i:
+			assert(false)
 	return go_points_arr
 
 ## Генерируем карту пути. [br][br]
@@ -80,14 +90,19 @@ func _get_uniqe_tail_array_vector(arr_of_arrs, start_point):
 ## сформирован относительно AStarGrid, тоесть содежать
 ## именно координаты на сетке
 func generate_path_map(start_point, points_of_interest) -> Dictionary:
+	if points_of_interest.size() == 0:
+		printerr("No points of interest supplied")
+		return {}
 	DebugTools.check_null_value(astar_grid, "AStarGrid", self, true)
 	# print(points_of_interest)
 	var path_array = {start_point: []}
 	for point in points_of_interest:
 		path_array[start_point].append(astar_grid.get_point_path(start_point, point))
 	var road_dict =_get_uniqe_tail_array_vector(path_array, 0)
-	if not road_dict is Dictionary:
-		road_dict = {road_dict:road_dict}
+	if road_dict is Array or road_dict is PackedVector2Array:
+		road_dict = {road_dict [0] : road_dict [-1]}
+	elif road_dict is Vector2i or road_dict is Vector2:
+		road_dict = {road_dict : null}
 	return road_dict
 
 

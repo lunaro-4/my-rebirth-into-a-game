@@ -16,6 +16,7 @@ var is_in_redacting_mode := true
 var placed_objects_array = []
 var left_objects_array = []
 var object_instance_dict = {}
+var treasure_to_inventory_index = {}
 
 @onready var select_level_object_button = preload("res://data/ui_elements/select_level_object_button.tscn") 
 
@@ -58,8 +59,10 @@ func _unhandled_input(event):
 					pass
 
 			if is_removing_wall:
-				_remove_object_scene_by_coord(cell_to_place)
-				_set_wall(cell_to_place, false)
+				var is_there_object = _remove_object_scene_by_coord(cell_to_place)
+				var is_there_wall = _set_wall(cell_to_place, false)
+				if !is_there_object and !is_there_wall:
+					_clear_current_object_scene()
 
 func _set_wall(local_coord : Vector2i, set_value : bool):
 	var map_coord = wall_map.local_to_map(local_coord)
@@ -70,15 +73,20 @@ func _set_wall(local_coord : Vector2i, set_value : bool):
 	elif !set_value and is_cell_occupied:
 		wall_map.erase_cell(0, map_coord)
 		occupied_cells.erase(local_coord)
+		return true
 	else:
 		# printerr("set_value and is_cell_occupied are equal!")
 		pass
+	return false
 
 func _remove_object_scene_by_coord(coord : Vector2i):
 	if occupied_cells.keys().filter(func(cell): return CustomMath.compare_vectors(cell, coord)).size() > 0:
 		var coordinate_key = CustomMath.find_in_array_i(cell_to_place, occupied_cells.keys() as Array[Vector2i])
 		if occupied_cells [coordinate_key] != null:
 			_remove_object_scene_by_object(occupied_cells [coordinate_key])
+		return true
+	else:
+		return false
 
 func _remove_object_scene_by_object(object_to_remove : LevelObject, repopulate_buttons : bool = true):
 	object_instance_dict [object_to_remove] .queue_free()
@@ -97,13 +105,15 @@ func _place_object(object : LevelObject, coord : Vector2i):
 	new_current_object_instance.position = coord
 	new_current_object_instance.modulate.a = 1
 	new_current_object_instance.add_to_group("Savable")
+	if object in treasure_to_inventory_index.keys():
+		new_current_object_instance.treasure_index = treasure_to_inventory_index [object]
 	add_child(new_current_object_instance)
 
 	occupied_cells [coord] = object
 	object_instance_dict [object] = new_current_object_instance
 
-# TODO сделать такую же фильтрацию при загрузке сейва карты
-func update_inventory(inventory):
+func update_inventory(items_inventory : Array[LevelObject], treasure_inventory : Dictionary):
+	var inventory = items_inventory + treasure_inventory.keys()
 	for object in placed_objects_array:
 		var input_array_fixed = inventory.filter(func(compare_object : LevelObject): return compare_object.is_equal_to(object))
 		if input_array_fixed.size() > 0:
@@ -112,6 +122,7 @@ func update_inventory(inventory):
 			_remove_object_scene_by_object(object, false)
 
 	left_objects_array = inventory
+	treasure_to_inventory_index = treasure_inventory
 	_populate_buttons_container(left_objects_array)
 
 ###########################

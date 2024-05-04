@@ -33,7 +33,7 @@ radius = 552.008
 radius = 78.6384
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1hyj"]
-radius = 287.696
+radius = 423.143
 
 [node name="Warrior" instance=ExtResource("1_ksy23")]
 script = ExtResource("2_r84fh")
@@ -41,6 +41,9 @@ soul = ExtResource("3_pw5qx")
 
 [node name="HeroCollision" parent="." index="0"]
 shape = SubResource("CircleShape2D_jbypv")
+
+[node name="HealthComponent" parent="." index="1"]
+max_health = 1000
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent" index="0"]
 shape = SubResource("CircleShape2D_qvp4m")
@@ -75,3 +78,5 @@ shape = SubResource("CircleShape2D_u43eu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableDetectionArea" index="0"]
 shape = SubResource("CircleShape2D_i1hyj")
+
+[connection signal="attack_finished" from="Attack1Component" to="." method="_on_attack_1_component_attack_finished"]

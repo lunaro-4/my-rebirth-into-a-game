@@ -133,13 +133,13 @@ func spend_souls(change_values : Dictionary) -> bool:
 	return true
  
 
-func get_souls():
+func get_souls() -> Dictionary:
 	return soul_inventory.get_amount()
 
-func get_inventory():
+func get_inventory() -> Array[LevelObject]:
 	return objects_inventory.get_inventory()
 
-func get_available_souls():
+func get_available_souls() -> Array[Soul]:
 	var available_souls = [
 		load("res://data/souls_and_currency/red_soul.tres"),
 		load("res://data/souls_and_currency/blue_soul.tres"),
@@ -148,19 +148,27 @@ func get_available_souls():
 	available_souls.sort_custom(func(soul1, soul2): return soul1.type < soul2.type)
 	return available_souls
 
-func get_treasures():
-	return treasure_inventory.get_inventory()
+func get_treasures() -> Dictionary:
+	var treasure_list = treasure_inventory.get_inventory()
+	var treasure_dict = {}
+	for treasure_index in range(treasure_list.size()):
+		var this_treasure = treasure_list [treasure_index]
+		treasure_dict [this_treasure] = treasure_index
+	return treasure_dict 
 
-func update_treasure(old_treasure_index : int, new_treasure : LevelObject):
+func update_treasure(old_treasure_index : int, new_treasure : LevelObject) -> bool:
 	var is_replacement_succes = treasure_inventory.replace_object(old_treasure_index , new_treasure)
 	if is_replacement_succes:
+		treasures_updated.emit()
 		return true
 	else:
 		printerr("Something went wrong while replacing object ",
 		old_treasure_index, " to ", new_treasure,
 		" in ", treasure_inventory.get_inventory())
-	pass
+		return false
 
 func on_soul_pickup(soul : Soul, amount : float):
 	var add_dict = {soul.type :amount}
 	change_soul_amount(add_dict)
+
+

@@ -12,14 +12,18 @@ var player_inventory #= [load("res://data/level_objects/wall_dummy_object.tres")
 # 			load("res://data/level_objects/obstacles/door_lock.tres"),
 # 			load("res://data/level_objects/treasures/candle.tres")]
 var wall_dummy_object = load("res://data/level_objects/wall_dummy_object.tres")
+var treasure_inventory
 
 @onready var buttons_container = %ButtonsContainer as HBoxContainer
 @onready var map_redactor_component = $MapRedactorComponent as MapRedactor
-@onready var save_button = %SaveButton as Button
-@onready var load_button = %LoadButton as Button
-@onready var reset_button = %ResetButton as Button
+@onready var save_map_button = %SaveMapButton as Button
+@onready var load_map_button = %LoadMapButton as Button
+@onready var reset_map_button = %ResetMapButton as Button
+@onready var save_player_state_button = %SavePlayerStateButton as Button
+@onready var load_player_state_button = %LoadPlayerStateButton as Button
 @onready var play_button = %PlayButton as Button
 @onready var crafting_menu_toggle = %CraftingMenuToggle as Button
+@onready var stats_container = %StatsContainer as VBoxContainer
 
 func _ready():
 
@@ -28,28 +32,43 @@ func _ready():
 
 	map_redactor_component.wall_map = wall_map
 	
-	save_button.pressed.connect(map_redactor_component.save_level_to_file.bind(save_location))
-	load_button.pressed.connect(map_redactor_component.load_level_from_file.bind(save_location))
-	reset_button.pressed.connect(map_redactor_component.reset_map)
+	save_map_button.pressed.connect(map_redactor_component.save_level_to_file.bind(save_location))
+	load_map_button.pressed.connect(map_redactor_component.load_level_from_file.bind(save_location))
+	reset_map_button.pressed.connect(map_redactor_component.reset_map)
+	save_player_state_button.pressed.connect(PlayerState.save_player_state)
+	load_player_state_button.pressed.connect(PlayerState.load_player_state)
 	play_button.pressed.connect(start_game)
 	crafting_menu_toggle.pressed.connect(_inventory_visibility_toggle)
-
+	PlayerState.soul_amount_updated.connect(_update_soul_stats)
+	 
+	_update_soul_stats()
 	
 	PlayerState.inventory_updated.connect(_update_inventory)
 	_swich_interfaces(true)
 
+## FIXME Супердешевая имплементация, должна быть переписана
+func _update_soul_stats():
+	var soul_stats = PlayerState.get_souls()
+	for soul_type in soul_stats.keys():
+		stats_container.get_child(soul_type).get_node("Label").set_text(str(soul_stats [soul_type]))
+
+
 
 func _update_inventory():
 	player_inventory = PlayerState.get_inventory().duplicate()
+	treasure_inventory = PlayerState.get_treasures().duplicate()
 	# player_inventory.push_front(wall_dummy_object)
-	map_redactor_component.update_inventory(player_inventory)
+	map_redactor_component.update_inventory(player_inventory, treasure_inventory)
 
 func _swich_interfaces(state):
 	$MenuButtons.visible = state
 	$ObjectSelectionBarLayer.visible = state
 
-func _inventory_visibility_toggle():
-	%InventoryUI.visible = !%InventoryUI.visible
+func _inventory_visibility_toggle(state = null):
+	if state == null:
+		%InventoryUI.visible = !%InventoryUI.visible
+	else:
+		%InventoryUI.visible = state
 
 ###########################
 # Начало игры
@@ -76,11 +95,10 @@ var crossroads_path_map : Dictionary
 
 func start_game():
 
-	map_redactor_component.is_in_redacting_mode = false
-
 	map_redactor_component.save_level_to_file()
-
+	map_redactor_component.is_in_redacting_mode = false
 	_swich_interfaces(false)
+	_inventory_visibility_toggle(false)
 
 	$NavigationRegion2D.bake_navigation_polygon()
 
@@ -202,8 +220,8 @@ func on_point_reached() -> bool:
 
 
 # var hero_scene = load("res://data/heroes/test_hero/test_hero.tscn")
-var hero_scene = load("res://data/heroes/rogue/rogue.tscn")
 # var hero_scene = load("res://data/heroes/rogue/rogue.tscn")
+var hero_scene = load("res://data/heroes/warrior/warrior.tscn")
 
 func spawn_hero(spawn_point_astar, debug_path = null ):
 	var hero = hero_scene.instantiate()

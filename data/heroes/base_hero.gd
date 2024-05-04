@@ -103,7 +103,16 @@ func point_choose_logic(path_variants):
 func get_next_point():
 	var path_variants = current_path_map[current_path_map.keys()[0]]
 	# Если передать словарь с ключом с одним значением, обработать это значение как точку.
-	if not path_variants is Array:
+	if path_variants == null:
+		on_way_to_final = true
+		var final_point = current_path_map.keys() [0]
+		current_path_map = final_point
+		get_parent().set_new_point_for_hero(final_point, self)
+		update_target(exploration_target)
+		return
+	if not path_variants is Array and not path_variants is PackedVector2Array:
+		if path_variants is Vector2 or path_variants is Vector2i:
+			on_way_to_final = true
 		get_parent().set_new_point_for_hero(path_variants, self)
 		update_target(exploration_target)
 		return
@@ -118,17 +127,10 @@ func get_next_point():
 	# print(type_string(typeof(chosen_path)))
 	if chosen_path is Dictionary:
 		chosen_point = chosen_path.keys()[0]
-		var next_point = chosen_path.values()[0]
-		if (not next_point is Array and not next_point is Dictionary) and CustomMath.compare_vectors(chosen_path.keys()[0], next_point):
-			# HACK
-			chosen_path = next_point
-			on_way_to_final = true
 	else:
 		chosen_point = chosen_path
 		on_way_to_final = true
 	current_path_map = chosen_path
-	# if chosen_path is Vector2i or chosen_path is Vector2:
-	# 	on_way_to_final = true
 	get_parent().set_new_point_for_hero(chosen_point, self)
 	update_target(exploration_target)
 
@@ -147,9 +149,14 @@ func _init_hero_movement(start_from = starting_point_astar):
 
 func _generate_path_map(map_starting_point = starting_point_astar):
 	if poic:
+		if known_points_of_interest_astar.size() <=0:
+			_target_reached()
+			return
 		path_map = {}
 		while path_map == {}:
 			path_map=poic.generate_path_map(map_starting_point, known_points_of_interest_astar)
+			if not path_map.keys() [0] is Vector2 and not path_map.keys() [0] is Vector2i:
+				assert(false)
 	else:
 		assert(false, str("no poic at", self))
 
@@ -189,20 +196,22 @@ func _target_reached():
 # Машина состояний
 ###########################
 
-@onready var state_chart = $StateChart as StateChart
+enum State {
+	EXPLORE,
+	ATTACK,
+	INTERACT,
+	MOVE_TO_INTERACT
+}
 
-@onready var enemy_detection_area = $EnemyDetectionArea as Area2D
-
-@onready var obstacle_detection_area = $ObstacleDetectionArea as Area2D
-
-@onready var interactable_detection_area = $InteractableDetectionArea as Area2D
-
+var current_state : State
 var state_explore := true
-
 var detected_enemy = null
-
 var is_able_to_move := true
 
+@onready var state_chart = $StateChart as StateChart
+@onready var enemy_detection_area = $EnemyDetectionArea as Area2D
+@onready var obstacle_detection_area = $ObstacleDetectionArea as Area2D
+@onready var interactable_detection_area = $InteractableDetectionArea as Area2D
 
 func _connect_state_machine_functions():
 	enemy_detection_area.body_entered.connect(_on_enemy_detected)
@@ -215,10 +224,14 @@ func _connect_state_machine_functions():
 	var move_to_interact = state_chart.get_node("Root").get_node("MoveToInteract") as AtomicState
 	var interact = state_chart.get_node("Root").get_node("Interact") as AtomicState
 	attack_state.state_physics_processing.connect(_on_attack_state_physics_processing)
+	# attack_state.state_entered.connect(_on_attack_state_entered)
+	attack_state.state_exited.connect(_on_attack_state_exited)
+	explore_state.state_physics_processing.connect(_on_explore_state_physics_processing)
+	explore_state.state_entered.connect(_on_explore_state_entered)
+	explore_state.state_exited.connect(_on_explore_state_exited)
 	move_to_interact.state_physics_processing.connect(_on_move_to_interact_physics_processing)
 	interact.state_entered.connect(_on_interact_state_entered)
 	interact.state_exited.connect(_on_interact_state_exited)
-	explore_state.state_physics_processing.connect(_on_explore_state_physics_processing)
 	state_chart.send_event("interaction_required")
 	# state_chart.send_event("in_interaction_radius")
 	state_chart.send_event("interaction_finished")
@@ -237,6 +250,7 @@ func _move():
 
 func _on_explore_state_physics_processing(_delta:float):
 	# print('yes')
+	current_state = State.EXPLORE
 	if not target_reached:
 		# update_target(exploration_target)
 		_path_update_counter(_delta)
@@ -251,7 +265,13 @@ func _path_update_counter(count_add):
 func _on_explore_state_entered():
 	detected_enemy = null
 	_redetect_enemies()
-	state_explore = true
+	var nearby_interactable_objects = _redetect_interactable_objects()
+	if nearby_interactable_objects.size() > 0:
+		print('found')
+		state_chart.send_event("interaction_required")
+	elif detected_enemy == null:
+		state_explore = true
+		update_target(exploration_target)
 
 func _on_explore_state_exited():
 	state_explore = false
@@ -262,6 +282,7 @@ func _on_explore_state_exited():
 ##########
 
 func _on_attack_state_physics_processing(_delta):
+	current_state = State.ATTACK
 	update_target(detected_enemy)
 	_move()
 
@@ -296,7 +317,6 @@ func _on_enemy_forgotten():
 func _on_attack_state_exited():
 	if !is_instance_valid(detected_enemy) or !_find_other_minions().has(detected_enemy):
 		detected_enemy = null
-		update_target(exploration_target)
 	else:
 		await get_tree().create_timer(0.01).timeout
 		state_chart.send_event("enemy_detected")
@@ -327,6 +347,7 @@ func _on_interact_state_exited():
 	pass
 
 func _on_move_to_interact_physics_processing(_delta:float):
+	current_state = State.MOVE_TO_INTERACT
 	if is_instance_valid(object_to_interact) and object_to_interact:
 		var distance_to_object = (object_to_interact.global_position - global_position).length()
 		if object_to_interact.interaction_distance < distance_to_object:
@@ -335,6 +356,7 @@ func _on_move_to_interact_physics_processing(_delta:float):
 		else:
 			# print(distance_to_object, object_to_interact.global_position,global_position)
 			state_chart.send_event("in_interaction_radius")
+			current_state = State.INTERACT
 	else:
 		# state_chart.send_event("interaction_finished")
 		pass
@@ -372,9 +394,13 @@ func _interaction_attempt(object : InteractableObject):
 		_on_obstacle_interaction_fail()
 	state_chart.send_event("interaction_finished")
 
-func _find_other_obstacles():
+func _find_other_obstacles() -> Array:
 	return obstacle_detection_area.get_overlapping_bodies().filter(func(body):
-		return (body!=self and body is InteractableObject))
+		return (body!=self and body.get_parent() is InteractableObject))
+
+func _redetect_interactable_objects() -> Array:
+	return interactable_detection_area.get_overlapping_bodies().filter(func(body):
+		return (body!=self and body.get_parent() is InteractableObject))
 	
 func _on_obstacle_interaction_fail():
 	if on_way_to_final:
@@ -422,13 +448,14 @@ var cur_pos = global_position
 const STUCK_MARGIN = 10
 
 func _on_stuck_timer_timeout():
-	if prev_pos and cur_pos and (prev_pos - cur_pos).length() < STUCK_MARGIN and state_explore:
-		update_target(exploration_target)
-		if _find_other_obstacles().size() >0:
-			_interaction_attempt(_find_other_obstacles()[0])
-	else:
-		prev_pos = cur_pos
-		cur_pos = global_position
+	return
+	# if prev_pos and cur_pos and (prev_pos - cur_pos).length() < STUCK_MARGIN and state_explore:
+	# 	update_target(exploration_target)
+	# 	if _find_other_obstacles().size() >0:
+	# 		_interaction_attempt(_find_other_obstacles()[0])
+	# else:
+	# 	prev_pos = cur_pos
+	# 	cur_pos = global_position
 
 
 

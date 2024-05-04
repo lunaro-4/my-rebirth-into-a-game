@@ -62,6 +62,7 @@ text = "Create!
 "
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/Container/Preview/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Save" type="Button" parent="HSplitContainer/Container/Preview/VBoxContainer/HBoxContainer"]

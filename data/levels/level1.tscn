@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://m0chvpunas0o"]
+[gd_scene load_steps=20 format=3 uid="uid://m0chvpunas0o"]
 
 [ext_resource type="Script" path="res://data/levels/level1.gd" id="1_0ckem"]
 [ext_resource type="Texture2D" uid="uid://ctphrdqyuwcc2" path="res://TestingFolder/colour atlas.png" id="1_rk6f2"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" path="res://data/CustomComponents/points_of_interest_component.gd" id="5_hruwx"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="6_mqiq4"]
 [ext_resource type="PackedScene" uid="uid://xqpjcr0edec8" path="res://data/ui_elements/crafting_ui/inventory_ui.tscn" id="9_iynda"]
+[ext_resource type="Texture2D" uid="uid://b4tuu23ptvaqw" path="res://TestingFolder/red.png" id="10_b3my7"]
+[ext_resource type="Texture2D" uid="uid://cen5pggdk00en" path="res://TestingFolder/green.png" id="11_hr3q2"]
+[ext_resource type="Texture2D" uid="uid://badt0s0hgjseu" path="res://TestingFolder/blue.png" id="12_27dch"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_froca"]
 texture = ExtResource("1_rk6f2")
@@ -900,35 +903,51 @@ layer_0/tile_data = PackedInt32Array(-1, 65536, 2, 65535, 65536, 3, 131071, 6553
 
 [node name="MenuButtons" type="CanvasLayer" parent="."]
 
-[node name="PanelContainer" type="PanelContainer" parent="MenuButtons"]
-offset_left = 1083.0
-offset_top = 37.0
-offset_right = 1123.0
-offset_bottom = 77.0
+[node name="MapControll" type="PanelContainer" parent="MenuButtons"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 39.0
+offset_right = -87.0
+offset_bottom = 167.0
+grow_horizontal = 0
+size_flags_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MenuButtons/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuButtons/MapControll"]
 layout_mode = 2
+size_flags_vertical = 0
 
-[node name="SaveButton" type="Button" parent="MenuButtons/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MenuButtons/MapControll/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+text = "Map Contol"
+horizontal_alignment = 1
+
+[node name="SaveMapButton" type="Button" parent="MenuButtons/MapControll/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Save"
 
-[node name="LoadButton" type="Button" parent="MenuButtons/PanelContainer/VBoxContainer"]
+[node name="LoadMapButton" type="Button" parent="MenuButtons/MapControll/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Load"
 
-[node name="ResetButton" type="Button" parent="MenuButtons/PanelContainer/VBoxContainer"]
+[node name="ResetMapButton" type="Button" parent="MenuButtons/MapControll/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Reset"
 
 [node name="PlayContainer" type="PanelContainer" parent="MenuButtons"]
-offset_left = 1068.0
-offset_top = 170.0
-offset_right = 1138.0
-offset_bottom = 220.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -163.0
+offset_top = 212.0
+offset_right = -93.0
+offset_bottom = 262.0
+grow_horizontal = 0
 
 [node name="PlayButton" type="Button" parent="MenuButtons/PlayContainer"]
 unique_name_in_owner = true
@@ -938,16 +957,47 @@ text = "Play!
 "
 
 [node name="CraftingContainer" type="PanelContainer" parent="MenuButtons"]
-offset_left = 939.0
-offset_top = 36.0
-offset_right = 1009.0
-offset_bottom = 86.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -303.0
+offset_top = 212.0
+offset_right = -233.0
+offset_bottom = 262.0
+grow_horizontal = 0
 
 [node name="CraftingMenuToggle" type="Button" parent="MenuButtons/CraftingContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 50)
 layout_mode = 2
 text = "Craft"
+
+[node name="PanelContainer2" type="PanelContainer" parent="MenuButtons"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -311.0
+offset_top = 37.0
+offset_right = -218.0
+offset_bottom = 130.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuButtons/PanelContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuButtons/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Player State"
+
+[node name="SavePlayerStateButton" type="Button" parent="MenuButtons/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save"
+
+[node name="LoadPlayerStateButton" type="Button" parent="MenuButtons/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Load"
 
 [node name="ObjectSelectionBarLayer" type="CanvasLayer" parent="."]
 
@@ -979,13 +1029,80 @@ format = 2
 script = ExtResource("5_hruwx")
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("6_mqiq4")]
-offset_left = 672.0
-offset_top = 218.0
-offset_right = 1081.0
-offset_bottom = 540.0
+offset_left = 715.0
+offset_top = 381.0
+offset_right = 1124.0
+offset_bottom = 703.0
 
 [node name="InventoryUI" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 visible = false
 
 [node name="InventoryUI" parent="InventoryUI" instance=ExtResource("9_iynda")]
+
+[node name="Stats" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="Stats"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 215.0
+offset_top = -315.0
+offset_right = 279.0
+offset_bottom = -238.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Stats/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="StatsContainer" type="VBoxContainer" parent="Stats/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SoulContainer" type="HBoxContainer" parent="Stats/PanelContainer/MarginContainer/StatsContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Stats/PanelContainer/MarginContainer/StatsContainer/SoulContainer"]
+layout_mode = 2
+texture = ExtResource("10_b3my7")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="Stats/PanelContainer/MarginContainer/StatsContainer/SoulContainer"]
+layout_mode = 2
+text = "9999
+"
+
+[node name="SoulContainer2" type="HBoxContainer" parent="Stats/PanelContainer/MarginContainer/StatsContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Stats/PanelContainer/MarginContainer/StatsContainer/SoulContainer2"]
+layout_mode = 2
+texture = ExtResource("11_hr3q2")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Stats/PanelContainer/MarginContainer/StatsContainer/SoulContainer2"]
+layout_mode = 2
+text = "9999
+"
+
+[node name="SoulContainer3" type="HBoxContainer" parent="Stats/PanelContainer/MarginContainer/StatsContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Stats/PanelContainer/MarginContainer/StatsContainer/SoulContainer3"]
+layout_mode = 2
+texture = ExtResource("12_27dch")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="Stats/PanelContainer/MarginContainer/StatsContainer/SoulContainer3"]
+layout_mode = 2
+text = "9999
+"

@@ -34,8 +34,6 @@ HSlider/styles/grabber_area = SubResource("StyleBoxFlat_r5uu8")
 collision_layer = 5
 collision_mask = 14
 script = ExtResource("1_2ek3k")
-speed = null
-path_map = null
 
 [node name="HeroCollision" type="CollisionShape2D" parent="."]
 

@@ -89,13 +89,13 @@ func _on_treasure_chosen(treasure : LevelObject):
 func _update_treasure_list():
 	for child in treasure_list.get_children():
 		child.queue_free()
-	var treasures_array = PlayerState.get_treasures()
-	for treasure in range(treasures_array.size()):
-		var this_treasure = treasures_array [treasure]
+	var treasures_dict = PlayerState.get_treasures()
+	for treasure in range(treasures_dict.keys().size()):
+		var this_treasure = treasures_dict.keys() [treasure]
 		var new_container = treasure_container.instantiate()
 		new_container.treasure = this_treasure
 		treasure_list.add_child(new_container)
-		treasure_inventory_index [ this_treasure] = treasure
+		treasure_inventory_index [ this_treasure] = treasures_dict [this_treasure]
 		new_container.button.pressed.connect(_on_treasure_chosen.bind(this_treasure))
 	
 func _commit_changes():

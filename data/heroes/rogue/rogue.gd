@@ -15,7 +15,7 @@ func point_choose_logic(path_variants):
 
 
 func _target_reached():
-	if !state_explore:
+	if current_state != State.EXPLORE:
 		return
 	if target_reached:
 		return
@@ -33,12 +33,7 @@ func _target_reached():
 			_point_exclude_and_move_on(current_path_map)
 			_init_hero_movement()
 	else:
-		if current_path_map is Dictionary:
-			get_next_point()
-		else:
-			# on_way_to_final = true
-			# _target_reached()
-			return
+		get_next_point()
 	pathfinder.makepath()
 
 
