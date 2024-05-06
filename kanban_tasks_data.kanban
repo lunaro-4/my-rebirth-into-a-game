@@ -44,7 +44,8 @@
 			"title": "В процессе ⏳",
 			"tasks": [
 				"ddb3e470-64cf-4b3a-b760-70a32a4bb1b4",
-				"9c14575d-6bb9-41fd-875c-4712125b0550"
+				"9c14575d-6bb9-41fd-875c-4712125b0550",
+				"2f0f98a7-d6c6-475f-af60-9d0427f5c1e6"
 			]
 		},
 		{
@@ -252,6 +253,42 @@
 				},
 				{
 					"details": "Обнуление унесенных сокровищ",
+					"done": false
+				},
+				{
+					"details": "Состояние \"К выходу\"",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "2f0f98a7-d6c6-475f-af60-9d0427f5c1e6",
+			"title": "Контент",
+			"description": "",
+			"category": "678adcdb-a8e4-4d69-bc60-96eba69fe4f3",
+			"steps": [
+				{
+					"details": "Переделать двери в ловушки",
+					"done": false
+				},
+				{
+					"details": "Добавить ловушки",
+					"done": false
+				},
+				{
+					"details": "Добавить турели",
+					"done": false
+				},
+				{
+					"details": "Создать 3 базовые турели",
+					"done": false
+				},
+				{
+					"details": "Содздать ещё 2 врагов",
+					"done": false
+				},
+				{
+					"details": "Создать 3 ловушки",
 					"done": false
 				}
 			]
